@@ -1,0 +1,44 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "name": "Primer Dark",
+  "source": "https://github.com/primer/primitives",
+  "tokens": {
+    "surface": {
+      "inset": "#010409",
+      "default": "#0D1117",
+      "muted": "#151B23",
+      "raised": "#212830",
+      "control": "#262C36"
+    },
+    "foreground": {
+      "default": "#F0F6FC",
+      "muted": "#9198A1",
+      "disabled": "#656C76",
+      "onEmphasis": "#FFFFFF"
+    },
+    "border": {
+      "default": "#3D444D",
+      "emphasis": "#656C76",
+      "focus": "#1F6FEB"
+    },
+    "accent": {
+      "foreground": "#4493F8",
+      "emphasis": "#1F6FEB"
+    },
+    "status": {
+      "success": "#3FB950",
+      "attention": "#D29922",
+      "severe": "#DB6D28",
+      "danger": "#F85149",
+      "done": "#AB7DF8"
+    },
+    "syntax": {
+      "blue": "#79C0FF",
+      "green": "#7EE787",
+      "orange": "#FFA657",
+      "red": "#FF7B72",
+      "purple": "#D2A8FF",
+      "string": "#A5D6FF"
+    }
+  }
+}

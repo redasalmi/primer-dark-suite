@@ -1,0 +1,17 @@
+{
+  "KPlugin": {
+    "Authors": [
+      {
+        "Email": "",
+        "Name": "Reda Salmi"
+      }
+    ],
+    "Description": "A crisp Primer dark window decoration for Plasma 6",
+    "EnabledByDefault": true,
+    "Id": "PrimerDark",
+    "License": "MIT",
+    "Name": "Primer Dark",
+    "Version": "1.0.0",
+    "Website": "https://github.com/redasalmi/primer-dark-suite"
+  }
+}

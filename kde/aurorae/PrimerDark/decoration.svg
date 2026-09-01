@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Reda Salmi; SPDX-License-Identifier: MIT -->
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="150" viewBox="0 0 420 150">
+  <defs>
+    <style id="current-color-scheme" type="text/css"><![CDATA[
+      .primer-border { stroke: #3d444d; }
+      .primer-active { fill: #010409; }
+      .primer-inactive { fill: #0d1117; }
+    ]]></style>
+  </defs>
+
+  <!-- Active frame: rounded titlebar and a crisp one-pixel client boundary. -->
+  <g id="decoration-topleft">
+    <rect width="8" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M8 0H6A6 6 0 0 0 0 6V8H8Z" class="primer-active"/>
+    <path d="M8 .5H6A5.5 5.5 0 0 0 .5 6V8" fill="none" class="primer-border"/>
+  </g>
+  <g id="decoration-top" transform="translate(16 0)">
+    <rect width="32" height="8" class="primer-active"/>
+    <path d="M0 .5H32" class="primer-border"/>
+  </g>
+  <g id="decoration-topright" transform="translate(56 0)">
+    <rect width="8" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M0 0H2A6 6 0 0 1 8 6V8H0Z" class="primer-active"/>
+    <path d="M0 .5H2A5.5 5.5 0 0 1 7.5 6V8" fill="none" class="primer-border"/>
+  </g>
+  <g id="decoration-left" transform="translate(0 16)">
+    <rect width="8" height="32" fill="#000" fill-opacity="0.001"/>
+    <path d="M.5 0V32" class="primer-border"/>
+  </g>
+  <g id="decoration-center" transform="translate(16 16)">
+    <rect width="32" height="32" class="primer-active"/>
+  </g>
+  <g id="decoration-right" transform="translate(56 16)">
+    <rect width="8" height="32" fill="#000" fill-opacity="0.001"/>
+    <path d="M7.5 0V32" class="primer-border"/>
+  </g>
+  <g id="decoration-bottomleft" transform="translate(0 56)">
+    <rect width="8" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M.5 0V2A5.5 5.5 0 0 0 6 7.5H8" fill="none" class="primer-border"/>
+  </g>
+  <g id="decoration-bottom" transform="translate(16 56)">
+    <rect width="32" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M0 7.5H32" class="primer-border"/>
+  </g>
+  <g id="decoration-bottomright" transform="translate(56 56)">
+    <rect width="8" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M0 7.5H2A5.5 5.5 0 0 0 7.5 2V0" fill="none" class="primer-border"/>
+  </g>
+
+  <!-- Inactive frame. -->
+  <g id="decoration-inactive-topleft" transform="translate(90 0)">
+    <rect width="8" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M8 0H6A6 6 0 0 0 0 6V8H8Z" class="primer-inactive"/>
+    <path d="M8 .5H6A5.5 5.5 0 0 0 .5 6V8" fill="none" class="primer-border"/>
+  </g>
+  <g id="decoration-inactive-top" transform="translate(106 0)">
+    <rect width="32" height="8" class="primer-inactive"/>
+    <path d="M0 .5H32" class="primer-border"/>
+  </g>
+  <g id="decoration-inactive-topright" transform="translate(146 0)">
+    <rect width="8" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M0 0H2A6 6 0 0 1 8 6V8H0Z" class="primer-inactive"/>
+    <path d="M0 .5H2A5.5 5.5 0 0 1 7.5 6V8" fill="none" class="primer-border"/>
+  </g>
+  <g id="decoration-inactive-left" transform="translate(90 16)">
+    <rect width="8" height="32" fill="#000" fill-opacity="0.001"/>
+    <path d="M.5 0V32" class="primer-border"/>
+  </g>
+  <g id="decoration-inactive-center" transform="translate(106 16)">
+    <rect width="32" height="32" class="primer-inactive"/>
+  </g>
+  <g id="decoration-inactive-right" transform="translate(146 16)">
+    <rect width="8" height="32" fill="#000" fill-opacity="0.001"/>
+    <path d="M7.5 0V32" class="primer-border"/>
+  </g>
+  <g id="decoration-inactive-bottomleft" transform="translate(90 56)">
+    <rect width="8" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M.5 0V2A5.5 5.5 0 0 0 6 7.5H8" fill="none" class="primer-border"/>
+  </g>
+  <g id="decoration-inactive-bottom" transform="translate(106 56)">
+    <rect width="32" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M0 7.5H32" class="primer-border"/>
+  </g>
+  <g id="decoration-inactive-bottomright" transform="translate(146 56)">
+    <rect width="8" height="8" fill="#000" fill-opacity="0.001"/>
+    <path d="M0 7.5H2A5.5 5.5 0 0 0 7.5 2V0" fill="none" class="primer-border"/>
+  </g>
+
+  <!-- Maximized and opaque states deliberately remove rounded outer corners. -->
+  <g id="decoration-maximized-center" transform="translate(180 0)">
+    <rect width="32" height="32" class="primer-active"/>
+    <path d="M0 31.5H32" class="primer-border"/>
+  </g>
+  <g id="decoration-maximized-inactive-center" transform="translate(220 0)">
+    <rect width="32" height="32" class="primer-inactive"/>
+    <path d="M0 31.5H32" class="primer-border"/>
+  </g>
+  <g id="decoration-opaque-center" transform="translate(180 40)">
+    <rect width="32" height="32" class="primer-active"/>
+  </g>
+  <g id="decoration-opaque-inactive-center" transform="translate(220 40)">
+    <rect width="32" height="32" class="primer-inactive"/>
+  </g>
+  <g id="decoration-maximized-opaque-center" transform="translate(260 0)">
+    <rect width="32" height="32" class="primer-active"/>
+    <path d="M0 31.5H32" class="primer-border"/>
+  </g>
+  <g id="decoration-maximized-opaque-inactive-center" transform="translate(300 0)">
+    <rect width="32" height="32" class="primer-inactive"/>
+    <path d="M0 31.5H32" class="primer-border"/>
+  </g>
+</svg>

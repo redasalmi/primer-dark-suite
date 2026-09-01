@@ -1,0 +1,19 @@
+{
+  "KPackageStructure": "Plasma/LookAndFeel",
+  "KPlugin": {
+    "Authors": [
+      {
+        "Email": "",
+        "Name": "Reda Salmi"
+      }
+    ],
+    "Category": "Global Themes (Plasma 6)",
+    "Description": "An unofficial Primer dark theme for KDE Plasma 6",
+    "EnabledByDefault": true,
+    "Id": "io.github.redasalmi.primerdark.desktop",
+    "License": "MIT",
+    "Name": "Primer Dark",
+    "Version": "1.0.0",
+    "Website": "https://github.com/redasalmi/primer-dark-suite"
+  }
+}

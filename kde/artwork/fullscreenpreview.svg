@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Preview artwork, not a screenshot. SPDX-License-Identifier: MIT -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="18"/>
+      <feOffset dy="12"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".42"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .ui { font-family: Inter, "Noto Sans", sans-serif; }
+      .mono { font-family: "JetBrains Mono", "Noto Sans Mono", monospace; }
+      .primary { fill: #f0f6fc; }
+      .muted { fill: #9198a1; }
+      .border { stroke: #3d444d; }
+      .line { stroke: #212830; }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#0d1117"/>
+  <circle cx="1700" cy="120" r="340" fill="#1f6feb" opacity=".055"/>
+  <circle cx="130" cy="930" r="280" fill="#4493f8" opacity=".035"/>
+
+  <g class="ui" transform="translate(1410 64)">
+    <text x="0" y="30" class="primary" font-size="32" font-weight="600">Primer Dark</text>
+    <text x="204" y="30" class="muted" font-size="18">Plasma 6</text>
+  </g>
+
+  <!-- Terminal window -->
+  <g filter="url(#shadow)">
+    <rect x="112" y="118" width="930" height="718" rx="9" fill="#0d1117" class="border" stroke-width="2"/>
+    <path d="M121 119h912a8 8 0 0 1 8 8v44H113v-44a8 8 0 0 1 8-8Z" fill="#010409"/>
+    <path d="M113 171h928" class="border"/>
+    <text x="144" y="153" class="ui primary" font-size="16" font-weight="600">primer-dark-suite — Zed</text>
+    <g fill="none" stroke="#f0f6fc" stroke-width="2" stroke-linecap="round">
+      <path d="M944 140h12"/>
+      <rect x="978" y="134" width="12" height="12" rx="1"/>
+      <path d="m1010 134 12 12m0-12-12 12"/>
+    </g>
+    <rect x="114" y="172" width="208" height="663" fill="#010409"/>
+    <path d="M322 172v663" class="border"/>
+    <g class="ui" font-size="16">
+      <text x="142" y="214" class="muted" font-size="13" font-weight="700">EXPLORER</text>
+      <rect x="130" y="233" width="180" height="34" rx="5" fill="#212830"/>
+      <text x="148" y="256" class="primary">primer-dark-suite</text>
+      <text x="150" y="302" fill="#79c0ff">▾ aurorae</text>
+      <text x="170" y="334" class="primary">PrimerDark</text>
+      <text x="150" y="374" fill="#79c0ff">▾ color-schemes</text>
+      <text x="170" y="406" class="primary">PrimerDark.colors</text>
+      <text x="150" y="446" fill="#79c0ff">▾ look-and-feel</text>
+      <text x="170" y="478" class="primary">metadata.json</text>
+      <text x="150" y="518" fill="#79c0ff">▾ scripts</text>
+      <text x="170" y="550" class="primary">install.sh</text>
+      <text x="150" y="590" fill="#7ee787">README.md</text>
+    </g>
+    <g class="mono" font-size="18">
+      <text x="354" y="218" class="muted">1</text>
+      <text x="395" y="218" fill="#ff7b72">[Colors:Window]</text>
+      <text x="354" y="254" class="muted">2</text>
+      <text x="395" y="254" class="primary">BackgroundNormal=<tspan fill="#a5d6ff">1,4,9</tspan></text>
+      <text x="354" y="290" class="muted">3</text>
+      <text x="395" y="290" class="primary">DecorationFocus=<tspan fill="#a5d6ff">31,111,235</tspan></text>
+      <text x="354" y="326" class="muted">4</text>
+      <text x="395" y="326" class="primary">ForegroundNormal=<tspan fill="#a5d6ff">240,246,252</tspan></text>
+      <text x="354" y="398" class="muted">6</text>
+      <text x="395" y="398" fill="#ff7b72">[General]</text>
+      <text x="354" y="434" class="muted">7</text>
+      <text x="395" y="434" class="primary">ColorScheme=<tspan fill="#7ee787">PrimerDark</tspan></text>
+      <rect x="386" y="478" width="610" height="38" rx="4" fill="#1f6feb" opacity=".22"/>
+      <text x="354" y="504" fill="#f0f6fc">9</text>
+      <text x="395" y="504" fill="#f0f6fc">Name=<tspan fill="#ffffff">Primer Dark</tspan></text>
+      <text x="354" y="576" class="muted">11</text>
+      <text x="395" y="576" fill="#9198a1"># Native Plasma, Primer semantics.</text>
+    </g>
+    <rect x="323" y="788" width="718" height="47" fill="#010409"/>
+    <path d="M323 788h718" class="border"/>
+    <text x="350" y="818" class="mono" fill="#3fb950" font-size="16">main</text>
+    <text x="955" y="818" class="ui muted" font-size="14">UTF-8</text>
+  </g>
+
+  <!-- Settings window -->
+  <g filter="url(#shadow)">
+    <rect x="900" y="258" width="850" height="632" rx="9" fill="#0d1117" class="border" stroke-width="2"/>
+    <path d="M909 259h832a8 8 0 0 1 8 8v44H901v-44a8 8 0 0 1 8-8Z" fill="#010409"/>
+    <path d="M901 311h848" class="border"/>
+    <text x="932" y="293" class="ui primary" font-size="16" font-weight="600">System Settings</text>
+    <g fill="none" stroke="#f0f6fc" stroke-width="2" stroke-linecap="round">
+      <path d="M1650 280h12"/>
+      <rect x="1682" y="274" width="12" height="12" rx="1"/>
+      <path d="m1714 274 12 12m0-12-12 12"/>
+    </g>
+    <rect x="902" y="312" width="244" height="577" fill="#010409"/>
+    <path d="M1146 312v577" class="border"/>
+    <g class="ui" font-size="17">
+      <text x="936" y="360" class="muted" font-size="13" font-weight="700">APPEARANCE</text>
+      <rect x="920" y="382" width="208" height="42" rx="6" fill="#1f6feb" opacity=".24"/>
+      <rect x="920" y="382" width="3" height="42" rx="1.5" fill="#4493f8"/>
+      <text x="946" y="409" class="primary">Global Theme</text>
+      <text x="946" y="456" class="muted">Colors</text>
+      <text x="946" y="500" class="muted">Application Style</text>
+      <text x="946" y="544" class="muted">Plasma Style</text>
+      <text x="946" y="588" class="muted">Window Decorations</text>
+      <text x="946" y="632" class="muted">Icons</text>
+      <text x="946" y="676" class="muted">Cursors</text>
+    </g>
+    <g class="ui">
+      <text x="1192" y="374" class="primary" font-size="28" font-weight="600">Global Theme</text>
+      <text x="1192" y="408" class="muted" font-size="16">Choose the look and feel of the Plasma workspace.</text>
+      <rect x="1192" y="448" width="510" height="286" rx="8" fill="#151b23" class="border"/>
+      <rect x="1208" y="464" width="478" height="218" rx="6" fill="#0d1117"/>
+      <rect x="1224" y="628" width="446" height="38" rx="6" fill="#010409" class="border"/>
+      <circle cx="1248" cy="647" r="9" fill="#1f6feb"/>
+      <rect x="1272" y="639" width="84" height="15" rx="4" fill="#212830"/>
+      <rect x="1380" y="639" width="126" height="15" rx="4" fill="#212830"/>
+      <rect x="1530" y="639" width="90" height="15" rx="4" fill="#212830"/>
+      <rect x="1642" y="639" width="12" height="15" rx="4" fill="#4493f8"/>
+      <circle cx="1657" cy="492" r="7" fill="#f85149"/>
+      <circle cx="1635" cy="492" r="7" fill="#d29922"/>
+      <circle cx="1613" cy="492" r="7" fill="#3fb950"/>
+      <text x="1192" y="774" class="primary" font-size="18" font-weight="600">Primer Dark</text>
+      <text x="1192" y="802" class="muted" font-size="15">Opaque · Breeze · Aurorae</text>
+      <rect x="1550" y="824" width="152" height="42" rx="6" fill="#1f6feb"/>
+      <text x="1590" y="851" fill="#fff" font-size="16" font-weight="600">Apply</text>
+    </g>
+  </g>
+
+  <!-- Floating panel -->
+  <g filter="url(#shadow)">
+    <rect x="32" y="1004" width="1856" height="56" rx="11" fill="#010409" class="border" stroke-width="2"/>
+    <g fill="#f0f6fc">
+      <circle cx="70" cy="1032" r="4"/><circle cx="84" cy="1032" r="4"/><circle cx="98" cy="1032" r="4"/>
+      <circle cx="70" cy="1046" r="4"/><circle cx="84" cy="1046" r="4"/><circle cx="98" cy="1046" r="4"/>
+    </g>
+    <rect x="128" y="1015" width="156" height="34" rx="6" fill="#212830"/>
+    <circle cx="151" cy="1032" r="8" fill="#4493f8"/>
+    <text x="171" y="1038" class="ui primary" font-size="15">System Settings</text>
+    <rect x="296" y="1015" width="112" height="34" rx="6" fill="#151b23"/>
+    <circle cx="319" cy="1032" r="8" fill="#7ee787"/>
+    <text x="339" y="1038" class="ui primary" font-size="15">Zed</text>
+    <g class="ui" font-size="15">
+      <circle cx="1732" cy="1032" r="6" fill="#3fb950"/>
+      <text x="1752" y="1038" class="primary">12:42</text>
+      <text x="1810" y="1038" class="muted">⌃</text>
+      <text x="1842" y="1038" class="primary">◉</text>
+    </g>
+  </g>
+</svg>

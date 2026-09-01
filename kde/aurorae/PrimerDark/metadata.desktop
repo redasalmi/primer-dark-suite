@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Primer Dark
+Comment=A crisp Primer dark window decoration for Plasma 6
+X-KDE-PluginInfo-Name=PrimerDark
+X-KDE-PluginInfo-Author=Reda Salmi
+X-KDE-PluginInfo-Website=https://github.com/redasalmi/primer-dark-suite
+X-KDE-PluginInfo-Version=1.0.0
+X-KDE-PluginInfo-License=MIT
+X-KDE-PluginInfo-EnabledByDefault=true

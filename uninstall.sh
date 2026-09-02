@@ -10,6 +10,12 @@ PI_AGENT_DIR=${PI_CODING_AGENT_DIR:-"$HOME/.pi/agent"}
 KONSOLE_SCHEME_DEST="$DATA_HOME/konsole/PrimerDark.colorscheme"
 KONSOLE_PROFILE_DEST="$DATA_HOME/konsole/PrimerDark.profile"
 GHOSTTY_DEST="$CONFIG_HOME/ghostty/themes/Primer Dark"
+HERDR_CONFIG=${HERDR_CONFIG_PATH:-"$CONFIG_HOME/herdr/config.toml"}
+HERDR_DIR=$(dirname -- "$HERDR_CONFIG")
+HERDR_BACKUP="$HERDR_DIR/.primer-dark-theme-backup.toml"
+HERDR_STATE="$HERDR_DIR/.primer-dark-theme-state"
+HERDR_BEGIN='# BEGIN Primer Dark Herdr theme (managed by primer-dark-suite)'
+HERDR_END='# END Primer Dark Herdr theme (managed by primer-dark-suite)'
 PI_DEST="$PI_AGENT_DIR/themes/primer-dark.json"
 ZED_DEST="$CONFIG_HOME/zed/themes/primer-dark.json"
 PLASMA_STYLE_DEST="$DATA_HOME/plasma/desktoptheme/$PLASMA_STYLE_ID"
@@ -92,6 +98,69 @@ The Primer Dark Zed theme is currently active. Select another Zed theme before u
 No files were removed.
 EOF
     exit 1
+fi
+
+HERDR_MANAGED=0
+if [ -e "$HERDR_BACKUP" ] || [ -e "$HERDR_STATE" ]; then
+    if [ ! -f "$HERDR_BACKUP" ] || [ ! -f "$HERDR_STATE" ] || [ ! -f "$HERDR_CONFIG" ]; then
+        cat >&2 <<EOF
+The managed Herdr theme cannot be safely restored because its configuration or restore state is missing from $HERDR_DIR.
+No files were removed.
+EOF
+        exit 1
+    fi
+    BEGIN_COUNT=$(grep -Fxc "$HERDR_BEGIN" "$HERDR_CONFIG" || true)
+    END_COUNT=$(grep -Fxc "$HERDR_END" "$HERDR_CONFIG" || true)
+    HERDR_STATE_VALUE=$(cat "$HERDR_STATE")
+    if [ "$BEGIN_COUNT" -ne 1 ] || [ "$END_COUNT" -ne 1 ] \
+        || { [ "$HERDR_STATE_VALUE" != "created" ] && [ "$HERDR_STATE_VALUE" != "existing" ]; }; then
+        cat >&2 <<EOF
+The managed Herdr theme markers or restore state are invalid in $HERDR_DIR.
+No files were removed.
+EOF
+        exit 1
+    fi
+    HERDR_MANAGED=1
+elif [ -f "$HERDR_CONFIG" ] \
+    && { grep -Fqx "$HERDR_BEGIN" "$HERDR_CONFIG" || grep -Fqx "$HERDR_END" "$HERDR_CONFIG"; }; then
+    cat >&2 <<EOF
+The managed Herdr theme has no restore state in $HERDR_DIR.
+No files were removed.
+EOF
+    exit 1
+fi
+
+if [ "$HERDR_MANAGED" -eq 1 ]; then
+    HERDR_CONFIG_TMP=$(mktemp "$HERDR_DIR/.primer-dark-config.XXXXXX")
+    awk -v begin="$HERDR_BEGIN" -v end="$HERDR_END" '
+        $0 == begin { managed = 1; next }
+        $0 == end { managed = 0; next }
+        !managed { print }
+    ' "$HERDR_CONFIG" > "$HERDR_CONFIG_TMP"
+    if [ -s "$HERDR_BACKUP" ]; then
+        if [ -s "$HERDR_CONFIG_TMP" ]; then
+            printf '\n' >> "$HERDR_CONFIG_TMP"
+        fi
+        cat "$HERDR_BACKUP" >> "$HERDR_CONFIG_TMP"
+    fi
+
+    if command -v herdr >/dev/null 2>&1 \
+        && ! HERDR_CONFIG_PATH="$HERDR_CONFIG_TMP" herdr config check; then
+        rm -f -- "$HERDR_CONFIG_TMP"
+        cat >&2 <<'EOF'
+Herdr rejected the restored configuration. No files were removed.
+EOF
+        exit 1
+    fi
+
+    if [ "$HERDR_STATE_VALUE" = "created" ] \
+        && ! grep -Eq '[^[:space:]]' "$HERDR_CONFIG_TMP"; then
+        rm -f -- "$HERDR_CONFIG" "$HERDR_CONFIG_TMP"
+    else
+        mv -- "$HERDR_CONFIG_TMP" "$HERDR_CONFIG"
+    fi
+    rm -f -- "$HERDR_BACKUP" "$HERDR_STATE"
+    printf 'Restored the previous Herdr theme configuration in %s\n' "$HERDR_CONFIG"
 fi
 
 GLOBAL_DEST="$DATA_HOME/plasma/look-and-feel/$PACKAGE_ID"

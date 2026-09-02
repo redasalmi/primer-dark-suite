@@ -32,11 +32,12 @@ tar -C "$ROOT/kde/plasma-style" -czf "$DIST/Primer-Dark-Plasma-Style.tar.gz" Pri
 tar -C "$ROOT/kde/konsole" -czf "$DIST/Primer-Dark-Konsole.tar.gz" PrimerDark.colorscheme PrimerDark.profile
 tar -C "$ROOT/terminals/ghostty" -czf "$DIST/Primer-Dark-Ghostty.tar.gz" "Primer Dark"
 cp "$ROOT/cli/pi/primer-dark.json" "$DIST/Primer-Dark-Pi.json"
+cp "$ROOT/cli/herdr/primer-dark.toml" "$DIST/Primer-Dark-Herdr.toml"
 cp "$ROOT/editors/zed/primer-dark.json" "$DIST/Primer-Dark-Zed.json"
 cp "$ROOT/kde/colors/PrimerDark.colors" "$DIST/"
 (
     cd "$DIST"
-    sha256sum Primer-Dark-Global.tar.gz Primer-Dark-Aurorae.tar.gz Primer-Dark-Plasma-Style.tar.gz Primer-Dark-Konsole.tar.gz Primer-Dark-Ghostty.tar.gz Primer-Dark-Pi.json Primer-Dark-Zed.json PrimerDark.colors > SHA256SUMS
+    sha256sum Primer-Dark-Global.tar.gz Primer-Dark-Aurorae.tar.gz Primer-Dark-Plasma-Style.tar.gz Primer-Dark-Konsole.tar.gz Primer-Dark-Ghostty.tar.gz Primer-Dark-Pi.json Primer-Dark-Herdr.toml Primer-Dark-Zed.json PrimerDark.colors > SHA256SUMS
 )
 
 echo "Created release artifacts in $DIST"

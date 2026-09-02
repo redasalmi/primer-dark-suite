@@ -22,6 +22,7 @@ primer-dark-suite/
 │
 ├── cli/
 │   ├── pi/               # implemented: complete Pi CLI/TUI theme
+│   ├── herdr/            # implemented: complete Herdr TUI palette snippet
 │   ├── bat/              # roadmap 3
 │   ├── btop/             # roadmap 3
 │   ├── fzf/              # roadmap 3

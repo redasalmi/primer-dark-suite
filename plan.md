@@ -48,6 +48,7 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Native Konsole color scheme with coordinated normal, bright, and faint ANSI colors plus an optional color-only profile.
 - Native Ghostty theme with coordinated foreground, background, cursor, selection, and ANSI colors.
 - Complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, thinking levels, and bash mode.
+- Complete Herdr TUI palette covering chrome, sidebar states, text hierarchy, and agent statuses through its supported custom-theme configuration.
 - Complete Zed theme covering the workbench, editor, syntax, diagnostics, Git states, collaboration, Vim modes, and integrated terminal.
 - No panel layout, wallpaper, font, or window-button-order changes.
 
@@ -69,11 +70,12 @@ Continue the editor theme family from the shared syntax and UI roles.
 - **Cursor:** create a VS Code-compatible color theme and extension metadata covering workbench, editor, integrated terminal, semantic highlighting, diagnostics, and Git decorations.
 - Keep syntax colors aligned with the installed Zed GitHub Dark reference unless contrast or application semantics require an adjustment.
 
-### 3. Pi, bat, btop, fzf, eza, fastfetch, Fish and tmux
+### 3. Pi, Herdr, bat, btop, fzf, eza, fastfetch, Fish and tmux
 
 Build and maintain focused CLI/TUI ports that compose cleanly inside the terminal themes.
 
 - **Pi:** implemented as a native JSON theme covering all required TUI, Markdown, tool, diff, syntax, thinking-level, search, and bash-mode tokens.
+- **Herdr:** implemented as a complete `[theme.custom]` TOML palette. Because Herdr does not discover standalone theme files, the opt-in installer atomically merges managed theme tables into its shared configuration and saves the previous tables for uninstall.
 - **bat:** TextMate/Sublime syntax theme and cache-install instructions.
 - **btop:** native theme file for graphs, process states, meters, highlights, and selected rows.
 - **fzf:** shell-safe color option set for borders, prompts, matches, selections, and previews.
@@ -128,6 +130,7 @@ Current and planned behavior:
 
 - `./install.sh` installs the stable KDE foundation.
 - `--konsole`, `--ghostty`, `--pi`, and `--zed` install their respective application themes without changing application settings.
+- `--herdr` safely replaces only managed theme tables in Herdr's shared `config.toml`, preserves unrelated settings, and records the previous theme tables for uninstall.
 - Future explicit flags select additional ports, such as `--terminal`, `--editors`, `--cli`, `--browsers`, or `--creative`.
 - A future `--all-supported` flag installs supported native ports only.
 - Third-party integrations always require separate explicit flags.

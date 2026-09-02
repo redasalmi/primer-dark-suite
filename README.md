@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Pi, and Zed.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Herdr, Pi, and Zed.
 
 ![Primer Dark preview](kde/look-and-feel/io.github.redasalmi.primerdark.desktop/contents/previews/fullscreenpreview.jpg)
 
@@ -15,6 +15,7 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole,
 - native Konsole color scheme with coordinated normal, bright, and faint ANSI colors;
 - optional color-only Konsole profile that does not declare shell or font settings;
 - native Ghostty theme with a coordinated ANSI 16-color palette;
+- complete Herdr TUI palette covering chrome, sidebar states, text hierarchy, and agent statuses;
 - complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, and thinking levels;
 - complete Zed theme covering the workbench, editor, syntax, diagnostics, Git states, collaboration, Vim modes, and integrated terminal;
 - System Settings previews and offline packaging scripts.
@@ -28,6 +29,7 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - `plasma-apply-lookandfeel` when using `--apply`
 - Konsole when installing the optional KDE terminal theme
 - Ghostty when installing the optional terminal theme
+- Herdr 0.8.2 or newer when installing the TUI theme
 - Pi when installing the optional CLI coding-agent theme
 - Zed when installing the optional editor theme
 
@@ -67,6 +69,20 @@ Then add this line to `~/.config/ghostty/config.ghostty`:
 theme = Primer Dark
 ```
 
+To install and enable the Herdr theme:
+
+```sh
+./install.sh --herdr
+```
+
+The installer replaces only Herdr's `[theme]` tables, preserves the rest of `~/.config/herdr/config.toml`, and saves the previous theme tables for uninstall. Reload a running session with:
+
+```sh
+herdr server reload-config
+```
+
+Herdr does not currently discover standalone theme files, so this opt-in installation safely merges [`cli/herdr/primer-dark.toml`](cli/herdr/primer-dark.toml) into its shared configuration. A ready-to-merge copy is also published as `Primer-Dark-Herdr.toml` in release artifacts.
+
 To additionally install the Pi theme:
 
 ```sh
@@ -89,7 +105,7 @@ To additionally install the Zed theme:
 
 Select **Primer Dark** from Zed's theme selector (`Ctrl+K`, `Ctrl+T`).
 
-The installer preserves your existing Konsole, Ghostty, Pi, and Zed settings. It writes only theme-owned files to the current user's XDG and application directories, normally:
+The installer preserves your existing Konsole, Ghostty, Herdr, Pi, and Zed settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
 - `~/.local/share/color-schemes/PrimerDark.colors`
 - `~/.local/share/aurorae/themes/PrimerDark/` (optional legacy Aurorae assets)
@@ -98,6 +114,7 @@ The installer preserves your existing Konsole, Ghostty, Pi, and Zed settings. It
 - `~/.local/share/konsole/PrimerDark.colorscheme` when using `--konsole`
 - `~/.local/share/konsole/PrimerDark.profile` when using `--konsole`
 - `~/.config/ghostty/themes/Primer Dark` when using `--ghostty`
+- `~/.config/herdr/config.toml` plus hidden theme restore state beside it when using `--herdr`
 - `~/.pi/agent/themes/primer-dark.json` when using `--pi`
 - `~/.config/zed/themes/primer-dark.json` when using `--zed`
 
@@ -109,7 +126,7 @@ First select another Global Theme and, if used, other Konsole, Ghostty, Pi, and 
 ./uninstall.sh
 ```
 
-The script refuses to remove Primer Dark while any installed theme is active.
+The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation.
 
 ## Build release artifacts
 

@@ -1,0 +1,31 @@
+# Primer Dark for Herdr
+# SPDX-License-Identifier: MIT
+#
+# Install with `./install.sh --herdr`, or copy these tables into
+# ~/.config/herdr/config.toml and replace any existing [theme] tables.
+
+[theme]
+name = "terminal"
+
+[theme.custom]
+accent = "#4493F8"
+panel_bg = "#010409"
+sidebar_bg = "#010409"
+active_row_bg = "#151B23"
+# Herdr retains secondary foreground colors on navigation rows, so the raised
+# surface keeps those labels legible while the accent continues to mark focus.
+selection_bg = "#212830"
+surface0 = "#212830"
+surface1 = "#262C36"
+surface_dim = "#151B23"
+overlay0 = "#656C76"
+overlay1 = "#B1BAC4"
+text = "#F0F6FC"
+subtext0 = "#9198A1"
+mauve = "#D2A8FF"
+green = "#3FB950"
+yellow = "#D29922"
+red = "#F85149"
+blue = "#4493F8"
+teal = "#39C5CF"
+peach = "#FFA657"

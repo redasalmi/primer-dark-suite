@@ -124,17 +124,21 @@ Keep unsupported application patching isolated, explicit, and reversible.
 
 ## Installation architecture
 
-As the suite grows, the root installer should become a component orchestrator rather than installing everything automatically.
+The root install and uninstall commands are small component orchestrators. Shared paths and the component registry live under `scripts/lib/`, while each port's preflight, install, active-state guard, uninstall, and packaging hooks live under `scripts/components/`.
 
 Current and planned behavior:
 
 - `./install.sh` installs the stable KDE foundation.
 - `--konsole`, `--ghostty`, `--pi`, and `--zed` install their respective application themes without changing application settings.
-- `--herdr` safely replaces only managed theme tables in Herdr's shared `config.toml`, preserves unrelated settings, and records the previous theme tables for uninstall.
-- Future explicit flags select additional ports, such as `--terminal`, `--editors`, `--cli`, `--browsers`, or `--creative`.
+- `--herdr` is an explicit managed-configuration exception: it safely replaces only bounded, validated theme tables in Herdr's shared `config.toml`, preserves unrelated settings, records the previous theme tables for uninstall, and aborts if the source configuration or restore state changes after preflight.
+- The installer preflights every selected component and `--apply` dependency before changing installed files, preventing predictable dependency or configuration failures from leaving a partial installation.
+- Uninstall runs every active-theme and restore-state guard before removing or restoring every registered component.
+- Release packaging builds and validates every component in a staging directory, replacing `dist/` only after the complete artifact set and checksums succeed.
+- Future component ports extend the shared registry and add an isolated lifecycle module instead of adding implementation blocks to the root scripts.
+- Future explicit flags may select groups such as `--terminal`, `--editors`, `--cli`, `--browsers`, or `--creative`.
 - A future `--all-supported` flag installs supported native ports only.
 - Third-party integrations always require separate explicit flags.
-- Every installed component records only files owned by Primer Dark and can be removed without reverting unrelated preferences.
+- Every installed component records only files owned by Primer Dark, except approved bounded managed sections such as Herdr's, and can be removed without reverting unrelated preferences.
 
 ## Cross-port acceptance criteria
 

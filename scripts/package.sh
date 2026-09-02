@@ -3,41 +3,62 @@
 set -eu
 
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-DIST="$ROOT/dist"
-PACKAGE_ID=io.github.redasalmi.primerdark.desktop
+# shellcheck source=scripts/lib/common.sh
+. "$ROOT/scripts/lib/common.sh"
+load_components
 
-command -v jq >/dev/null 2>&1 || { echo "jq is required." >&2; exit 1; }
-command -v xmllint >/dev/null 2>&1 || { echo "xmllint is required." >&2; exit 1; }
+FINAL_DIST="$ROOT/dist"
+DIST=$(mktemp -d "$ROOT/.dist.XXXXXX")
+DIST_BACKUP=""
+PACKAGE_ARTIFACTS=""
 
+cleanup_package_dirs() {
+    [ -z "$DIST" ] || rm -rf -- "$DIST"
+    if [ -n "$DIST_BACKUP" ] && [ -e "$DIST_BACKUP" ] && [ ! -e "$FINAL_DIST" ]; then
+        mv -- "$DIST_BACKUP" "$FINAL_DIST"
+    fi
+}
+trap cleanup_package_dirs 0
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+register_artifact() {
+    if [ -z "$PACKAGE_ARTIFACTS" ]; then
+        PACKAGE_ARTIFACTS=$1
+    else
+        PACKAGE_ARTIFACTS="$PACKAGE_ARTIFACTS $1"
+    fi
+}
+
+require_command jq "jq is required."
+require_command xmllint "xmllint is required."
 jq -e . "$ROOT/palette/primer-dark.json" >/dev/null
-jq -e . "$ROOT/kde/look-and-feel/$PACKAGE_ID/metadata.json" >/dev/null
-jq -e . "$ROOT/kde/aurorae/PrimerDark/metadata.json" >/dev/null
-jq -e . "$ROOT/kde/plasma-style/PrimerDark/metadata.json" >/dev/null
-jq -e . "$ROOT/cli/pi/primer-dark.json" >/dev/null
-jq -e . "$ROOT/editors/zed/primer-dark.json" >/dev/null
-find "$ROOT/kde/aurorae/PrimerDark" -maxdepth 1 -name '*.svg' -exec xmllint --noout {} +
-find "$ROOT/kde/plasma-style/PrimerDark" -name '*.svg' -exec xmllint --noout {} +
 
-if find "$ROOT/kde/look-and-feel/$PACKAGE_ID" -type l -print -quit | grep -q .; then
-    echo "Global theme packages cannot contain symlinks." >&2
-    exit 1
-fi
+for component in $ALL_COMPONENTS; do
+    run_component_hook package "$component"
+done
 
-rm -rf -- "$DIST"
-mkdir -p -- "$DIST"
-
-tar -C "$ROOT/kde/look-and-feel" -czf "$DIST/Primer-Dark-Global.tar.gz" "$PACKAGE_ID"
-tar -C "$ROOT/kde/aurorae" -czf "$DIST/Primer-Dark-Aurorae.tar.gz" PrimerDark
-tar -C "$ROOT/kde/plasma-style" -czf "$DIST/Primer-Dark-Plasma-Style.tar.gz" PrimerDark
-tar -C "$ROOT/kde/konsole" -czf "$DIST/Primer-Dark-Konsole.tar.gz" PrimerDark.colorscheme PrimerDark.profile
-tar -C "$ROOT/terminals/ghostty" -czf "$DIST/Primer-Dark-Ghostty.tar.gz" "Primer Dark"
-cp "$ROOT/cli/pi/primer-dark.json" "$DIST/Primer-Dark-Pi.json"
-cp "$ROOT/cli/herdr/primer-dark.toml" "$DIST/Primer-Dark-Herdr.toml"
-cp "$ROOT/editors/zed/primer-dark.json" "$DIST/Primer-Dark-Zed.json"
-cp "$ROOT/kde/colors/PrimerDark.colors" "$DIST/"
 (
     cd "$DIST"
-    sha256sum Primer-Dark-Global.tar.gz Primer-Dark-Aurorae.tar.gz Primer-Dark-Plasma-Style.tar.gz Primer-Dark-Konsole.tar.gz Primer-Dark-Ghostty.tar.gz Primer-Dark-Pi.json Primer-Dark-Herdr.toml Primer-Dark-Zed.json PrimerDark.colors > SHA256SUMS
+    : > SHA256SUMS
+    # Artifact names contain no whitespace and are registered deterministically
+    # by the component order in scripts/lib/common.sh.
+    for artifact in $PACKAGE_ARTIFACTS; do
+        sha256sum "$artifact" >> SHA256SUMS
+    done
 )
 
-echo "Created release artifacts in $DIST"
+if [ -e "$FINAL_DIST" ]; then
+    DIST_BACKUP=$(mktemp -d "$ROOT/.dist-backup.XXXXXX")
+    rmdir -- "$DIST_BACKUP"
+    mv -- "$FINAL_DIST" "$DIST_BACKUP"
+fi
+mv -- "$DIST" "$FINAL_DIST"
+DIST=""
+if [ -n "$DIST_BACKUP" ]; then
+    rm -rf -- "$DIST_BACKUP"
+    DIST_BACKUP=""
+fi
+
+echo "Created release artifacts in $FINAL_DIST"

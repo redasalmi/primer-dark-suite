@@ -8,7 +8,7 @@ primer-dark-suite/
 │   ├── artwork/          # implemented: preview sources
 │   ├── colors/           # implemented: KDE/Qt color scheme
 │   ├── look-and-feel/    # implemented: Plasma 6 Global Theme KPackage
-│   ├── aurorae/          # optional legacy window-decoration assets
+│   ├── aurorae/          # optional Aurorae window-decoration assets
 │   ├── konsole/          # implemented: native color scheme and color-only profile
 │   ├── plasma-style/     # implemented: bordered Plasma popup and widget frames
 │   ├── kvantum/          # future: optional Qt application style
@@ -54,8 +54,10 @@ primer-dark-suite/
 │
 ├── palette/              # implemented: canonical Primer Dark tokens
 ├── scripts/              # implemented: packaging and asset generation
-├── install.sh            # implemented: KDE v1 user-local installer
-├── uninstall.sh          # implemented: safe KDE v1 removal
+│   ├── components/       # shared per-component install, uninstall, and package hooks
+│   └── lib/              # shared component registry, paths, and shell helpers
+├── install.sh            # implemented: preflighted user-local component orchestrator
+├── uninstall.sh          # implemented: safe component lifecycle orchestrator
 ├── plan.md
 ├── README.md
 ├── NOTICE

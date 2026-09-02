@@ -20,7 +20,7 @@ cd "$REPO"
 - Treat `palette/primer-dark.json` as the canonical color source. Do not silently invent or change suite colors.
 - Prefer the target's current official native theme format, schema, discovery path, and validation command.
 - Preserve unrelated user settings and unrelated working-tree changes.
-- Install only user-local, theme-owned files. Never overwrite a shared application configuration merely to activate a theme.
+- Install only user-local, theme-owned files by default. A shared application configuration may be changed only as an explicit documented exception with bounded managed sections, native validation, atomic replacement, and exact restore state; otherwise provide a manual snippet.
 - Make optional ports opt-in. Unsupported patchers and third-party modifications stay under `integrations/` and are never installed by default.
 - Commit ready-to-use assets; installation must work offline and must not require generation.
 - Keep changes minimal and consistent with the repository's existing shell and documentation style.
@@ -52,7 +52,7 @@ Always inspect:
 - `git status --short` and the relevant diff;
 - `palette/primer-dark.json`;
 - `README.md`, `structure.md`, and `plan.md`;
-- `install.sh`, `uninstall.sh`, and `scripts/package.sh`;
+- `install.sh`, `uninstall.sh`, `scripts/package.sh`, `scripts/lib/common.sh`, and the relevant `scripts/components/<target>.sh` module;
 - one or more neighboring implemented ports in the same category;
 - all references to the target's names, IDs, paths, flags, and artifact names.
 
@@ -92,7 +92,8 @@ Use this decision table:
 | --- | --- | --- |
 | Standalone native theme file | Add under the matching category | Optional install flag and owned-file removal when useful |
 | Native theme package/directory | Commit complete package directory | Optional recursive install and whole owned-directory removal |
-| Theme is part of shared config | Commit a clearly documented snippet | No automatic install or removal of shared config |
+| Theme is part of shared config without a safe managed-section lifecycle | Commit a clearly documented snippet | No automatic install or removal of shared config |
+| Theme is part of shared config with bounded content-preserving editing, native validation, atomic replacement, and exact restore state | Commit the snippet and document the exception | Explicit opt-in managed install and exact restoration may be supported |
 | System-wide/root-only theme | Keep separate and document privileges/safety | Never include in default user-local install |
 | Unsupported patcher/CSS injection | Put under `integrations/` | Explicit isolated opt-in only; never install the patcher |
 
@@ -135,18 +136,18 @@ Use alpha variants or blends only when the target requires them. Derive them fro
 
 ### 6.2 Update `install.sh` when safe
 
-Follow the existing option pattern and update all of these together:
+Follow the component-orchestrator pattern and update all of these together:
 
-- usage synopsis and help text;
-- one `INSTALL_<TARGET>=0` variable;
-- argument parsing for `--<target>`;
-- destination variables using `XDG_DATA_HOME`, `XDG_CONFIG_HOME`, or the documented app-specific environment variable;
-- an idempotent install block using `install -Dm644` for files or remove/recreate/copy for a wholly owned package directory;
-- a concise destination and activation message.
+- add the component ID to `ALL_COMPONENTS` in `scripts/lib/common.sh` so `--<target>` is recognized;
+- define shared destination variables using `XDG_DATA_HOME`, `XDG_CONFIG_HOME`, or the documented app-specific environment variable;
+- add `preflight_<target>`, `install_<target>`, `guard_<target>`, `uninstall_<target>`, and `package_<target>` hooks under `scripts/components/`;
+- keep the install hook idempotent using `install -Dm644` for files or remove/recreate/copy for a wholly owned package directory;
+- validate every selected component in its preflight hook without changing installed files;
+- print a concise destination and activation message.
 
 The installer must update an existing owned theme by replacing only that theme's file/directory. It must not activate the theme, rewrite settings, require the target app to be running, or remove unrelated files. Keep third-party integrations separate and explicit.
 
-For a shared-config snippet, document manual merge/validation/reload instructions instead of changing `install.sh`.
+For a shared-config snippet, document manual merge/validation/reload instructions instead of changing the installer unless the port is an approved managed-section exception. An exception must be explicit opt-in, preserve unrelated content and settings, validate the complete candidate configuration before replacement, verify the source configuration and restore state have not changed since validation, use atomic replacement, retain exact restore state, and implement safe uninstall restoration in the same component module.
 
 ### 6.3 Update `uninstall.sh` when needed
 
@@ -166,6 +167,7 @@ If active-theme detection is unavailable, do not invent a brittle check. Documen
 In `scripts/package.sh`:
 
 - add the official native parser/schema validation when it is non-interactive and available as an established dependency;
+- validate and emit through the component hook into the staging directory supplied by `scripts/package.sh`; never clear or write the published `dist/` directly;
 - copy a single-file port or create the appropriate archive for a package directory;
 - use the repository artifact naming form `Primer-Dark-<Target>.<ext>`;
 - include the artifact exactly once in `SHA256SUMS`;
@@ -206,8 +208,8 @@ Deletion means removing repository support, not deleting files from the user's l
 
 1. Confirm the requested target and whether it appeared in a released package.
 2. Remove source assets and now-empty target directories.
-3. Remove installer flags, help text, variables, install blocks, and activation messages.
-4. Remove packaging validation, copy/archive commands, checksum entries, and generated release artifacts.
+3. Remove the component ID from `ALL_COMPONENTS`, its lifecycle module, any help text, and activation messages.
+4. Remove its packaging hook and generated release artifacts.
 5. Remove or revise README requirements, install paths, usage, and feature claims.
 6. Update `structure.md` and `plan.md`: remove the target entirely, return it to roadmap status, or mark it retired according to the request. Explain why when the theming API was removed or became unsafe.
 7. Search for stale names, flags, IDs, paths, and artifact references.
@@ -221,7 +223,7 @@ Run the narrowest applicable checks first. Use official commands discovered duri
 ### Static and native checks
 
 - Parse JSON with `jq -e .`, XML/SVG with `xmllint --noout`, and other formats with the target's official parser/checker.
-- Run `sh -n install.sh uninstall.sh scripts/package.sh` after shell edits.
+- Run `sh -n install.sh uninstall.sh scripts/package.sh scripts/lib/common.sh scripts/components/*.sh` after shell edits.
 - Validate required metadata, schema version, key completeness, stable identifiers, and exact discovery names.
 - Check that theme values come from canonical palette values or documented alpha/blend derivatives.
 - Use the target application's theme discovery/import/config check when available.

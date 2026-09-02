@@ -2,8 +2,6 @@
 
 An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Herdr, Pi, and Zed.
 
-![Primer Dark preview](kde/look-and-feel/io.github.redasalmi.primerdark.desktop/contents/previews/fullscreenpreview.jpg)
-
 ## Included in v1
 
 - complete KDE/Qt color scheme;
@@ -108,7 +106,7 @@ Select **Primer Dark** from Zed's theme selector (`Ctrl+K`, `Ctrl+T`).
 The installer preserves your existing Konsole, Ghostty, Herdr, Pi, and Zed settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
 - `~/.local/share/color-schemes/PrimerDark.colors`
-- `~/.local/share/aurorae/themes/PrimerDark/` (optional legacy Aurorae assets)
+- `~/.local/share/aurorae/themes/PrimerDark/` (optional Aurorae window-decoration assets)
 - `~/.local/share/plasma/desktoptheme/PrimerDark/`
 - `~/.local/share/plasma/look-and-feel/io.github.redasalmi.primerdark.desktop/`
 - `~/.local/share/konsole/PrimerDark.colorscheme` when using `--konsole`

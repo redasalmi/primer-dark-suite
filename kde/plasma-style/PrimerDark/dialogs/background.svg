@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Reda Salmi; SPDX-License-Identifier: MIT -->
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="80" viewBox="0 0 250 80">
+  <defs>
+    <style id="current-color-scheme" type="text/css"><![CDATA[
+      .ColorScheme-Background { color: #010409; }
+    ]]></style>
+    <style type="text/css"><![CDATA[
+      .primer-surface { fill: currentColor; }
+      .primer-border { fill: #3d444d; }
+    ]]></style>
+    <linearGradient id="shadow-v" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.28"/>
+    </linearGradient>
+    <linearGradient id="shadow-h" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.28"/>
+    </linearGradient>
+    <radialGradient id="shadow-corner" cx="1" cy="1" r="1">
+      <stop offset="0.375" stop-color="#000" stop-opacity="0.28"/>
+      <stop offset="0.7" stop-color="#000" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Plasma's scalable nine-patch background. The one-pixel #3d444d edge
+       matches the Primer frame used by Dolphin and remains visible on black. -->
+  <rect id="hint-tile-center" x="0" y="0" width="2" height="2" fill="#ff6600"/>
+  <rect id="hint-stretch-borders" x="3" y="0" width="2" height="2" fill="#ff6600"/>
+
+  <g id="top" transform="translate(16 10)">
+    <rect width="32" height="6" class="ColorScheme-Background primer-surface"/>
+    <rect width="32" height="1" class="primer-border"/>
+  </g>
+  <g id="bottom" transform="translate(16 48)">
+    <rect width="32" height="6" class="ColorScheme-Background primer-surface"/>
+    <rect y="5" width="32" height="1" class="primer-border"/>
+  </g>
+  <g id="left" transform="translate(10 16)">
+    <rect width="6" height="32" class="ColorScheme-Background primer-surface"/>
+    <rect width="1" height="32" class="primer-border"/>
+  </g>
+  <g id="right" transform="translate(48 16)">
+    <rect width="6" height="32" class="ColorScheme-Background primer-surface"/>
+    <rect x="5" width="1" height="32" class="primer-border"/>
+  </g>
+  <rect id="center" x="16" y="16" width="32" height="32" class="ColorScheme-Background primer-surface"/>
+
+  <g id="topleft" transform="translate(10 10)">
+    <path d="M6 0H4A4 4 0 0 0 0 4V6H6Z" class="primer-border"/>
+    <path d="M6 1H4A3 3 0 0 0 1 4V6H6Z" class="ColorScheme-Background primer-surface"/>
+  </g>
+  <g id="topright" transform="translate(48 10)">
+    <path d="M0 0H2A4 4 0 0 1 6 4V6H0Z" class="primer-border"/>
+    <path d="M0 1H2A3 3 0 0 1 5 4V6H0Z" class="ColorScheme-Background primer-surface"/>
+  </g>
+  <g id="bottomleft" transform="translate(10 48)">
+    <path d="M0 0H6V6H4A4 4 0 0 1 0 2Z" class="primer-border"/>
+    <path d="M1 0H6V5H4A3 3 0 0 1 1 2Z" class="ColorScheme-Background primer-surface"/>
+  </g>
+  <g id="bottomright" transform="translate(48 48)">
+    <path d="M0 0H6V2A4 4 0 0 1 2 6H0Z" class="primer-border"/>
+    <path d="M0 0H5V2A3 3 0 0 1 2 5H0Z" class="ColorScheme-Background primer-surface"/>
+  </g>
+
+  <rect id="hint-top-margin" x="30" y="10" width="4" height="4" fill="#ff00ff"/>
+  <rect id="hint-bottom-margin" x="30" y="50" width="4" height="4" fill="#ff00ff"/>
+  <rect id="hint-left-margin" x="10" y="30" width="4" height="4" fill="#ff00ff"/>
+  <rect id="hint-right-margin" x="50" y="30" width="4" height="4" fill="#ff00ff"/>
+  <rect id="hint-top-inset" x="35" y="10" width="4" height="0.001" fill="#00ff00"/>
+  <rect id="hint-bottom-inset" x="35" y="53.999" width="4" height="0.001" fill="#00ff00"/>
+  <rect id="hint-left-inset" x="10" y="35" width="0.001" height="4" fill="#00ff00"/>
+  <rect id="hint-right-inset" x="53.999" y="35" width="0.001" height="4" fill="#00ff00"/>
+
+  <!-- Rounded window mask. -->
+  <rect id="mask-top" x="86" y="10" width="32" height="6" fill="#000"/>
+  <rect id="mask-bottom" x="86" y="48" width="32" height="6" fill="#000"/>
+  <rect id="mask-left" x="80" y="16" width="6" height="32" fill="#000"/>
+  <rect id="mask-right" x="118" y="16" width="6" height="32" fill="#000"/>
+  <rect id="mask-center" x="86" y="16" width="32" height="32" fill="#000"/>
+  <path id="mask-topleft" d="M86 10H84A4 4 0 0 0 80 14V16H86Z" fill="#000"/>
+  <path id="mask-topright" d="M118 10H120A4 4 0 0 1 124 14V16H118Z" fill="#000"/>
+  <path id="mask-bottomleft" d="M80 48H86V54H84A4 4 0 0 1 80 50Z" fill="#000"/>
+  <path id="mask-bottomright" d="M118 48H124V50A4 4 0 0 1 120 54H118Z" fill="#000"/>
+
+  <!-- Soft shadow frame; the inner six pixels overlap the background frame. -->
+  <g id="shadow-top" transform="translate(156 0)">
+    <rect width="32" height="16" fill="#000" fill-opacity="0.001"/>
+    <rect width="32" height="10" fill="url(#shadow-v)"/>
+  </g>
+  <g id="shadow-bottom" transform="translate(156 64) scale(1 -1)">
+    <rect width="32" height="16" fill="#000" fill-opacity="0.001"/>
+    <rect width="32" height="10" fill="url(#shadow-v)"/>
+  </g>
+  <g id="shadow-left" transform="translate(140 16)">
+    <rect width="16" height="32" fill="#000" fill-opacity="0.001"/>
+    <rect width="10" height="32" fill="url(#shadow-h)"/>
+  </g>
+  <g id="shadow-right" transform="translate(204 16) scale(-1 1)">
+    <rect width="16" height="32" fill="#000" fill-opacity="0.001"/>
+    <rect width="10" height="32" fill="url(#shadow-h)"/>
+  </g>
+  <rect id="shadow-center" x="156" y="16" width="32" height="32" fill="#000" fill-opacity="0.001"/>
+
+  <g id="shadow-topleft" transform="translate(140 0)">
+    <path d="M0 0H16V16H0ZM16 10H14A4 4 0 0 0 10 14V16H16Z" fill="url(#shadow-corner)" fill-rule="evenodd"/>
+  </g>
+  <g id="shadow-topright" transform="translate(204 0) scale(-1 1)">
+    <path d="M0 0H16V16H0ZM16 10H14A4 4 0 0 0 10 14V16H16Z" fill="url(#shadow-corner)" fill-rule="evenodd"/>
+  </g>
+  <g id="shadow-bottomleft" transform="translate(140 64) scale(1 -1)">
+    <path d="M0 0H16V16H0ZM16 10H14A4 4 0 0 0 10 14V16H16Z" fill="url(#shadow-corner)" fill-rule="evenodd"/>
+  </g>
+  <g id="shadow-bottomright" transform="translate(204 64) scale(-1 -1)">
+    <path d="M0 0H16V16H0ZM16 10H14A4 4 0 0 0 10 14V16H16Z" fill="url(#shadow-corner)" fill-rule="evenodd"/>
+  </g>
+
+  <rect id="shadow-hint-top-margin" x="220" y="0" width="2" height="10" fill="#ff00ff"/>
+  <rect id="shadow-hint-bottom-margin" x="224" y="54" width="2" height="10" fill="#ff00ff"/>
+  <rect id="shadow-hint-left-margin" x="220" y="20" width="10" height="2" fill="#ff00ff"/>
+  <rect id="shadow-hint-right-margin" x="220" y="24" width="10" height="2" fill="#ff00ff"/>
+  <rect id="shadow-hint-top-inset" x="232" y="0" width="2" height="10" fill="#00ff00"/>
+  <rect id="shadow-hint-bottom-inset" x="236" y="54" width="2" height="10" fill="#00ff00"/>
+  <rect id="shadow-hint-left-inset" x="232" y="20" width="10" height="2" fill="#00ff00"/>
+  <rect id="shadow-hint-right-inset" x="232" y="24" width="10" height="2" fill="#00ff00"/>
+</svg>

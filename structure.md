@@ -1,6 +1,6 @@
 # Primer Dark Suite structure
 
-Implemented directories contain the Plasma 6 v1 foundation. Numbered comments map planned directories to the suite roadmap in `plan.md`. Empty future directories do not need placeholder files until work begins.
+Implemented directories contain the current Primer Dark ports. Numbered comments map planned directories to the suite roadmap in `plan.md`. Empty future directories do not need placeholder files until work begins.
 
 ```text
 primer-dark-suite/
@@ -9,20 +9,19 @@ primer-dark-suite/
 │   ├── colors/           # implemented: KDE/Qt color scheme
 │   ├── look-and-feel/    # implemented: Plasma 6 Global Theme KPackage
 │   ├── aurorae/          # optional legacy window-decoration assets
-│   ├── konsole/          # roadmap 1: Konsole color scheme/profile
-│   ├── plasma-style/     # future: custom Plasma desktoptheme
+│   ├── konsole/          # implemented: native color scheme and color-only profile
+│   ├── plasma-style/     # implemented: bordered Plasma popup and widget frames
 │   ├── kvantum/          # future: optional Qt application style
 │   └── plasma-login/     # future: KDE Plasma Login greeter
 │
 ├── terminals/
-│   └── ghostty/          # roadmap 1
+│   └── ghostty/          # implemented: native Ghostty color theme
 │
 ├── editors/
-│   ├── zed/              # roadmap 2
-│   ├── cursor/           # roadmap 2
-│   └── pi/               # roadmap 2
+│   └── zed/              # implemented: complete Zed workbench/editor theme
 │
 ├── cli/
+│   ├── pi/               # implemented: complete Pi CLI/TUI theme
 │   ├── bat/              # roadmap 3
 │   ├── btop/             # roadmap 3
 │   ├── fzf/              # roadmap 3

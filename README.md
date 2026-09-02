@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired global theme for KDE Plasma 6.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Pi, and Zed.
 
 ![Primer Dark preview](kde/look-and-feel/io.github.redasalmi.primerdark.desktop/contents/previews/fullscreenpreview.jpg)
 
@@ -9,9 +9,14 @@ An unofficial GitHub Primer Dark-inspired global theme for KDE Plasma 6.
 - complete KDE/Qt color scheme;
 - native Breeze window decoration with Primer-colored titlebars, borders, and shadows;
 - Plasma 6 Global Theme KPackage;
-- Breeze application and Plasma styles;
+- Breeze application style plus a custom Plasma style with crisp Primer borders around launchers, tray popups, tooltips, and desktop widgets;
 - Breeze Dark icons and Breeze cursors;
 - logo-free Plasma splash screen;
+- native Konsole color scheme with coordinated normal, bright, and faint ANSI colors;
+- optional color-only Konsole profile that does not declare shell or font settings;
+- native Ghostty theme with a coordinated ANSI 16-color palette;
+- complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, and thinking levels;
+- complete Zed theme covering the workbench, editor, syntax, diagnostics, Git states, collaboration, Vim modes, and integrated terminal;
 - System Settings previews and offline packaging scripts.
 
 Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-button order. KDE Plasma Login theming is intentionally outside the v1 scope because login-manager integration is system-level and requires separate packaging and safety work.
@@ -21,6 +26,10 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - KDE Plasma 6
 - `kpackagetool6`
 - `plasma-apply-lookandfeel` when using `--apply`
+- Konsole when installing the optional KDE terminal theme
+- Ghostty when installing the optional terminal theme
+- Pi when installing the optional CLI coding-agent theme
+- Zed when installing the optional editor theme
 
 The release and validation helper additionally uses `jq`, `xmllint`, and standard Unix archive tools.
 
@@ -38,21 +47,69 @@ To install and apply in one step:
 ./install.sh --apply
 ```
 
-The installer writes only to the current user's XDG data directory, normally:
+To additionally install the Konsole color scheme and optional color-only profile:
+
+```sh
+./install.sh --konsole
+```
+
+Select **Primer Dark** under **Settings → Manage Profiles → Appearance** to preserve every setting in your current profile, or switch to the installed **Primer Dark** profile. The optional profile declares only the color scheme and cursor colors; all other behavior inherits from Konsole's fallback profile. Konsole's faint colors are intentional 50% blends of the normal ANSI colors over the main background, matching Ghostty's `faint-opacity = 0.5` behavior.
+
+To additionally install the Ghostty theme:
+
+```sh
+./install.sh --ghostty
+```
+
+Then add this line to `~/.config/ghostty/config.ghostty`:
+
+```ini
+theme = Primer Dark
+```
+
+To additionally install the Pi theme:
+
+```sh
+./install.sh --pi
+```
+
+Select **Primer Dark** from Pi's `/settings` screen, or set it in `~/.pi/agent/settings.json`:
+
+```json
+{
+  "theme": "Primer Dark"
+}
+```
+
+To additionally install the Zed theme:
+
+```sh
+./install.sh --zed
+```
+
+Select **Primer Dark** from Zed's theme selector (`Ctrl+K`, `Ctrl+T`).
+
+The installer preserves your existing Konsole, Ghostty, Pi, and Zed settings. It writes only theme-owned files to the current user's XDG and application directories, normally:
 
 - `~/.local/share/color-schemes/PrimerDark.colors`
 - `~/.local/share/aurorae/themes/PrimerDark/` (optional legacy Aurorae assets)
+- `~/.local/share/plasma/desktoptheme/PrimerDark/`
 - `~/.local/share/plasma/look-and-feel/io.github.redasalmi.primerdark.desktop/`
+- `~/.local/share/konsole/PrimerDark.colorscheme` when using `--konsole`
+- `~/.local/share/konsole/PrimerDark.profile` when using `--konsole`
+- `~/.config/ghostty/themes/Primer Dark` when using `--ghostty`
+- `~/.pi/agent/themes/primer-dark.json` when using `--pi`
+- `~/.config/zed/themes/primer-dark.json` when using `--zed`
 
 ## Uninstall
 
-First select another Global Theme, then run:
+First select another Global Theme and, if used, other Konsole, Ghostty, Pi, and Zed themes. Then run:
 
 ```sh
 ./uninstall.sh
 ```
 
-The script refuses to remove Primer Dark while it is active.
+The script refuses to remove Primer Dark while any installed theme is active.
 
 ## Build release artifacts
 
@@ -72,7 +129,7 @@ Artifacts are written to `dist/`.
 
 ## Design tokens
 
-[`palette/primer-dark.json`](palette/primer-dark.json) is the canonical palette for this suite. The KDE v1 mapping uses these roles as follows:
+[`palette/primer-dark.json`](palette/primer-dark.json) is the canonical palette for this suite. The implemented themes use these core roles as follows:
 
 | Role | Color |
 | --- | --- |

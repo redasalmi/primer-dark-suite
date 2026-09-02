@@ -36,7 +36,7 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 | Severe | `#DB6D28` |
 | Visited/completed | `#AB7DF8` |
 
-## Implemented foundation: KDE Plasma 6 v1
+## Implemented foundation
 
 - Complete KDE/Qt color scheme.
 - Native Breeze window decoration driven by Primer titlebar colors, borders, and shadows; Aurorae assets remain optional.
@@ -45,31 +45,35 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Breeze Dark icons and Breeze cursors.
 - Logo-free splash screen and System Settings previews.
 - Offline install, uninstall, update, and release packaging scripts.
+- Native Konsole color scheme with coordinated normal, bright, and faint ANSI colors plus an optional color-only profile.
+- Native Ghostty theme with coordinated foreground, background, cursor, selection, and ANSI colors.
+- Complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, thinking levels, and bash mode.
+- Complete Zed theme covering the workbench, editor, syntax, diagnostics, Git states, collaboration, Vim modes, and integrated terminal.
 - No panel layout, wallpaper, font, or window-button-order changes.
 
 ## Suite roadmap
 
 ### 1. Konsole and Ghostty
 
-Create the terminal foundation first so every terminal-based tool inherits a consistent base palette.
+Continue the terminal foundation so every terminal-based tool inherits a consistent base palette.
 
-- **Konsole:** native `.colorscheme` plus an optional profile that references it without replacing shell or font preferences.
-- **Ghostty:** native theme file using the same foreground, background, cursor, selection, and ANSI 16-color mapping.
-- Validate normal, bright, and dim ANSI colors, selections, links, prompts, diffs, and long-running TUI sessions in both terminals.
+- **Konsole:** implemented as a native `.colorscheme` plus an optional profile that references it without changing existing profiles or declaring a shell or font.
+- **Ghostty:** implemented as a native theme file using the shared foreground, background, cursor, selection, and ANSI 16-color mapping.
+- Normal, bright, and dim ANSI colors, links, prompts, diffs, and long-running `btop` sessions have been visually validated in both terminals; selection was visually inspected in Konsole and Ghostty's selection mapping passed its native parser.
 
-### 2. Zed, Cursor and Pi
+### 2. Zed and Cursor
 
-Create native editor and coding-agent themes from the shared syntax and UI roles.
+Continue the editor theme family from the shared syntax and UI roles.
 
-- **Zed:** JSON theme covering workbench, editor, terminal, diagnostics, diffs, syntax, collaboration colors, and all interaction states.
-- **Cursor:** VS Code-compatible color theme and extension metadata covering workbench, editor, integrated terminal, semantic highlighting, diagnostics, and Git decorations.
-- **Pi:** native JSON theme covering all required TUI, markdown, tool, diff, syntax, thinking-level, search, and bash-mode tokens.
+- **Zed:** implemented as a JSON theme covering the workbench, editor, terminal, diagnostics, diffs, syntax, collaboration colors, Vim modes, and interaction states.
+- **Cursor:** create a VS Code-compatible color theme and extension metadata covering workbench, editor, integrated terminal, semantic highlighting, diagnostics, and Git decorations.
 - Keep syntax colors aligned with the installed Zed GitHub Dark reference unless contrast or application semantics require an adjustment.
 
-### 3. bat, btop, fzf, eza, fastfetch, Fish and tmux
+### 3. Pi, bat, btop, fzf, eza, fastfetch, Fish and tmux
 
-Build focused CLI/TUI ports that compose cleanly inside the terminal themes.
+Build and maintain focused CLI/TUI ports that compose cleanly inside the terminal themes.
 
+- **Pi:** implemented as a native JSON theme covering all required TUI, Markdown, tool, diff, syntax, thinking-level, search, and bash-mode tokens.
 - **bat:** TextMate/Sublime syntax theme and cache-install instructions.
 - **btop:** native theme file for graphs, process states, meters, highlights, and selected rows.
 - **fzf:** shell-safe color option set for borders, prompts, matches, selections, and previews.
@@ -120,11 +124,12 @@ Keep unsupported application patching isolated, explicit, and reversible.
 
 As the suite grows, the root installer should become a component orchestrator rather than installing everything automatically.
 
-Planned behavior:
+Current and planned behavior:
 
 - `./install.sh` installs the stable KDE foundation.
-- Explicit flags select additional ports, such as `--terminal`, `--editors`, `--cli`, `--browsers`, `--creative`, or individual applications.
-- `--all-supported` installs supported native ports only.
+- `--konsole`, `--ghostty`, `--pi`, and `--zed` install their respective application themes without changing application settings.
+- Future explicit flags select additional ports, such as `--terminal`, `--editors`, `--cli`, `--browsers`, or `--creative`.
+- A future `--all-supported` flag installs supported native ports only.
 - Third-party integrations always require separate explicit flags.
 - Every installed component records only files owned by Primer Dark and can be removed without reverting unrelated preferences.
 
@@ -148,3 +153,43 @@ Planned behavior:
 - https://develop.kde.org/docs/plasma/aurorae/
 - https://github.com/catppuccin/kde
 - https://github.com/primer/primitives
+
+## Final phase: visual regression testing
+
+Add automated visual tests only after the planned theme ports are implemented and their native parsers and discovery checks pass. Keeping this as the final phase avoids maintaining unstable baselines while the suite is still expanding.
+
+### 1. Build deterministic fixtures
+
+- Add a `tests/visual/` harness that installs the suite into an isolated temporary home directory and never reads or modifies the developer's active configuration.
+- Record the operating-system, desktop, toolkit, application, font, icon, scale, locale, wallpaper, and theme versions used for each baseline.
+- Provide stable fixture content for long text, empty states, selections, focus, warnings, errors, diffs, syntax samples, ANSI colors, disabled controls, and scrollable content.
+- Freeze animations, timestamps, clipboard history, notifications, network data, and other volatile content during capture.
+
+### 2. Cover representative theme surfaces
+
+- **KDE/Qt:** capture Dolphin, the application launcher, clipboard and system-tray popups, tooltips, desktop widgets, dialogs, window decorations, focus states, and maximized/inactive windows. Use black, light, and colorful wallpapers so outer boundaries and shadows are tested.
+- **Terminals and CLI:** capture Konsole and Ghostty with the ANSI 16-color grid, normal/bright/faint text, selections, links, prompts, diffs, and representative Pi and future TUI states.
+- **Editors:** capture Zed, Cursor, and future editor ports with syntax, diagnostics, Git states, selections, matching brackets, search results, terminal output, and inactive panes.
+- **Browsers, creative tools, and GTK:** add fixtures as each port becomes stable, covering the application-specific chrome and interaction states listed in its roadmap section.
+- Capture the default supported size plus one constrained or scaled state where layout, clipping, or one-pixel borders could change.
+
+### 3. Generate and compare baselines
+
+- Prefer each application's native screenshot or automation interface; use a dedicated KDE Plasma VM runner for compositor-dependent popups and window decorations.
+- Store lossless PNG baselines with a small manifest linking every image to its fixture, application version, viewport or window size, scale, and expected theme version.
+- Compare exact pixels for flat color and border fixtures. Use a documented perceptual threshold only for platform-rendered text, shadows, and antialiasing.
+- Produce a diff image and a concise machine-readable report for every mismatch; never update baselines automatically after a failure.
+
+### 4. Run checks in layers
+
+- Run schema, parser, package, token, and static SVG checks on every change.
+- Run fast deterministic image renders for changed components in normal pull-request validation.
+- Run native application and Plasma captures on a pinned VM image before release, and whenever shared palette, surface, border, text, focus, or selection tokens change.
+- Require a human review of intentional baseline updates, with before, after, and diff images attached to the change.
+
+### 5. Completion criteria
+
+- Every implemented port has at least one representative native rendering and all shared semantic states it supports are covered.
+- KDE popup and widget borders remain continuously visible as `#3D444D` against black and non-black backgrounds at every tested scale.
+- No baseline shows clipped content, missing assets, unreadable text, broken focus indication, accidental transparency, or inconsistent semantic colors.
+- The isolated install, capture, comparison, report, and cleanup flow is documented and reproducible from one repository command.

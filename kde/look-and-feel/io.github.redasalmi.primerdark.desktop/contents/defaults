@@ -8,7 +8,7 @@ ColorScheme=PrimerDark
 Theme=breeze-dark
 
 [plasmarc][Theme]
-name=default
+name=PrimerDark
 
 [kcminputrc][Mouse]
 cursorTheme=breeze_cursors

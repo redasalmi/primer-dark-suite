@@ -50,6 +50,9 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, thinking levels, and bash mode.
 - Complete Herdr TUI palette covering chrome, sidebar states, text hierarchy, and agent statuses through its supported custom-theme configuration.
 - Complete Zed theme covering the workbench, editor, syntax, diagnostics, Git states, collaboration, Vim modes, and integrated terminal.
+- Native Manifest V3 Mozilla Firefox static theme covering all 38 effective color keys exposed by Firefox 155, plus explicit dark browser and content color schemes.
+- Native Manifest V3 Google Chrome theme covering all 24 color keys exposed by Chromium 152, with standard Chrome frame, toolbar, active-tab, and omnibox surface mapping.
+- Native Manifest V3 Helium Browser theme covering the same API with Helium-specific active-tab and omnibox surface mapping.
 - No panel layout, wallpaper, font, or window-button-order changes.
 
 ## Suite roadmap
@@ -88,9 +91,10 @@ Build and maintain focused CLI/TUI ports that compose cleanly inside the termina
 
 Create browser chrome ports without attempting to force a universal website theme.
 
-- **Firefox:** browser theme manifest; keep deeper `userChrome.css` changes optional and versioned separately.
-- **Chrome and Helium:** shared Chromium theme manifest with application-specific packaging where needed.
-- Cover active/inactive tabs, toolbar, omnibox, bookmarks, new-tab chrome, window states, private browsing, and focus visibility.
+- **Firefox:** implemented as a color-only Manifest V3 static theme for Firefox 155. It covers all 38 effective current color fields for frames, active/inactive tabs, toolbars, address fields and selection, icons, button states, popups, new-tab surfaces, and sidebars. Deprecated or ignored aliases are intentionally omitted. Dark chrome and content color-scheme properties keep built-in pages and `prefers-color-scheme` behavior coherent; arbitrary website content and DevTools remain outside the theme API. Deeper `userChrome.css` changes remain optional and versioned separately.
+- **Chrome:** implemented as a color-only Manifest V3 package for Google Chrome 152.0.7977.75. Its manifest declares all 24 current overwritable Chromium theme colors: active and inactive tab text/backgrounds, toolbar controls, omnibox, bookmarks, new-tab chrome, inactive windows, and the exposed incognito variants. Chrome uses an inset frame around a default-surface toolbar and active tab, with a raised omnibox. Focus, hover, pressed, separators, and other non-overwritable colors continue to use Chrome's derived native states.
+- **Helium:** implemented as a separate color-only Manifest V3 package for Helium 0.16.2 / Chromium 152. Helium paints its frame and tab-strip background from `toolbar` and its active tab from `omnibox_background`, so it intentionally uses an inset toolbar/frame around a default-surface active tab and omnibox instead of sharing Chrome's manifest.
+- Chromium themes do not style website content, DevTools, every internal page, or the central Google Chrome new-tab search control. Chrome 152's incognito theme provider deliberately ignores custom theme suppliers, so incognito windows retain Chrome's native dark appearance despite the legacy incognito fields remaining in the supported manifest table. Helium's frame patch can additionally collapse some active/inactive and normal/incognito distinctions even though all exposed variants are present in both manifests.
 
 ### 5. Blender, Krita, GIMP, Inkscape and Godot
 
@@ -130,6 +134,8 @@ Current and planned behavior:
 
 - `./install.sh` installs the stable KDE foundation.
 - `--konsole`, `--ghostty`, `--pi`, and `--zed` install their respective application themes without changing application settings.
+- Firefox is distributed as `Primer-Dark-Firefox.zip`, which can be loaded temporarily from `about:debugging` or submitted to addons.mozilla.org for signing. It is package-only because normal Firefox release and beta builds require Mozilla signatures for permanent theme installation.
+- Chrome and Helium are distributed as `Primer-Dark-Chrome.zip` and `Primer-Dark-Helium.zip` and loaded interactively from their Extensions pages; they are package-only because Chromium browsers have no user-local standalone discovery directory and automatic profile preference edits would not be safely theme-owned.
 - `--herdr` is an explicit managed-configuration exception: it safely replaces only bounded, validated theme tables in Herdr's shared `config.toml`, preserves unrelated settings, records the previous theme tables for uninstall, and aborts if the source configuration or restore state changes after preflight.
 - The installer preflights every selected component and `--apply` dependency before changing installed files, preventing predictable dependency or configuration failures from leaving a partial installation.
 - Uninstall runs every active-theme and restore-state guard before removing or restoring every registered component.
@@ -160,6 +166,22 @@ Current and planned behavior:
 - https://develop.kde.org/docs/plasma/aurorae/
 - https://github.com/catppuccin/kde
 - https://github.com/primer/primitives
+- https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/theme
+- https://extensionworkshop.com/documentation/themes/static-themes/
+- https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Temporary_Installation_in_Firefox
+- https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Alternative_distribution_options
+- https://hg.mozilla.org/releases/mozilla-release/file/FIREFOX_155_0_RELEASE/toolkit/components/extensions/schemas/theme.json
+- https://firefox-source-docs.mozilla.org/remote/webdriver-bidi/Extensions.html
+- https://developer.chrome.com/docs/extensions/develop/ui/themes
+- https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked
+- https://chromium.googlesource.com/chromium/src/+/refs/tags/152.0.7977.75/chrome/browser/themes/browser_theme_pack.cc
+- https://chromium.googlesource.com/chromium/src/+/refs/tags/152.0.7977.75/chrome/browser/themes/theme_service.cc
+- https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html
+- https://chromium.googlesource.com/chromium/src/+/refs/tags/152.0.7977.64/chrome/browser/themes/browser_theme_pack.cc
+- https://github.com/imputnet/helium/releases/tag/0.16.2
+- https://github.com/imputnet/helium/blob/0.16.2/patches/helium/ui/frame-background.patch
+- https://github.com/imputnet/helium/blob/0.16.2/patches/helium/ui/helium-color-mixers.patch
+- https://github.com/imputnet/helium/issues/1459
 
 ## Final phase: visual regression testing
 

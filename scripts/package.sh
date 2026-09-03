@@ -35,7 +35,7 @@ require_command jq "jq is required."
 require_command xmllint "xmllint is required."
 jq -e . "$ROOT/palette/primer-dark.json" >/dev/null
 
-for component in $ALL_COMPONENTS; do
+for component in $PACKAGE_COMPONENTS; do
     run_component_hook package "$component"
 done
 

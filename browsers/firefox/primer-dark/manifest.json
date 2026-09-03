@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "Primer Dark",
+  "version": "1.0.0",
+  "description": "A GitHub Primer Dark-inspired theme for Mozilla Firefox.",
+  "author": "Reda Salmi",
+  "homepage_url": "https://github.com/redasalmi/primer-dark-suite",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "primer-dark@redasalmi.github.io",
+      "strict_min_version": "155.0"
+    }
+  },
+  "theme": {
+    "colors": {
+      "frame": "#010409",
+      "frame_inactive": "#010409",
+      "tab_selected": "#0D1117",
+      "tab_background_text": "#9198A1",
+      "tab_text": "#F0F6FC",
+      "tab_line": "#1F6FEB",
+      "tab_loading": "#4493F8",
+      "toolbar": "#0D1117",
+      "toolbar_text": "#F0F6FC",
+      "bookmark_text": "#F0F6FC",
+      "toolbar_field": "#212830",
+      "toolbar_field_text": "#F0F6FC",
+      "toolbar_field_border": "#3D444D",
+      "toolbar_field_focus": "#212830",
+      "toolbar_field_text_focus": "#F0F6FC",
+      "toolbar_field_border_focus": "#1F6FEB",
+      "toolbar_field_highlight": "#1F6FEB",
+      "toolbar_field_highlight_text": "#FFFFFF",
+      "toolbar_top_separator": "#2F3742",
+      "toolbar_bottom_separator": "#3D444D",
+      "toolbar_vertical_separator": "#2F3742",
+      "icons": "#9198A1",
+      "icons_attention": "#4493F8",
+      "button_background_hover": "#212830",
+      "button_background_active": "#262C36",
+      "popup": "#212830",
+      "popup_text": "#F0F6FC",
+      "popup_border": "#3D444D",
+      "popup_highlight": "#051D4D",
+      "popup_highlight_text": "#FFFFFF",
+      "ntp_background": "#0D1117",
+      "ntp_card_background": "#212830",
+      "ntp_text": "#F0F6FC",
+      "sidebar": "#151B23",
+      "sidebar_border": "#3D444D",
+      "sidebar_text": "#F0F6FC",
+      "sidebar_highlight": "#051D4D",
+      "sidebar_highlight_text": "#FFFFFF"
+    },
+    "properties": {
+      "color_scheme": "dark",
+      "content_color_scheme": "dark"
+    }
+  }
+}

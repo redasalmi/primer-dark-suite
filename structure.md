@@ -32,9 +32,9 @@ primer-dark-suite/
 │   └── tmux/             # roadmap 3
 │
 ├── browsers/
-│   ├── firefox/          # roadmap 4
-│   ├── chrome/           # roadmap 4
-│   └── helium/           # roadmap 4
+│   ├── firefox/          # implemented: native Mozilla Firefox static theme package
+│   ├── chrome/           # implemented: native Google Chrome theme package
+│   └── helium/           # implemented: Helium-adapted Chromium theme package
 │
 ├── creative/
 │   ├── blender/          # roadmap 5

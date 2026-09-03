@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Herdr, Pi, and Zed.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Helium Browser, Herdr, Pi, and Zed.
 
 ## Included in v1
 
@@ -16,6 +16,9 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole,
 - complete Herdr TUI palette covering chrome, sidebar states, text hierarchy, and agent statuses;
 - complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, and thinking levels;
 - complete Zed theme covering the workbench, editor, syntax, diagnostics, Git states, collaboration, Vim modes, and integrated terminal;
+- native Manifest V3 Mozilla Firefox static theme covering every effective color exposed by Firefox's current theme API;
+- native Manifest V3 Google Chrome theme covering every color exposed by Chromium's current theme API;
+- native Manifest V3 Helium Browser theme covering the same API with Helium-specific chrome mapping;
 - System Settings previews and offline packaging scripts.
 
 Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-button order. KDE Plasma Login theming is intentionally outside the v1 scope because login-manager integration is system-level and requires separate packaging and safety work.
@@ -30,8 +33,11 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - Herdr 0.8.2 or newer when installing the TUI theme
 - Pi when installing the optional CLI coding-agent theme
 - Zed when installing the optional editor theme
+- Mozilla Firefox 155.0 (the currently validated target) when using the Firefox theme
+- Google Chrome 152.0.7977.75 (the currently validated target) when using the Chrome theme
+- Helium Browser 0.16.2.x (Chromium 152; the currently validated target) when using the Helium theme
 
-The release and validation helper additionally uses `jq`, `xmllint`, and standard Unix archive tools.
+The release and validation helper additionally uses `jq`, `xmllint`, `zip`, and standard Unix archive tools.
 
 ## Install
 
@@ -103,6 +109,30 @@ To additionally install the Zed theme:
 
 Select **Primer Dark** from Zed's theme selector (`Ctrl+K`, `Ctrl+T`).
 
+Firefox requires Mozilla signing for permanent installation in release and beta builds, so its theme is intentionally not installed by the root script. To preview it temporarily from a repository checkout:
+
+1. Open `about:debugging#/runtime/this-firefox`.
+2. Choose **Load Temporary Add-on**.
+3. Select `browsers/firefox/primer-dark/manifest.json`.
+
+The temporary theme remains active until it is removed from **This Firefox** or Firefox restarts. `Primer-Dark-Firefox.zip` can also be selected directly from **Load Temporary Add-on** and is ready for submission to [addons.mozilla.org](https://addons.mozilla.org/) for public or unlisted signing. A Mozilla-signed package is required for permanent installation in normal Firefox releases. The theme covers the frame, tabs, toolbars, address field, buttons, popups, new-tab page, and sidebar, and explicitly requests dark browser and content color schemes. It does not restyle arbitrary website content or DevTools.
+
+Google Chrome requires interactive extension loading, so its theme is intentionally not installed by the root script. From a repository checkout:
+
+1. Open `chrome://extensions`.
+2. Enable **Developer mode**.
+3. Choose **Load unpacked** and select `browsers/chrome/primer-dark/`.
+
+Loading the package activates **Primer Dark** immediately. For the release artifact, extract `Primer-Dark-Chrome.zip` into its own directory first, then select that directory. To update it, reset Chrome to its default theme, replace the extracted package, and load the new directory again. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance.
+
+Helium also requires interactive extension loading. From a repository checkout:
+
+1. Open `helium://extensions`.
+2. Enable **Developer mode**.
+3. Choose **Load unpacked** and select `browsers/helium/primer-dark/`.
+
+Loading the package activates **Primer Dark** immediately. For the release artifact, extract `Primer-Dark-Helium.zip` into its own directory first, then select that directory. To update it, reset Helium to its default theme, replace the extracted package, and load the new directory again. The theme styles browser chrome and the new tab page; Helium's internal pages, DevTools, and website content remain under their own appearance controls.
+
 The installer preserves your existing Konsole, Ghostty, Herdr, Pi, and Zed settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
 - `~/.local/share/color-schemes/PrimerDark.colors`
@@ -126,6 +156,8 @@ First select another Global Theme and, if used, other Konsole, Ghostty, Pi, and 
 
 The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation.
 
+The script does not manage Firefox, Chrome, or Helium. Remove a temporary Firefox theme from `about:debugging#/runtime/this-firefox` or restart Firefox; remove a signed Firefox theme from **Add-ons and themes → Themes**. To remove either Chromium theme, choose **Reset to default theme** in `chrome://settings/appearance` or `helium://settings/appearance`, then delete its extracted directory.
+
 ## Build release artifacts
 
 The finished theme assets are committed and installation does not require a generator. To regenerate button SVGs after changing their source template:
@@ -140,7 +172,7 @@ Create installable archives and checksums with:
 ./scripts/package.sh
 ```
 
-Artifacts are written to `dist/`.
+Artifacts are written to `dist/`. `Primer-Dark-Firefox.zip`, `Primer-Dark-Chrome.zip`, and `Primer-Dark-Helium.zip` each contain a ready-to-load `manifest.json` at the archive root. The Firefox ZIP must be signed by Mozilla before permanent installation in a normal release build.
 
 ## Design tokens
 

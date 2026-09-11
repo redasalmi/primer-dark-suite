@@ -1,0 +1,109 @@
+# Primer Dark for btop
+# SPDX-License-Identifier: MIT
+#
+# Install with `./install.sh --btop`, then select "primer-dark" in btop's
+# options menu or set `color_theme = "primer-dark"` in btop.conf.
+#
+# Meters read low value to high value. Free/available space is green when
+# high and red when low; used space is the inverse. Cached uses a neutral
+# blue ramp, and download/upload use separate blue and purple ramps.
+
+# Main background, empty for terminal default
+theme[main_bg]="#0D1117"
+
+# Main text color
+theme[main_fg]="#F0F6FC"
+
+# Title color for boxes
+theme[title]="#F0F6FC"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#4493F8"
+
+# Background color of selected item in processes box
+theme[selected_bg]="#1F6FEB"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="#FFFFFF"
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#656C76"
+
+# Color of text appearing on top of graphs
+theme[graph_text]="#9198A1"
+
+# Background color of the percentage meters
+theme[meter_bg]="#212830"
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#4493F8"
+
+# Cpu box outline color
+theme[cpu_box]="#3D444D"
+
+# Memory/disks box outline color
+theme[mem_box]="#3D444D"
+
+# Net up/down box outline color
+theme[net_box]="#3D444D"
+
+# Processes box outline color
+theme[proc_box]="#3D444D"
+
+# Box divider line and small boxes line color
+theme[div_line]="#2F3742"
+
+# Temperature graph colors
+theme[temp_start]="#3FB950"
+theme[temp_mid]="#D29922"
+theme[temp_end]="#F85149"
+
+# CPU graph colors
+theme[cpu_start]="#3FB950"
+theme[cpu_mid]="#D29922"
+theme[cpu_end]="#F85149"
+
+# Mem/Disk free meter
+theme[free_start]="#F85149"
+theme[free_mid]="#D29922"
+theme[free_end]="#3FB950"
+
+# Mem/Disk cached meter
+theme[cached_start]="#A5D6FF"
+theme[cached_mid]="#79C0FF"
+theme[cached_end]="#4493F8"
+
+# Mem/Disk available meter
+theme[available_start]="#F85149"
+theme[available_mid]="#D29922"
+theme[available_end]="#3FB950"
+
+# Mem/Disk used meter
+theme[used_start]="#3FB950"
+theme[used_mid]="#D29922"
+theme[used_end]="#F85149"
+
+# Download graph colors
+theme[download_start]="#4493F8"
+theme[download_mid]="#79C0FF"
+theme[download_end]="#A5D6FF"
+
+# Upload graph colors
+theme[upload_start]="#AB7DF8"
+theme[upload_mid]="#D2A8FF"
+theme[upload_end]="#DB61A2"
+
+# Process box color gradient for threads, mem and cpu usage
+theme[process_start]="#3FB950"
+theme[process_mid]="#D29922"
+theme[process_end]="#F85149"
+
+# Process box pause, follow and banner backgrounds
+theme[proc_pause_bg]="#F85149"
+theme[proc_follow_bg]="#1F6FEB"
+theme[proc_banner_bg]="#AB7DF8"
+theme[proc_banner_fg]="#FFFFFF"
+
+# Followed process row
+theme[followed_bg]="#1F6FEB"
+theme[followed_fg]="#FFFFFF"

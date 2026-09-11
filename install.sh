@@ -11,11 +11,11 @@ SELECTED_COMPONENTS="kde"
 
 usage() {
     cat <<'EOF'
-Usage: ./install.sh [--apply] [--konsole] [--ghostty] [--herdr] [--pi] [--zed]
+Usage: ./install.sh [--apply] [--konsole] [--ghostty] [--herdr] [--pi] [--zed] [--fastfetch] [--bat] [--btop] [--fish]
 
 Install the Primer Dark KDE theme into the current user's XDG data directory.
 The KDE theme is not applied unless --apply is provided.
-Use --konsole, --ghostty, --herdr, --pi, or --zed to additionally install those application themes.
+Use --konsole, --ghostty, --herdr, --pi, --zed, --fastfetch, --bat, --btop, or --fish to additionally install those application themes.
 EOF
 }
 

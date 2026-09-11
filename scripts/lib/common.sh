@@ -8,9 +8,9 @@ AURORAE_ID=PrimerDark
 PLASMA_STYLE_ID=PrimerDark
 COLOR_FILE=PrimerDark.colors
 # ALL_COMPONENTS are safe for the root install and uninstall lifecycle.
-ALL_COMPONENTS="kde konsole ghostty herdr pi zed"
+ALL_COMPONENTS="kde konsole ghostty herdr pi zed fastfetch bat btop fish"
 # Manual-only ports still participate in release packaging.
-PACKAGE_COMPONENTS="$ALL_COMPONENTS firefox chrome helium"
+PACKAGE_COMPONENTS="$ALL_COMPONENTS firefox chrome helium eza fzf tmux"
 PLASMA_STYLE_SOURCE="$ROOT/kde/plasma-style/$PLASMA_STYLE_ID"
 GLOBAL_SOURCE="$ROOT/kde/look-and-feel/$PACKAGE_ID"
 HERDR_BEGIN='# BEGIN Primer Dark Herdr theme (managed by primer-dark-suite)'
@@ -58,6 +58,13 @@ initialize_user_paths() {
     HERDR_STATE="$HERDR_DIR/.primer-dark-theme-state"
     PI_DEST="$PI_AGENT_DIR/themes/primer-dark.json"
     ZED_DEST="$CONFIG_HOME/zed/themes/primer-dark.json"
+    FASTFETCH_DEST="$DATA_HOME/fastfetch/presets/primer-dark.jsonc"
+    BAT_CONFIG_ROOT=${BAT_CONFIG_DIR:-"$CONFIG_HOME/bat"}
+    BAT_THEME_DEST="$BAT_CONFIG_ROOT/themes/Primer Dark.tmTheme"
+    BAT_CONFIG_FILE="$BAT_CONFIG_ROOT/config"
+    BTOP_THEME_DEST="$CONFIG_HOME/btop/themes/primer-dark.theme"
+    BTOP_CONFIG_FILE="$CONFIG_HOME/btop/btop.conf"
+    FISH_THEME_DEST="$CONFIG_HOME/fish/themes/primer-dark.theme"
 }
 
 require_command() {

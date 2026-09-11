@@ -23,13 +23,13 @@ primer-dark-suite/
 ├── cli/
 │   ├── pi/               # implemented: complete Pi CLI/TUI theme
 │   ├── herdr/            # implemented: complete Herdr TUI palette snippet
-│   ├── bat/              # roadmap 3
-│   ├── btop/             # roadmap 3
-│   ├── fzf/              # roadmap 3
-│   ├── eza/              # roadmap 3
-│   ├── fastfetch/        # roadmap 3
-│   ├── fish/             # roadmap 3
-│   └── tmux/             # roadmap 3
+│   ├── bat/              # implemented: native bat syntax theme
+│   ├── btop/             # implemented: native btop theme
+│   ├── fzf/              # implemented: fzf color option snippet
+│   ├── eza/              # implemented: ready-to-merge eza theme.yml
+│   ├── fastfetch/        # implemented: native Fastfetch preset
+│   ├── fish/             # implemented: native Fish theme file
+│   └── tmux/             # implemented: tmux style snippet
 │
 ├── browsers/
 │   ├── firefox/          # implemented: native Mozilla Firefox static theme package

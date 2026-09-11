@@ -50,6 +50,11 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, thinking levels, and bash mode.
 - Complete Herdr TUI palette covering chrome, sidebar states, text hierarchy, and agent statuses through its supported custom-theme configuration.
 - Complete Zed theme covering the workbench, editor, syntax, diagnostics, Git states, collaboration, Vim modes, and integrated terminal.
+- Native Fastfetch preset covering the logo palette, keys, title, output, separator, percentage and temperature thresholds, bars, and the default module structure.
+- Native bat syntax theme covering Markdown, diffs, comments, keywords, strings, numbers, types, functions, variables, links, and diagnostics.
+- Native btop theme completing all 48 supported keys for box outlines, dividers, graph text, meters, process gradients, and pause/follow/banner rows.
+- Native Fish theme file with dark and unknown-terminal variants covering syntax, pager, selection, and completion colors.
+- Ready-to-merge eza `theme.yml`, fzf color option set, and tmux style snippet for tools without a safe user-local theme discovery path.
 - Native Manifest V3 Mozilla Firefox static theme covering all 38 effective color keys exposed by Firefox 155, plus explicit dark browser and content color schemes.
 - Native Manifest V3 Google Chrome theme covering all 24 color keys exposed by Chromium 152, with standard Chrome frame, toolbar, active-tab, and omnibox surface mapping.
 - Native Manifest V3 Helium Browser theme covering the same API with Helium-specific active-tab and omnibox surface mapping.
@@ -79,13 +84,13 @@ Build and maintain focused CLI/TUI ports that compose cleanly inside the termina
 
 - **Pi:** implemented as a native JSON theme covering all required TUI, Markdown, tool, diff, syntax, thinking-level, search, and bash-mode tokens.
 - **Herdr:** implemented as a complete `[theme.custom]` TOML palette. Because Herdr does not discover standalone theme files, the opt-in installer atomically merges managed theme tables into its shared configuration and saves the previous tables for uninstall.
-- **bat:** TextMate/Sublime syntax theme and cache-install instructions.
-- **btop:** native theme file for graphs, process states, meters, highlights, and selected rows.
-- **fzf:** shell-safe color option set for borders, prompts, matches, selections, and previews.
-- **eza:** `EZA_COLORS`/`LS_COLORS` mapping for file types, permissions, Git state, and metadata.
-- **fastfetch:** restrained logo and output color configuration.
-- **Fish:** syntax, autosuggestion, completion, prompt, error, command, parameter, and operator colors.
-- **tmux:** status bar, pane borders, messages, copy mode, and active-window styling.
+- **bat:** implemented as a native `.tmTheme` installed to bat's theme directory. bat derives the theme name from the file name, so the asset is committed and installed as `Primer Dark.tmTheme`; users run `bat cache --build` and select it with `--theme="Primer Dark"` or `BAT_THEME`. Uninstall refuses while bat has it selected.
+- **btop:** implemented as a native `.theme` file completing all 48 supported keys: box outlines, dividers, graph text, meter backgrounds, free/cached/available/used meters, download/upload graphs, process gradients, and pause/follow/banner rows. Users select `primer-dark` in the options menu or `color_theme`; uninstall refuses while it is selected.
+- **fzf:** implemented as a shell-safe `FZF_DEFAULT_OPTS` snippet because fzf has no theme file or discovery path. The snippet is append-only and leaves an existing `--color` option untouched, so it is published for manual use instead of editing shell configuration.
+- **eza:** implemented as a complete `theme.yml` derived from eza's built-in theme model and covering file kinds, permissions, sizes, users, links, Git states, SELinux contexts, punctuation, dates, and file types. Because eza reads a single fixed path, the file is published for manual merge rather than overwriting a possible existing theme.
+- **fastfetch:** implemented as a native JSONC preset discovered from `~/.local/share/fastfetch/presets/` and loaded with `fastfetch --config primer-dark`. It colors the logo, keys, title, output, separator, percentage and temperature thresholds, and bars; the default module structure is preserved because Fastfetch presets replace the whole configuration rather than layering on top of `config.jsonc`.
+- **Fish:** implemented as a native `.theme` file with `[dark]` and `[unknown]` variants covering syntax, pager, selection, and completion colors. `fish_config theme choose primer-dark` previews session-local colors; `fish_config theme save primer-dark` loads the named theme into universal variables for future shells. The installed file is safe to remove after loading; saved colors do not automatically follow terminal light/dark changes.
+- **tmux:** implemented as a styles-only snippet sourced from `~/.tmux.conf`, covering the status bar, window states, pane borders, messages, copy mode, menus, and popups without overriding user formats or key bindings.
 
 ### 4. Firefox, Chrome and Helium
 
@@ -133,7 +138,8 @@ The root install and uninstall commands are small component orchestrators. Share
 Current and planned behavior:
 
 - `./install.sh` installs the stable KDE foundation.
-- `--konsole`, `--ghostty`, `--pi`, and `--zed` install their respective application themes without changing application settings.
+- `--konsole`, `--ghostty`, `--pi`, `--zed`, `--fastfetch`, `--bat`, `--btop`, and `--fish` install their respective application themes without changing application settings.
+- eza, fzf, and tmux are package-only: eza reads a single fixed `theme.yml`, and fzf and tmux are configured through shell and tmux configuration files, so the installer never edits shared configuration for them.
 - Firefox is distributed as `Primer-Dark-Firefox.zip`, which can be loaded temporarily from `about:debugging` or submitted to addons.mozilla.org for signing. It is package-only because normal Firefox release and beta builds require Mozilla signatures for permanent theme installation.
 - Chrome and Helium are distributed as `Primer-Dark-Chrome.zip` and `Primer-Dark-Helium.zip` and loaded interactively from their Extensions pages; they are package-only because Chromium browsers have no user-local standalone discovery directory and automatic profile preference edits would not be safely theme-owned.
 - `--herdr` is an explicit managed-configuration exception: it safely replaces only bounded, validated theme tables in Herdr's shared `config.toml`, preserves unrelated settings, records the previous theme tables for uninstall, and aborts if the source configuration or restore state changes after preflight.
@@ -182,6 +188,20 @@ Current and planned behavior:
 - https://github.com/imputnet/helium/blob/0.16.2/patches/helium/ui/frame-background.patch
 - https://github.com/imputnet/helium/blob/0.16.2/patches/helium/ui/helium-color-mixers.patch
 - https://github.com/imputnet/helium/issues/1459
+- https://github.com/fastfetch-cli/fastfetch/wiki/Configuration
+- https://github.com/fastfetch-cli/fastfetch/wiki/Color-Format-Specification
+- https://github.com/fastfetch-cli/fastfetch/wiki/Logo-options
+- https://github.com/fastfetch-cli/fastfetch/raw/2.66.0/doc/json_schema.json
+- https://github.com/sharkdp/bat#adding-new-themes
+- https://github.com/sharkdp/bat/blob/v0.26.1/src/bin/bat/config.rs
+- https://github.com/aristocratos/btop#themes
+- https://github.com/aristocratos/btop/blob/v1.4.7/src/btop_theme.cpp
+- https://github.com/aristocratos/btop/blob/v1.4.7/src/btop_config.cpp
+- https://github.com/aristocratos/btop/blob/v1.4.7/src/btop_menu.cpp
+- https://github.com/eza-community/eza/blob/main/man/eza_colors-explanation.5.md
+- https://fishshell.com/docs/current/cmds/fish_config.html
+- https://github.com/junegunn/fzf/blob/master/man/man1/fzf.1
+- https://man.openbsd.org/tmux.1
 
 ## Final phase: visual regression testing
 

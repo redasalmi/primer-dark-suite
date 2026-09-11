@@ -1,0 +1,111 @@
+# Primer Dark for eza
+# SPDX-License-Identifier: MIT
+#
+# eza uses a single fixed theme path, so this is a ready-to-merge theme file
+# rather than an automatically installed one. Back up any existing theme, then
+# place it at $EZA_CONFIG_DIR/theme.yml or $XDG_CONFIG_HOME/eza/theme.yml.
+
+colourful: true
+
+filekinds:
+  normal: {foreground: "#F0F6FC"}
+  directory: {foreground: "#4493F8", is_bold: true}
+  symlink: {foreground: "#39C5CF"}
+  pipe: {foreground: "#D29922"}
+  block_device: {foreground: "#D29922", is_bold: true}
+  char_device: {foreground: "#D29922", is_bold: true}
+  socket: {foreground: "#F85149", is_bold: true}
+  special: {foreground: "#D29922"}
+  executable: {foreground: "#3FB950", is_bold: true}
+  mount_point: {foreground: "#4493F8", is_bold: true, is_underline: true}
+
+perms:
+  user_read: {foreground: "#D29922", is_bold: true}
+  user_write: {foreground: "#F85149", is_bold: true}
+  user_execute_file: {foreground: "#3FB950", is_bold: true, is_underline: true}
+  user_execute_other: {foreground: "#3FB950", is_bold: true}
+  group_read: {foreground: "#D29922"}
+  group_write: {foreground: "#F85149"}
+  group_execute: {foreground: "#3FB950"}
+  other_read: {foreground: "#D29922"}
+  other_write: {foreground: "#F85149"}
+  other_execute: {foreground: "#3FB950"}
+  special_user_file: {foreground: "#AB7DF8"}
+  special_other: {foreground: "#AB7DF8"}
+  attribute: {foreground: "#F0F6FC"}
+
+size:
+  major: {foreground: "#3FB950", is_bold: true}
+  minor: {foreground: "#3FB950"}
+  number_byte: {foreground: "#3FB950"}
+  number_kilo: {foreground: "#3FB950", is_bold: true}
+  number_mega: {foreground: "#D29922"}
+  number_giga: {foreground: "#F85149"}
+  number_huge: {foreground: "#AB7DF8"}
+  unit_byte: {foreground: "#3FB950"}
+  unit_kilo: {foreground: "#3FB950", is_bold: true}
+  unit_mega: {foreground: "#D29922"}
+  unit_giga: {foreground: "#F85149"}
+  unit_huge: {foreground: "#AB7DF8"}
+
+users:
+  user_you: {foreground: "#D29922", is_bold: true}
+  user_root: {foreground: "#F85149"}
+  user_other: {foreground: "#F0F6FC"}
+  group_yours: {foreground: "#D29922", is_bold: true}
+  group_other: {foreground: "#F0F6FC"}
+  group_root: {foreground: "#F85149"}
+
+links:
+  normal: {foreground: "#F85149", is_bold: true}
+  multi_link_file: {foreground: "#F85149", background: "#D29922"}
+
+git:
+  new: {foreground: "#3FB950"}
+  modified: {foreground: "#4493F8"}
+  deleted: {foreground: "#F85149"}
+  renamed: {foreground: "#D29922"}
+  typechange: {foreground: "#AB7DF8"}
+  ignored: {foreground: "#656C76", is_dimmed: true}
+  conflicted: {foreground: "#F85149"}
+
+git_repo:
+  branch_main: {foreground: "#3FB950"}
+  branch_other: {foreground: "#D29922"}
+  git_clean: {foreground: "#3FB950"}
+  git_dirty: {foreground: "#D29922", is_bold: true}
+
+security_context:
+  none: {foreground: "#F0F6FC"}
+  selinux:
+    colon: {foreground: "#656C76", is_dimmed: true}
+    user: {foreground: "#4493F8"}
+    role: {foreground: "#3FB950"}
+    typ: {foreground: "#D29922"}
+    range: {foreground: "#39C5CF"}
+
+file_type:
+  image: {foreground: "#AB7DF8"}
+  video: {foreground: "#AB7DF8", is_bold: true}
+  music: {foreground: "#39C5CF"}
+  lossless: {foreground: "#39C5CF", is_bold: true}
+  crypto: {foreground: "#3FB950", is_bold: true}
+  document: {foreground: "#3FB950"}
+  compressed: {foreground: "#F85149"}
+  temp: {foreground: "#656C76", is_dimmed: true}
+  compiled: {foreground: "#D29922"}
+  build: {foreground: "#D29922", is_bold: true, is_underline: true}
+  source: {foreground: "#D29922", is_bold: true}
+
+punctuation: {foreground: "#656C76", is_bold: true}
+date: {foreground: "#4493F8"}
+inode: {foreground: "#AB7DF8"}
+blocks: {foreground: "#39C5CF"}
+header: {foreground: "#F0F6FC", is_underline: true}
+octal: {foreground: "#AB7DF8"}
+flags: {foreground: "#F0F6FC"}
+
+symlink_path: {foreground: "#39C5CF"}
+control_char: {foreground: "#F85149"}
+broken_symlink: {foreground: "#F85149"}
+broken_path_overlay: {foreground: "#F0F6FC", is_underline: true}

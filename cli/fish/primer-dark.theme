@@ -1,0 +1,72 @@
+# name: Primer Dark
+# SPDX-License-Identifier: MIT
+# preferred_background: 0d1117
+#
+# Install with `./install.sh --fish`, then preview "primer-dark" with
+# `fish_config theme choose primer-dark` and persist with `fish_config theme save primer-dark`.
+
+[dark]
+fish_color_normal F0F6FC
+fish_color_autosuggestion 656C76
+fish_color_cancel F85149
+fish_color_command 4493F8
+fish_color_comment 9198A1
+fish_color_cwd 3FB950
+fish_color_cwd_root F85149
+fish_color_end D2A8FF
+fish_color_error F85149
+fish_color_escape 39C5CF
+fish_color_gray 9198A1
+fish_color_history_current --bold
+fish_color_host 4493F8
+fish_color_host_remote D29922
+fish_color_keyword FF7B72
+fish_color_operator FF7B72
+fish_color_option 7EE787
+fish_color_param FFA657
+fish_color_quote A5D6FF
+fish_color_redirection FFA657
+fish_color_search_match --background=051D4D --bold
+fish_color_selection F0F6FC --background=212830 --bold
+fish_color_status F85149
+fish_color_user 3FB950
+fish_color_valid_path --underline
+fish_pager_color_completion F0F6FC
+fish_pager_color_description FFA657 --italics
+fish_pager_color_prefix 79C0FF --bold --underline
+fish_pager_color_progress 9198A1
+fish_pager_color_selected_background --background=212830
+fish_pager_color_selected_completion F0F6FC
+
+[unknown]
+fish_color_normal F0F6FC
+fish_color_autosuggestion 656C76
+fish_color_cancel F85149
+fish_color_command 4493F8
+fish_color_comment 9198A1
+fish_color_cwd 3FB950
+fish_color_cwd_root F85149
+fish_color_end D2A8FF
+fish_color_error F85149
+fish_color_escape 39C5CF
+fish_color_gray 9198A1
+fish_color_history_current --bold
+fish_color_host 4493F8
+fish_color_host_remote D29922
+fish_color_keyword FF7B72
+fish_color_operator FF7B72
+fish_color_option 7EE787
+fish_color_param FFA657
+fish_color_quote A5D6FF
+fish_color_redirection FFA657
+fish_color_search_match --background=051D4D --bold
+fish_color_selection F0F6FC --background=212830 --bold
+fish_color_status F85149
+fish_color_user 3FB950
+fish_color_valid_path --underline
+fish_pager_color_completion F0F6FC
+fish_pager_color_description FFA657 --italics
+fish_pager_color_prefix 79C0FF --bold --underline
+fish_pager_color_progress 9198A1
+fish_pager_color_selected_background --background=212830
+fish_pager_color_selected_completion F0F6FC

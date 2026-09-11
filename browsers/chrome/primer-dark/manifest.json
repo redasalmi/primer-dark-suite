@@ -5,6 +5,9 @@
   "description": "A GitHub Primer Dark-inspired theme for Google Chrome.",
   "author": "Reda Salmi",
   "homepage_url": "https://github.com/redasalmi/primer-dark-suite",
+  "icons": {
+    "128": "icon128.png"
+  },
   "theme": {
     "colors": {
       "frame": [1, 4, 9],

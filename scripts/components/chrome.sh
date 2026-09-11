@@ -6,7 +6,8 @@ package_chrome() {
     jq -e . "$ROOT/browsers/chrome/primer-dark/manifest.json" >/dev/null
     (
         cd "$ROOT/browsers/chrome/primer-dark"
-        zip -q -X "$DIST/Primer-Dark-Chrome.zip" manifest.json
+        # The Chrome Web Store requires the 128x128 icon in the package.
+        zip -q -X "$DIST/Primer-Dark-Chrome.zip" manifest.json icon128.png
     )
     register_artifact Primer-Dark-Chrome.zip
 }

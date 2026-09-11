@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Helium Browser, Herdr, Pi, Zed, Fastfetch, bat, btop, eza, fzf, Fish, and tmux.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Zed, Fastfetch, bat, btop, eza, fzf, Fish, and tmux.
 
 ## Included in v1
 
@@ -24,8 +24,7 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole,
 - shell-safe fzf color option set covering borders, prompts, matches, selections, and previews;
 - ready-to-source tmux snippet covering the status bar, window states, pane borders, messages, copy mode, menus, and popups;
 - native Manifest V3 Mozilla Firefox static theme covering every effective color exposed by Firefox's current theme API;
-- native Manifest V3 Google Chrome theme covering every color exposed by Chromium's current theme API;
-- native Manifest V3 Helium Browser theme covering the same API with Helium-specific chrome mapping;
+- native Manifest V3 Chromium theme covering every color exposed by Chromium's current theme API, usable in Chrome and other Chromium-based browsers;
 - System Settings previews and offline packaging scripts.
 
 Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-button order. KDE Plasma Login theming is intentionally outside the v1 scope because login-manager integration is system-level and requires separate packaging and safety work.
@@ -49,7 +48,6 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - tmux 3.7 (the currently validated target) when using the tmux snippet
 - Mozilla Firefox 155.0 (the currently validated target) when using the Firefox theme
 - Google Chrome 152.0.7977.75 (the currently validated target) when using the Chrome theme
-- Helium Browser 0.16.2.x (Chromium 152; the currently validated target) when using the Helium theme
 
 The release and validation helper additionally uses `jq`, `xmllint`, `zip`, and standard Unix archive tools.
 
@@ -199,15 +197,7 @@ Google Chrome requires interactive extension loading, so its theme is intentiona
 2. Enable **Developer mode**.
 3. Choose **Load unpacked** and select `browsers/chrome/primer-dark/`.
 
-Loading the package activates **Primer Dark** immediately. For the release artifact, extract `Primer-Dark-Chrome.zip` into its own directory first, then select that directory. To update it, reset Chrome to its default theme, replace the extracted package, and load the new directory again. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance.
-
-Helium also requires interactive extension loading. From a repository checkout:
-
-1. Open `helium://extensions`.
-2. Enable **Developer mode**.
-3. Choose **Load unpacked** and select `browsers/helium/primer-dark/`.
-
-Loading the package activates **Primer Dark** immediately. For the release artifact, extract `Primer-Dark-Helium.zip` into its own directory first, then select that directory. To update it, reset Helium to its default theme, replace the extracted package, and load the new directory again. The theme styles browser chrome and the new tab page; Helium's internal pages, DevTools, and website content remain under their own appearance controls.
+Loading the package activates **Primer Dark** immediately. For the release artifact, extract `Primer-Dark-Chrome.zip` into its own directory first, then select that directory. To update it, reset Chrome to its default theme, replace the extracted package, and load the new directory again. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance. Other Chromium-based browsers can load the same `Primer-Dark-Chrome.zip` from their equivalent extensions page, with rendering that may differ wherever the browser maps theme colors differently.
 
 The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Fastfetch, bat, btop, and Fish settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
@@ -236,7 +226,7 @@ First select another Global Theme and, if used, other Konsole, Ghostty, Pi, Zed,
 
 The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact.
 
-The script does not manage Firefox, Chrome, Helium, eza, fzf, or tmux. Remove a temporary Firefox theme from `about:debugging#/runtime/this-firefox` or restart Firefox; remove a signed Firefox theme from **Add-ons and themes → Themes**. To remove either Chromium theme, choose **Reset to default theme** in `chrome://settings/appearance` or `helium://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
+The script does not manage Firefox, Chrome, eza, fzf, or tmux. Remove a temporary Firefox theme from `about:debugging#/runtime/this-firefox` or restart Firefox; remove a signed Firefox theme from **Add-ons and themes → Themes**. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
 
 ## Build release artifacts
 
@@ -252,7 +242,7 @@ Create installable archives and checksums with:
 ./scripts/package.sh
 ```
 
-Artifacts are written to `dist/`. `Primer-Dark-Firefox.zip`, `Primer-Dark-Chrome.zip`, and `Primer-Dark-Helium.zip` each contain a ready-to-load `manifest.json` at the archive root. The Firefox ZIP must be signed by Mozilla before permanent installation in a normal release build. `Primer-Dark-Bat.tar.gz`, `Primer-Dark-Btop.tar.gz`, and `Primer-Dark-Fish.tar.gz` each contain a single theme file under the name their application expects, while `Primer-Dark-Eza.yml`, `Primer-Dark-Fzf.sh`, and `Primer-Dark-Tmux.conf` are plain files for manual use.
+Artifacts are written to `dist/`. `Primer-Dark-Firefox.zip` and `Primer-Dark-Chrome.zip` each contain a ready-to-load `manifest.json` at the archive root. The Firefox ZIP must be signed by Mozilla before permanent installation in a normal release build. `Primer-Dark-Bat.tar.gz`, `Primer-Dark-Btop.tar.gz`, and `Primer-Dark-Fish.tar.gz` each contain a single theme file under the name their application expects, while `Primer-Dark-Eza.yml`, `Primer-Dark-Fzf.sh`, and `Primer-Dark-Tmux.conf` are plain files for manual use.
 
 ## Design tokens
 

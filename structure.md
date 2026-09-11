@@ -4,6 +4,7 @@ Implemented directories contain the current Primer Dark ports. Numbered comments
 
 ```text
 primer-dark-suite/
+├── assets/               # implemented: official suite icon and store listing artwork
 ├── kde/
 │   ├── artwork/          # implemented: preview sources
 │   ├── colors/           # implemented: KDE/Qt color scheme
@@ -33,8 +34,7 @@ primer-dark-suite/
 │
 ├── browsers/
 │   ├── firefox/          # implemented: native Mozilla Firefox static theme package
-│   ├── chrome/           # implemented: native Google Chrome theme package
-│   └── helium/           # implemented: Helium-adapted Chromium theme package
+│   └── chrome/           # implemented: native Google Chrome theme package
 │
 ├── creative/
 │   ├── blender/          # roadmap 5

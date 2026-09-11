@@ -56,8 +56,7 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Native Fish theme file with dark and unknown-terminal variants covering syntax, pager, selection, and completion colors.
 - Ready-to-merge eza `theme.yml`, fzf color option set, and tmux style snippet for tools without a safe user-local theme discovery path.
 - Native Manifest V3 Mozilla Firefox static theme covering all 38 effective color keys exposed by Firefox 155, plus explicit dark browser and content color schemes.
-- Native Manifest V3 Google Chrome theme covering all 24 color keys exposed by Chromium 152, with standard Chrome frame, toolbar, active-tab, and omnibox surface mapping.
-- Native Manifest V3 Helium Browser theme covering the same API with Helium-specific active-tab and omnibox surface mapping.
+- Native Manifest V3 Chromium theme covering all 24 color keys exposed by Chromium 152, with standard Chrome frame, toolbar, active-tab, and omnibox surface mapping and usable in other Chromium-based browsers.
 - No panel layout, wallpaper, font, or window-button-order changes.
 
 ## Suite roadmap
@@ -92,14 +91,13 @@ Build and maintain focused CLI/TUI ports that compose cleanly inside the termina
 - **Fish:** implemented as a native `.theme` file with `[dark]` and `[unknown]` variants covering syntax, pager, selection, and completion colors. `fish_config theme choose primer-dark` previews session-local colors; `fish_config theme save primer-dark` loads the named theme into universal variables for future shells. The installed file is safe to remove after loading; saved colors do not automatically follow terminal light/dark changes.
 - **tmux:** implemented as a styles-only snippet sourced from `~/.tmux.conf`, covering the status bar, window states, pane borders, messages, copy mode, menus, and popups without overriding user formats or key bindings.
 
-### 4. Firefox, Chrome and Helium
+### 4. Firefox and Chrome
 
 Create browser chrome ports without attempting to force a universal website theme.
 
 - **Firefox:** implemented as a color-only Manifest V3 static theme for Firefox 155. It covers all 38 effective current color fields for frames, active/inactive tabs, toolbars, address fields and selection, icons, button states, popups, new-tab surfaces, and sidebars. Deprecated or ignored aliases are intentionally omitted. Dark chrome and content color-scheme properties keep built-in pages and `prefers-color-scheme` behavior coherent; arbitrary website content and DevTools remain outside the theme API. Deeper `userChrome.css` changes remain optional and versioned separately.
 - **Chrome:** implemented as a color-only Manifest V3 package for Google Chrome 152.0.7977.75. Its manifest declares all 24 current overwritable Chromium theme colors: active and inactive tab text/backgrounds, toolbar controls, omnibox, bookmarks, new-tab chrome, inactive windows, and the exposed incognito variants. Chrome uses an inset frame around a default-surface toolbar and active tab, with a raised omnibox. Focus, hover, pressed, separators, and other non-overwritable colors continue to use Chrome's derived native states.
-- **Helium:** implemented as a separate color-only Manifest V3 package for Helium 0.16.2 / Chromium 152. Helium paints its frame and tab-strip background from `toolbar` and its active tab from `omnibox_background`, so it intentionally uses an inset toolbar/frame around a default-surface active tab and omnibox instead of sharing Chrome's manifest.
-- Chromium themes do not style website content, DevTools, every internal page, or the central Google Chrome new-tab search control. Chrome 152's incognito theme provider deliberately ignores custom theme suppliers, so incognito windows retain Chrome's native dark appearance despite the legacy incognito fields remaining in the supported manifest table. Helium's frame patch can additionally collapse some active/inactive and normal/incognito distinctions even though all exposed variants are present in both manifests.
+- Chromium themes do not style website content, DevTools, every internal page, or the central Google Chrome new-tab search control. Chrome 152's incognito theme provider deliberately ignores custom theme suppliers, so incognito windows retain Chrome's native dark appearance despite the legacy incognito fields remaining in the supported manifest table.
 
 ### 5. Blender, Krita, GIMP, Inkscape and Godot
 
@@ -141,7 +139,7 @@ Current and planned behavior:
 - `--konsole`, `--ghostty`, `--pi`, `--zed`, `--fastfetch`, `--bat`, `--btop`, and `--fish` install their respective application themes without changing application settings.
 - eza, fzf, and tmux are package-only: eza reads a single fixed `theme.yml`, and fzf and tmux are configured through shell and tmux configuration files, so the installer never edits shared configuration for them.
 - Firefox is distributed as `Primer-Dark-Firefox.zip`, which can be loaded temporarily from `about:debugging` or submitted to addons.mozilla.org for signing. It is package-only because normal Firefox release and beta builds require Mozilla signatures for permanent theme installation.
-- Chrome and Helium are distributed as `Primer-Dark-Chrome.zip` and `Primer-Dark-Helium.zip` and loaded interactively from their Extensions pages; they are package-only because Chromium browsers have no user-local standalone discovery directory and automatic profile preference edits would not be safely theme-owned.
+- Chrome is distributed as `Primer-Dark-Chrome.zip` and loaded interactively from its extensions page; it is package-only because Chromium browsers have no user-local standalone discovery directory and automatic profile preference edits would not be safely theme-owned.
 - `--herdr` is an explicit managed-configuration exception: it safely replaces only bounded, validated theme tables in Herdr's shared `config.toml`, preserves unrelated settings, records the previous theme tables for uninstall, and aborts if the source configuration or restore state changes after preflight.
 - The installer preflights every selected component and `--apply` dependency before changing installed files, preventing predictable dependency or configuration failures from leaving a partial installation.
 - Uninstall runs every active-theme and restore-state guard before removing or restoring every registered component.
@@ -184,10 +182,6 @@ Current and planned behavior:
 - https://chromium.googlesource.com/chromium/src/+/refs/tags/152.0.7977.75/chrome/browser/themes/theme_service.cc
 - https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html
 - https://chromium.googlesource.com/chromium/src/+/refs/tags/152.0.7977.64/chrome/browser/themes/browser_theme_pack.cc
-- https://github.com/imputnet/helium/releases/tag/0.16.2
-- https://github.com/imputnet/helium/blob/0.16.2/patches/helium/ui/frame-background.patch
-- https://github.com/imputnet/helium/blob/0.16.2/patches/helium/ui/helium-color-mixers.patch
-- https://github.com/imputnet/helium/issues/1459
 - https://github.com/fastfetch-cli/fastfetch/wiki/Configuration
 - https://github.com/fastfetch-cli/fastfetch/wiki/Color-Format-Specification
 - https://github.com/fastfetch-cli/fastfetch/wiki/Logo-options

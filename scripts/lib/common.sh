@@ -10,7 +10,7 @@ COLOR_FILE=PrimerDark.colors
 # ALL_COMPONENTS are safe for the root install and uninstall lifecycle.
 ALL_COMPONENTS="kde konsole ghostty herdr pi zed fastfetch bat btop fish"
 # Manual-only ports still participate in release packaging.
-PACKAGE_COMPONENTS="$ALL_COMPONENTS firefox chrome helium eza fzf tmux"
+PACKAGE_COMPONENTS="$ALL_COMPONENTS firefox chrome eza fzf tmux"
 PLASMA_STYLE_SOURCE="$ROOT/kde/plasma-style/$PLASMA_STYLE_ID"
 GLOBAL_SOURCE="$ROOT/kde/look-and-feel/$PACKAGE_ID"
 HERDR_BEGIN='# BEGIN Primer Dark Herdr theme (managed by primer-dark-suite)'

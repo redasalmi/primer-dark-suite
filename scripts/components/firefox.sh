@@ -6,7 +6,9 @@ package_firefox() {
     jq -e . "$ROOT/browsers/firefox/primer-dark/manifest.json" >/dev/null
     (
         cd "$ROOT/browsers/firefox/primer-dark"
-        zip -q -X "$DIST/Primer-Dark-Firefox.zip" manifest.json
+        # The online listing icon is uploaded to addons.mozilla.org, but the
+        # package also ships the icon for the installed add-on.
+        zip -q -X "$DIST/Primer-Dark-Firefox.zip" manifest.json icon128.png
     )
     register_artifact Primer-Dark-Firefox.zip
 }

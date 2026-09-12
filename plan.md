@@ -75,8 +75,8 @@ Continue the terminal foundation so every terminal-based tool inherits a consist
 Continue the editor theme family from the shared syntax and UI roles.
 
 - **Zed:** implemented as a JSON theme covering the workbench, editor, terminal, diagnostics, diffs, syntax, collaboration colors, Vim modes, and interaction states.
-- **Cursor:** create a VS Code-compatible color theme and extension metadata covering workbench, editor, integrated terminal, semantic highlighting, diagnostics, and Git decorations.
-- Keep syntax colors aligned with the installed Zed GitHub Dark reference unless contrast or application semantics require an adjustment.
+- **Cursor:** implemented as a VS Code-compatible extension package (`package.json` with a `contributes.themes` entry plus `themes/primer-dark-color-theme.json`). It is a dark theme covering 465 workbench colors, TextMate syntax rules, semantic token rules, diagnostics, diffs, Git decorations, the integrated terminal including the shared ANSI 16-color mapping, and bracket pair colorization. The installer copies the unpacked extension into `~/.cursor/extensions/<publisher>.<name>-<version>/`, which Cursor discovers through the filesystem extension scanner it uses to initialize its profile extension list, and uninstall removes only that owned directory after its active-theme guard passes in the default profile and every named profile. Workbench and syntax colors come from the canonical palette; fully transparent values are used only where VS Code requires a transparent border or overlay slot, and `editorUnnecessaryCode.opacity` uses an alpha-only value because VS Code reads that field as an opacity.
+- Keep syntax colors aligned with the installed Zed GitHub Dark reference unless contrast or application semantics require an adjustment. The two ports share one syntax mapping, and the VS Code-only surfaces that Zed has no equivalent for (`symbolIcon.*`, `debugTokenExpression.*`, `editorBracketHighlight.*`) follow the mapping published by GitHub's own VS Code theme.
 
 ### 3. Pi, Herdr, bat, btop, fzf, eza, fastfetch, Fish and tmux
 
@@ -111,17 +111,6 @@ Create shared GTK foundations for installed GTK applications.
 - Flatpak applications only see theme directories that their sandbox is granted, so the required `flatpak override` filesystem permission and the alternative per-application `GTK_THEME` override are documented separately. The Flatpak guidance is documented only and was not verified in this environment.
 - Destructive actions use the canonical Primer danger-emphasis scale steps (`#DA3633` at rest, `#B62324` on hover, `#8E1519` when pressed) for their solid background, because the error color itself (`#F85149`) is a text and icon role and only reaches 3.35:1 behind a white label. Those steps keep white labels at 4.61:1, 6.45:1, and 9.25:1, so no blend has to be invented for them. Suggested actions keep the accent color directly. Only the libadwaita status backgrounds are documented blends (25-35% of the inset surface) so that white labels keep a usable contrast.
 
-### 6. Optional third-party Discord, Spotify and Steam integrations
-
-Keep unsupported application patching isolated, explicit, and reversible.
-
-- **Discord:** optional Vencord/BetterDiscord-compatible CSS.
-- **Spotify:** optional Spicetify theme with Flatpak-aware installation guidance.
-- **Steam:** optional Millennium/custom CSS integration.
-- Never install third-party patchers automatically.
-- Require explicit component selection, version checks, backups, and clear restore instructions.
-- A failure in an optional integration must not block installation of supported theme ports.
-
 ## Installation architecture
 
 The root install and uninstall commands are small component orchestrators. Shared paths and the component registry live under `scripts/lib/`, while each port's preflight, install, active-state guard, uninstall, and check hooks live under `scripts/components/`.
@@ -129,7 +118,7 @@ The root install and uninstall commands are small component orchestrators. Share
 Current and planned behavior:
 
 - `./install.sh` installs the stable KDE foundation.
-- `--konsole`, `--ghostty`, `--pi`, `--zed`, `--fastfetch`, `--bat`, `--btop`, `--fish`, and `--gtk` install their respective application themes without changing application settings.
+- `--konsole`, `--ghostty`, `--pi`, `--zed`, `--cursor`, `--fastfetch`, `--bat`, `--btop`, `--fish`, and `--gtk` install their respective application themes without changing application settings.
 - eza, fzf, and tmux are never installed by the root script: eza reads a single fixed `theme.yml`, and fzf and tmux are configured through shell and tmux configuration files, so the installer never edits shared configuration for them.
 - Firefox is published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/) and previewed from a checkout with `web-ext build`, which packages it for `about:debugging` and for upload to that listing. It is store-distributed because normal Firefox release and beta builds require Mozilla signatures for permanent theme installation, so the installer never writes into the profile and cannot collide with a store-installed copy.
 - Chrome is loaded interactively from its unpacked directory in a checkout; it is store-distributed because Chromium browsers have no user-local standalone discovery directory and automatic profile preference edits would not be safely theme-owned.
@@ -139,11 +128,11 @@ Current and planned behavior:
 - `--gtk` installs the native GTK 3 and GTK 4 theme package and removes it as a whole directory on uninstall. The optional libadwaita override is a documented shared-config snippet that the installer never writes, because `~/.config/gtk-4.0/gtk.css` is shared GTK configuration.
 - The installer preflights every selected component and `--apply` dependency before changing installed files, preventing predictable dependency or configuration failures from leaving a partial installation.
 - Uninstall runs every active-theme and restore-state guard before removing or restoring every registered component.
+- Store and upstream publication is tracked separately in `distribution.md`; the installer and uninstaller never contact a store.
 - `./scripts/check.sh` validates the palette and every asset that has an official parser, and `.github/workflows/verify.yml` runs it together with ShellCheck on every push to `main` and every pull request.
 - Future component ports extend the shared registry and add an isolated lifecycle module instead of adding implementation blocks to the root scripts.
 - Future explicit flags may select groups such as `--terminal`, `--editors`, `--cli`, or `--browsers`.
 - A future `--all-supported` flag installs supported native ports only.
-- Third-party integrations always require separate explicit flags.
 - Every installed component records only files owned by Primer Dark, except approved bounded managed sections such as Herdr's, and can be removed without reverting unrelated preferences.
 
 ## Cross-port acceptance criteria
@@ -163,6 +152,11 @@ Current and planned behavior:
 - https://develop.kde.org/docs/plasma/theme/theme-porting-to-plasma6/
 - https://develop.kde.org/docs/plasma/theme/theme-details/
 - https://develop.kde.org/docs/plasma/theme/theme-colors/
+- https://code.visualstudio.com/api/references/theme-color
+- https://code.visualstudio.com/api/references/contribution-points
+- https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide
+- https://github.com/microsoft/vscode/tree/1.128.0/extensions/theme-defaults
+- https://github.com/primer/github-vscode-theme
 - https://develop.kde.org/docs/plasma/aurorae/
 - https://github.com/catppuccin/kde
 - https://github.com/primer/primitives

@@ -12,14 +12,17 @@ AURORAE_ID=PrimerDark
 PLASMA_STYLE_ID=PrimerDark
 COLOR_FILE=PrimerDark.colors
 # ALL_COMPONENTS are safe for the root install and uninstall lifecycle.
-ALL_COMPONENTS="kde konsole ghostty herdr pi zed fastfetch bat btop fish gtk"
+ALL_COMPONENTS="kde konsole ghostty herdr pi zed cursor fastfetch bat btop fish gtk"
 # CHECK_COMPONENTS validate their own assets in a check_* hook.
-CHECK_COMPONENTS="kde bat fastfetch pi zed firefox chrome fzf gtk"
+CHECK_COMPONENTS="kde bat fastfetch pi zed cursor firefox chrome fzf gtk"
 # COMPONENT_MODULES are every module sourced by the install, uninstall, and
 # check entry points.
 COMPONENT_MODULES="$ALL_COMPONENTS firefox chrome fzf"
 PLASMA_STYLE_SOURCE="$ROOT/kde/plasma-style/$PLASMA_STYLE_ID"
 GLOBAL_SOURCE="$ROOT/kde/look-and-feel/$PACKAGE_ID"
+CURSOR_EXT_SOURCE="$ROOT/editors/cursor/primer-dark"
+CURSOR_EXT_ID=redasalmi.primer-dark
+CURSOR_EXT_VERSION=1.0.0
 HERDR_BEGIN='# BEGIN Primer Dark Herdr theme (managed by primer-dark-suite)'
 HERDR_END='# END Primer Dark Herdr theme (managed by primer-dark-suite)'
 
@@ -65,6 +68,16 @@ initialize_user_paths() {
     HERDR_STATE="$HERDR_DIR/.primer-dark-theme-state"
     PI_DEST="$PI_AGENT_DIR/themes/primer-dark.json"
     ZED_DEST="$CONFIG_HOME/zed/themes/primer-dark.json"
+    if [ -n "${CURSOR_EXTENSIONS_DIR:-}" ]; then
+        CURSOR_EXT_ROOT=$CURSOR_EXTENSIONS_DIR
+    elif [ -n "${HOME:-}" ]; then
+        CURSOR_EXT_ROOT="$HOME/.cursor/extensions"
+    else
+        echo "HOME or CURSOR_EXTENSIONS_DIR is required for the Cursor extension path." >&2
+        exit 1
+    fi
+    CURSOR_EXT_DEST="$CURSOR_EXT_ROOT/$CURSOR_EXT_ID-$CURSOR_EXT_VERSION"
+    CURSOR_SETTINGS_FILE="$CONFIG_HOME/Cursor/User/settings.json"
     FASTFETCH_DEST="$DATA_HOME/fastfetch/presets/primer-dark.jsonc"
     BAT_CONFIG_ROOT=${BAT_CONFIG_DIR:-"$CONFIG_HOME/bat"}
     BAT_THEME_DEST="$BAT_CONFIG_ROOT/themes/Primer Dark.tmTheme"

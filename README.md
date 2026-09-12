@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Zed, Fastfetch, bat, btop, eza, fzf, Fish, tmux, and GTK 3/4.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Zed, Cursor, Fastfetch, bat, btop, eza, fzf, Fish, tmux, and GTK 3/4.
 
 ## Included in v1
 
@@ -16,6 +16,7 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole,
 - complete Herdr TUI palette covering chrome, sidebar states, text hierarchy, and agent statuses;
 - complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, and thinking levels;
 - complete Zed theme covering the workbench, editor, syntax, diagnostics, Git states, collaboration, Vim modes, and integrated terminal;
+- native Cursor/VS Code-compatible color theme extension covering the workbench, editor, syntax, semantic highlighting, diagnostics, Git decorations, integrated terminal, and ANSI colors;
 - complete Fastfetch preset covering the logo, keys, title, output, separator, bars, and status colors;
 - complete bat syntax-highlighting theme covering Markdown, diffs, comments, keywords, strings, numbers, types, functions, variables, and diagnostics;
 - complete btop theme covering boxes, dividers, graphs, meters, process states, and pause/follow/banner colors;
@@ -39,7 +40,8 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - Ghostty when installing the optional terminal theme
 - Herdr 0.8.2 or newer when installing the TUI theme
 - Pi when installing the optional CLI coding-agent theme
-- Zed when installing the optional editor theme
+- Zed 1.19.2 or newer when installing the optional editor theme
+- Cursor 3.20.17, whose bundled VS Code 1.128.0 theme registry defines the validated color keys, when installing the optional editor theme extension
 - Fastfetch 2.66.0 or newer (the currently validated target) when using the Fastfetch preset
 - bat 0.26.x (the currently validated target) when using the bat theme
 - btop 1.4.x (the currently validated target) when using the btop theme
@@ -122,6 +124,14 @@ To additionally install the Zed theme:
 ```
 
 Select **Primer Dark** from Zed's theme selector (`Ctrl+K`, `Ctrl+T`).
+
+To additionally install the Cursor theme extension:
+
+```sh
+./install.sh --cursor
+```
+
+Restart Cursor, then select **Primer Dark** in **Preferences: Theme: Color Theme**. The extension is installed as an unpacked VS Code-compatible theme extension, so Cursor owns the extension bookkeeping and no settings file is rewritten.
 
 To additionally install the Fastfetch preset:
 
@@ -241,7 +251,7 @@ Google Chrome requires interactive extension loading, so its theme is intentiona
 
 Loading the package activates **Primer Dark** immediately. To update it, replace the files in the checkout and reload the unpacked extension. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance. Other Chromium-based browsers can load the same directory from their equivalent extensions page, with rendering that may differ wherever the browser maps theme colors differently.
 
-The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Fastfetch, bat, btop, Fish, and GTK settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
+The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Cursor, Fastfetch, bat, btop, Fish, and GTK settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
 - `~/.local/share/color-schemes/PrimerDark.colors`
 - `~/.local/share/aurorae/themes/PrimerDark/` (optional Aurorae window-decoration assets)
@@ -253,6 +263,7 @@ The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Fastfetc
 - `~/.config/herdr/config.toml` plus hidden theme restore state beside it when using `--herdr`
 - `~/.pi/agent/themes/primer-dark.json` when using `--pi`
 - `~/.config/zed/themes/primer-dark.json` when using `--zed`
+- `~/.cursor/extensions/redasalmi.primer-dark-1.0.0/` when using `--cursor`
 - `~/.local/share/fastfetch/presets/primer-dark.jsonc` when using `--fastfetch`
 - `~/.config/bat/themes/Primer Dark.tmTheme` when using `--bat`
 - `~/.config/btop/themes/primer-dark.theme` when using `--btop`
@@ -261,13 +272,13 @@ The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Fastfetc
 
 ## Uninstall
 
-First select another Global Theme and, if used, other Konsole, Ghostty, Pi, Zed, bat, btop, Fish, and GTK themes. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value. Then run:
+First select another Global Theme and, if used, other Konsole, Ghostty, Pi, Zed, Cursor, bat, btop, Fish, and GTK themes. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value. Then run:
 
 ```sh
 ./uninstall.sh
 ```
 
-The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched.
+The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The Cursor extension directory is removed only after its active-theme guard passes in the default profile and in every named profile. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched.
 
 The script does not manage Firefox, Chrome, eza, fzf, or tmux. Remove a store-installed or signed Firefox theme from **Add-ons and themes → Themes**, or remove a temporary copy from `about:debugging#/runtime/this-firefox` or by restarting Firefox. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
 
@@ -285,18 +296,23 @@ Validate the palette and every asset that has an official parser with:
 ./scripts/check.sh
 ```
 
-This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, and Fastfetch JSON files, the shell syntax of the fzf snippet, and the GTK 3, GTK 4, and libadwaita stylesheets. It requires `jq`, `xmllint`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
+This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, Cursor, and Fastfetch files, the shell syntax of the fzf snippet, and the GTK 3, GTK 4, and libadwaita stylesheets. It requires `jq`, `xmllint`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
 
 ## Versioning
 
 This project cuts no GitHub Releases and keeps no suite version. `install.sh` is the distribution channel for every port it can install, so a version number would have nothing to identify.
 
-Versions exist only where a browser store requires them, and only in the two manifest files:
+Versions exist only where the editor or browser format requires them, and only in these manifests:
 
 - `browsers/firefox/primer-dark/manifest.json`
 - `browsers/chrome/primer-dark/manifest.json`
+- `editors/cursor/primer-dark/package.json`
 
-`KPlugin.Version` is deliberately absent from the KDE `metadata.json` files: KDE treats it as optional, and kpackagetool6 installs and updates those packages without it. Bump only the manifest of the store you are publishing to; there is no cross-file version to keep in sync.
+The Cursor extension version appears twice and must be kept in sync: in `package.json` and in the installed directory name, which the installer builds from the version in `scripts/lib/common.sh`.
+
+`KPlugin.Version` is deliberately absent from the KDE `metadata.json` files: KDE treats it as optional, and kpackagetool6 installs and updates those packages without it. Bump only the manifest of the editor or browser you are publishing to, and bump the two Cursor version locations together.
+
+[`distribution.md`](distribution.md) lists every port's store or upstream channel, its publication status, the artifact to publish, and the requirements each channel imposes.
 
 ## Release the Firefox theme
 

@@ -19,6 +19,7 @@ primer-dark-suite/
 │   └── ghostty/          # implemented: native Ghostty color theme
 │
 ├── editors/
+│   ├── cursor/           # implemented: VS Code-compatible color theme extension
 │   └── zed/              # implemented: complete Zed workbench/editor theme
 │
 ├── cli/
@@ -40,11 +41,6 @@ primer-dark-suite/
 │   ├── primer-dark/      # implemented: native GTK 3 and GTK 4 theme package
 │   └── libadwaita/       # documented: optional libadwaita color override snippet
 │
-├── integrations/         # optional and never installed by default
-│   ├── discord/          # roadmap 6: Vencord/BetterDiscord CSS
-│   ├── spotify/          # roadmap 6: Spicetify
-│   └── steam/            # roadmap 6: Millennium/custom CSS
-│
 ├── palette/              # implemented: canonical Primer Dark tokens
 ├── scripts/              # implemented: validation and asset generation
 │   ├── check.sh          # implemented: palette and per-component asset validation
@@ -53,7 +49,8 @@ primer-dark-suite/
 ├── .github/              # implemented: verification and Firefox release workflows
 ├── install.sh            # implemented: preflighted user-local component orchestrator
 ├── uninstall.sh          # implemented: safe component lifecycle orchestrator
-├── plan.md
+├── plan.md               # implemented: suite roadmap and acceptance criteria
+├── distribution.md       # implemented: store and upstream publication status per port
 ├── README.md
 ├── NOTICE
 └── LICENSE

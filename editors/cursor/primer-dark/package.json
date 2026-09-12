@@ -1,0 +1,27 @@
+{
+  "name": "primer-dark",
+  "displayName": "Primer Dark",
+  "description": "An unofficial GitHub Primer Dark-inspired theme for Cursor and VS Code-compatible editors.",
+  "version": "1.0.0",
+  "publisher": "redasalmi",
+  "license": "MIT",
+  "engines": {
+    "vscode": "*"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redasalmi/primer-dark-suite.git"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Primer Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/primer-dark-color-theme.json"
+      }
+    ]
+  }
+}

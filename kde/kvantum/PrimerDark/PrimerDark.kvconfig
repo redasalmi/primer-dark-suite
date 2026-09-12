@@ -1,0 +1,48 @@
+; SPDX-License-Identifier: MIT
+; SPDX-FileCopyrightText: 2026 Reda Salmi
+;
+; Primer Dark for Kvantum.
+; Colors are derived from GitHub Primer Primitives (MIT) and match
+; kde/colors/PrimerDark.colors so Qt applications styled by Breeze and by
+; Kvantum resolve the same semantic roles.
+;
+; This theme defines the documented GeneralColors color spec and the theme
+; metadata only. Kvantum reads any key that is absent from the built-in
+; default configuration, so the artwork, geometry, and behavior keys stay at
+; their Kvantum defaults. Kvantum paints its widgets from an SVG image and
+; falls back per element to its built-in default SVG, so this theme colors the
+; style without replacing that artwork.
+
+[%General]
+author=Reda Salmi
+comment=An unofficial Primer Dark theme for Kvantum
+
+[GeneralColors]
+window.color=#010409
+inactive.window.color=#0D1117
+base.color=#0D1117
+inactive.base.color=#0D1117
+alt.base.color=#151B23
+inactive.alt.base.color=#151B23
+button.color=#212830
+light.color=#262C36
+mid.light.color=#3D444D
+dark.color=#010409
+mid.color=#2F3742
+shadow.color=#010409
+highlight.color=#1F6FEB
+inactive.highlight.color=#1F6FEB
+tooltip.base.color=#212830
+text.color=#F0F6FC
+inactive.text.color=#F0F6FC
+window.text.color=#F0F6FC
+inactive.window.text.color=#9198A1
+button.text.color=#F0F6FC
+disabled.text.color=#656C76
+tooltip.text.color=#F0F6FC
+highlight.text.color=#FFFFFF
+inactive.highlight.text.color=#FFFFFF
+link.color=#4493F8
+link.visited.color=#AB7DF8
+progress.indicator.text.color=#FFFFFF
+progress.inactive.indicator.text.color=#F0F6FC

@@ -18,7 +18,7 @@ Local install mechanics and lifecycle behavior stay in `README.md`; roadmap scop
 | Konsole color scheme | KDE Store → Konsole Color Schemes | Not published | `kde/konsole/PrimerDark.colorscheme` |
 | Aurorae decoration (optional) | KDE Store → Window Decorations | Not published | `kde/aurorae/PrimerDark` |
 | Splash screen (optional) | KDE Store → Plasma 6 Splashscreens | Not published | needs extraction from `kde/look-and-feel/.../contents/splash` |
-| Kvantum style | KDE Store → Kvantum | Not implemented | `kde/kvantum/` is still a planned directory |
+| Kvantum style | KDE Store → Kvantum | Theme implemented, not published | `kde/kvantum/PrimerDark/` |
 | GTK 3/4 | GNOME Look / Pling → GTK3/4 Themes | Not published | zipped `gtk/primer-dark/` |
 | Ghostty | upstream iTerm2-Color-Schemes (vendored into Ghostty) | Not submitted | user theme today, upstream contribution if a built-in is wanted |
 | btop | upstream `aristocratos/btop` `themes/` | Not submitted | user theme today, upstream PR if a built-in is wanted |
@@ -71,7 +71,7 @@ Each KDE component is its own store item, and the global theme listing can decla
 - Konsole color scheme: `kde/konsole/PrimerDark.colorscheme`. The companion `PrimerDark.profile` is a local convenience that references the color scheme; it is not a store artifact.
 - Aurorae decoration: `kde/aurorae/PrimerDark`, optional because the suite ships the native Breeze decoration by default.
 - Splash screen: the splash lives inside the global theme package at `kde/look-and-feel/io.github.redasalmi.primerdark.desktop/contents/splash`; a separate splashscreen listing requires extracting it into a standalone splashscreen package.
-- Kvantum: not implemented yet; `kde/kvantum/` is listed as future work in `structure.md`.
+- Kvantum: `kde/kvantum/PrimerDark/` is a native theme whose color spec already matches `kde/colors/PrimerDark.colors`, so the store item is the theme directory and the listing should point at that color scheme rather than shipping a second copy of it. A store upload that also wants Primer artwork needs a Kvantum SVG; the current theme intentionally ships only the color spec and relies on Kvantum's built-in artwork.
 
 ### GTK 3/4 — GNOME Look / Pling (not published)
 

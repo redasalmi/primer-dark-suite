@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Zed, Cursor, Fastfetch, bat, btop, eza, fzf, Fish, tmux, and GTK 3/4.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Zed, Cursor, Fastfetch, bat, btop, eza, fzf, Fish, tmux, and GTK 3/4.
 
 ## Included in v1
 
@@ -22,6 +22,7 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole,
 - complete btop theme covering boxes, dividers, graphs, meters, process states, and pause/follow/banner colors;
 - complete Fish theme with dark and unknown-terminal variants covering syntax, pager, selection, and completion colors;
 - native GTK 3 and GTK 4 theme package covering windows, header bars, controls, entries, menus, popovers, tooltips, lists, selections, focus, disabled states, and destructive actions, plus a documented libadwaita color override;
+- native Kvantum theme defining the complete Kvantum color spec (window, inactive window, base, alternate base, button, bevel, frame, grid, highlight, tooltip, text, disabled, link, and progress colors) with the same semantic roles as the KDE color scheme;
 - ready-to-merge eza `theme.yml` covering file kinds, permissions, sizes, users, Git states, SELinux contexts, and file types;
 - shell-safe fzf color option set covering borders, prompts, matches, selections, and previews;
 - ready-to-source tmux snippet covering the status bar, window states, pane borders, messages, copy mode, menus, and popups;
@@ -47,6 +48,7 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - btop 1.4.x (the currently validated target) when using the btop theme
 - Fish 4.0 or newer when using the Fish theme
 - GTK 3.24 or GTK 4.22 (the currently validated targets) when using the GTK themes
+- Kvantum 1.1.8 (the theme-config version the key set is validated against) when using the Kvantum theme
 - eza 0.23.x (the currently validated target) when using the eza theme
 - fzf 0.74.x (the currently validated target) when using the fzf color set
 - tmux 3.7 (the currently validated target) when using the tmux snippet
@@ -225,6 +227,20 @@ flatpak override --user --env=GTK_THEME=primer-dark <app-id>
 
 Flatpak guidance is documented only; it was not verified in this environment.
 
+To additionally install the Kvantum theme:
+
+```sh
+./install.sh --kvantum
+```
+
+Select **PrimerDark** in Kvantum Manager, or set it in `~/.config/Kvantum/kvantum.kvconfig`:
+
+```ini
+theme=PrimerDark
+```
+
+The installer writes `~/.config/Kvantum/PrimerDark/` and never rewrites the Kvantum selection file, so activating the theme stays a user action. The theme defines Kvantum's complete documented color spec with the same semantic roles as `PrimerDark.colors`, so Qt applications styled by Kvantum resolve the same window, inactive window, base, alternate base, button, bevel, frame, grid, highlight, tooltip, text, link, and progress colors as Breeze. Kvantum paints widget shapes from an SVG image and falls back per element to its built-in default SVG, so this theme colors the style without replacing that artwork; Primer artwork for Kvantum is future work. Kvantum was not installed in the environment where this theme was authored, so it was validated with Qt's own settings parser and Kvantum's official theme-configuration documentation rather than in a running Kvantum session.
+
 eza, fzf, and tmux have no safe user-local theme discovery path, so they are intentionally not installed by the root script. Use a repository checkout:
 
 - **eza:** copy `cli/eza/theme.yml` to `$EZA_CONFIG_DIR/theme.yml` or `~/.config/eza/theme.yml`, backing up any existing `theme.yml` first, since eza only reads that single fixed path.
@@ -251,7 +267,7 @@ Google Chrome requires interactive extension loading, so its theme is intentiona
 
 Loading the package activates **Primer Dark** immediately. To update it, replace the files in the checkout and reload the unpacked extension. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance. Other Chromium-based browsers can load the same directory from their equivalent extensions page, with rendering that may differ wherever the browser maps theme colors differently.
 
-The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Cursor, Fastfetch, bat, btop, Fish, and GTK settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
+The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Cursor, Fastfetch, bat, btop, Fish, GTK, and Kvantum settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
 - `~/.local/share/color-schemes/PrimerDark.colors`
 - `~/.local/share/aurorae/themes/PrimerDark/` (optional Aurorae window-decoration assets)
@@ -269,16 +285,17 @@ The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Cursor, 
 - `~/.config/btop/themes/primer-dark.theme` when using `--btop`
 - `~/.config/fish/themes/primer-dark.theme` when using `--fish`
 - `~/.local/share/themes/primer-dark/` when using `--gtk`
+- `~/.config/Kvantum/PrimerDark/PrimerDark.kvconfig` when using `--kvantum`
 
 ## Uninstall
 
-First select another Global Theme and, if used, other Konsole, Ghostty, Pi, Zed, Cursor, bat, btop, Fish, and GTK themes. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value. Then run:
+First select another Global Theme and, if used, other Konsole, Ghostty, Pi, Zed, Cursor, bat, btop, Fish, GTK, and Kvantum themes. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value, and the Kvantum theme must not be selected in Kvantum's configuration, including a `[Applications]` assignment that gives it to specific applications. Then run:
 
 ```sh
 ./uninstall.sh
 ```
 
-The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The Cursor extension directory is removed only after its active-theme guard passes in the default profile and in every named profile. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched.
+The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The Cursor extension directory is removed only after its active-theme guard passes in the default profile and in every named profile. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched. The Kvantum theme directory is removed only after its guard reads the same configuration Kvantum reads and confirms the theme is neither the selected theme nor assigned to individual applications, and the shared Kvantum selection file is never rewritten. When that configuration uses a construct the guard cannot decode with certainty, such as an unparseable line or an escape sequence, removal stops instead of risking an active theme.
 
 The script does not manage Firefox, Chrome, eza, fzf, or tmux. Remove a store-installed or signed Firefox theme from **Add-ons and themes → Themes**, or remove a temporary copy from `about:debugging#/runtime/this-firefox` or by restarting Firefox. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
 
@@ -296,7 +313,7 @@ Validate the palette and every asset that has an official parser with:
 ./scripts/check.sh
 ```
 
-This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, Cursor, and Fastfetch files, the shell syntax of the fzf snippet, and the GTK 3, GTK 4, and libadwaita stylesheets. It requires `jq`, `xmllint`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
+This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, Cursor, and Fastfetch files, the Kvantum theme's color spec against the canonical palette, the shell syntax of the fzf snippet, and the GTK 3, GTK 4, and libadwaita stylesheets. It requires `jq`, `xmllint`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
 
 ## Versioning
 

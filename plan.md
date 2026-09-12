@@ -58,6 +58,7 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Native Manifest V3 Mozilla Firefox static theme covering all 38 effective color keys exposed by Firefox 155, plus explicit dark browser and content color schemes.
 - Native Manifest V3 Chromium theme covering all 24 color keys exposed by Chromium 152, with standard Chrome frame, toolbar, active-tab, and omnibox surface mapping and usable in other Chromium-based browsers.
 - Native GTK 3 and GTK 4 theme package that imports GTK's bundled Adwaita and Default dark stylesheets and overrides their colors with Primer roles, plus a documented libadwaita color override that libadwaita applications require because they ignore user GTK themes.
+- Native Kvantum theme that defines Kvantum's complete documented `GeneralColors` color spec (window, inactive window, base, inactive base, alternate base, button, bevel, frame, grid, highlight, inactive highlight, tooltip, text, disabled, link, visited link, and progress colors) with the same semantic roles as the KDE color scheme, and leaves Kvantum's artwork, geometry, and behavior keys at their built-in defaults.
 - No panel layout, wallpaper, font, or window-button-order changes.
 
 ## Suite roadmap
@@ -118,7 +119,7 @@ The root install and uninstall commands are small component orchestrators. Share
 Current and planned behavior:
 
 - `./install.sh` installs the stable KDE foundation.
-- `--konsole`, `--ghostty`, `--pi`, `--zed`, `--cursor`, `--fastfetch`, `--bat`, `--btop`, `--fish`, and `--gtk` install their respective application themes without changing application settings.
+- `--konsole`, `--ghostty`, `--pi`, `--zed`, `--cursor`, `--fastfetch`, `--bat`, `--btop`, `--fish`, `--gtk`, and `--kvantum` install their respective application themes without changing application settings.
 - eza, fzf, and tmux are never installed by the root script: eza reads a single fixed `theme.yml`, and fzf and tmux are configured through shell and tmux configuration files, so the installer never edits shared configuration for them.
 - Firefox is published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/) and previewed from a checkout with `web-ext build`, which packages it for `about:debugging` and for upload to that listing. It is store-distributed because normal Firefox release and beta builds require Mozilla signatures for permanent theme installation, so the installer never writes into the profile and cannot collide with a store-installed copy.
 - Chrome is loaded interactively from its unpacked directory in a checkout; it is store-distributed because Chromium browsers have no user-local standalone discovery directory and automatic profile preference edits would not be safely theme-owned.
@@ -126,6 +127,7 @@ Current and planned behavior:
 - Versions are kept only where a browser store requires one: the Firefox and Chrome manifests. There is no suite version, no GitHub Releases, and no `KPlugin.Version` in the KDE metadata, because `install.sh` is the distribution channel for every locally installed port and KDE treats `KPlugin.Version` as optional.
 - `--herdr` is an explicit managed-configuration exception: it safely replaces only bounded, validated theme tables in Herdr's shared `config.toml`, preserves unrelated settings, records the previous theme tables for uninstall, and aborts if the source configuration or restore state changes after preflight.
 - `--gtk` installs the native GTK 3 and GTK 4 theme package and removes it as a whole directory on uninstall. The optional libadwaita override is a documented shared-config snippet that the installer never writes, because `~/.config/gtk-4.0/gtk.css` is shared GTK configuration.
+- `--kvantum` installs the native Kvantum theme into `~/.config/Kvantum/PrimerDark/`, which is the user theme path Kvantum resolves first, and removes that whole owned directory on uninstall. Kvantum stores its selection in `~/.config/Kvantum/kvantum.kvconfig`, so the installer never rewrites that shared file and the guard reads it read-only, mirroring Kvantum's config lookup order, Qt's INI value, key, and section decoding, and the per-application `[Applications]` assignments. A selection file that cannot be decoded with certainty blocks removal instead of risking an active theme.
 - The installer preflights every selected component and `--apply` dependency before changing installed files, preventing predictable dependency or configuration failures from leaving a partial installation.
 - Uninstall runs every active-theme and restore-state guard before removing or restoring every registered component.
 - Store and upstream publication is tracked separately in `distribution.md`; the installer and uninstaller never contact a store.
@@ -157,6 +159,9 @@ Current and planned behavior:
 - https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide
 - https://github.com/microsoft/vscode/tree/1.128.0/extensions/theme-defaults
 - https://github.com/primer/github-vscode-theme
+- https://github.com/tsujan/Kvantum
+- https://github.com/tsujan/Kvantum/blob/master/Kvantum/doc/Theme-Config
+- https://github.com/tsujan/Kvantum/blob/master/Kvantum/style/themeconfig/default.kvconfig
 - https://develop.kde.org/docs/plasma/aurorae/
 - https://github.com/catppuccin/kde
 - https://github.com/primer/primitives

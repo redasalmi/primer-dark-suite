@@ -12,7 +12,7 @@ primer-dark-suite/
 │   ├── aurorae/          # optional Aurorae window-decoration assets
 │   ├── konsole/          # implemented: native color scheme and color-only profile
 │   ├── plasma-style/     # implemented: bordered Plasma popup and widget frames
-│   ├── kvantum/          # future: optional Qt application style
+│   ├── kvantum/          # implemented: native Kvantum theme config
 │   └── plasma-login/     # future: KDE Plasma Login greeter
 │
 ├── terminals/

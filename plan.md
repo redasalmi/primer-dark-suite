@@ -57,6 +57,7 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Ready-to-merge eza `theme.yml`, fzf color option set, and tmux style snippet for tools without a safe user-local theme discovery path.
 - Native Manifest V3 Mozilla Firefox static theme covering all 38 effective color keys exposed by Firefox 155, plus explicit dark browser and content color schemes.
 - Native Manifest V3 Chromium theme covering all 24 color keys exposed by Chromium 152, with standard Chrome frame, toolbar, active-tab, and omnibox surface mapping and usable in other Chromium-based browsers.
+- Native GTK 3 and GTK 4 theme package that imports GTK's bundled Adwaita and Default dark stylesheets and overrides their colors with Primer roles, plus a documented libadwaita color override that libadwaita applications require because they ignore user GTK themes.
 - No panel layout, wallpaper, font, or window-button-order changes.
 
 ## Suite roadmap
@@ -99,26 +100,18 @@ Create browser chrome ports without attempting to force a universal website them
 - **Chrome:** implemented as a color-only Manifest V3 package for Google Chrome 152.0.7977.75. Its manifest declares all 24 current overwritable Chromium theme colors: active and inactive tab text/backgrounds, toolbar controls, omnibox, bookmarks, new-tab chrome, inactive windows, and the exposed incognito variants. Chrome uses an inset frame around a default-surface toolbar and active tab, with a raised omnibox. Focus, hover, pressed, separators, and other non-overwritable colors continue to use Chrome's derived native states.
 - Chromium themes do not style website content, DevTools, every internal page, or the central Google Chrome new-tab search control. Chrome 152's incognito theme provider deliberately ignores custom theme suppliers, so incognito windows retain Chrome's native dark appearance despite the legacy incognito fields remaining in the supported manifest table.
 
-### 5. Blender, Krita, GIMP, Inkscape and Godot
-
-Create native creative/development application ports.
-
-- **Blender:** native XML theme for editors, panels, selections, node graphs, timelines, and syntax.
-- **Krita:** native color-scheme package that remains consistent with the KDE palette.
-- **GIMP:** application theme resources coordinated with the GTK port.
-- **Inkscape:** application preferences and GTK integration without overriding document colors.
-- **Godot:** editor and script-editor color configuration covering nodes, docks, inspectors, selections, diagnostics, and syntax.
-
-### 6. GTK 3/4
+### 5. GTK 3/4
 
 Create shared GTK foundations for installed GTK applications.
 
-- Provide GTK 3 and GTK 4 variants from the same semantic palette.
-- Cover controls, menus, popovers, tooltips, lists, headers, selections, focus, disabled states, and destructive actions.
-- Document Flatpak overrides separately.
-- Treat libadwaita limitations honestly; do not claim unsupported applications are fully themed.
+- **GTK 3:** implemented as a native `gtk-3.0/gtk.css` theme that imports GTK's bundled Adwaita dark stylesheet through its resource URL and overrides its colors with Primer roles. It covers windows, header bars, controls, entries, menus, popovers, tooltips, lists, trees, notebooks, sidebars, calendar, info bars, selections, focus, disabled states, and destructive actions.
+- **GTK 4:** implemented as a native `gtk-4.0/gtk.css` theme that imports GTK's bundled Default dark stylesheet and applies the same Primer overrides, plus the documented libadwaita CSS variables and named colors. Plain GTK 4 applications load it like any other GTK theme.
+- Both variants are dark-only, so the `gtk.css` and `gtk-dark.css` entry points resolve to the same stylesheet, and both ship in the single native theme package that `--gtk` owns at `~/.local/share/themes/primer-dark/` (`index.theme`, `gtk-3.0/`, `gtk-4.0/`).
+- **Libadwaita:** libadwaita deliberately sets GTK's empty theme and adds its own stylesheet, so it ignores user GTK themes. The suite publishes a documented, manually merged color override for `~/.config/gtk-4.0/gtk.css` and does not claim libadwaita applications are fully themed. The override defines only libadwaita's color variables, is never installed automatically because it is shared GTK user configuration that affects every GTK 4 application, and leaves libadwaita's layout and widget styles in place.
+- Flatpak applications only see theme directories that their sandbox is granted, so the required `flatpak override` filesystem permission and the alternative per-application `GTK_THEME` override are documented separately. The Flatpak guidance is documented only and was not verified in this environment.
+- Destructive actions use the canonical Primer danger-emphasis scale steps (`#DA3633` at rest, `#B62324` on hover, `#8E1519` when pressed) for their solid background, because the error color itself (`#F85149`) is a text and icon role and only reaches 3.35:1 behind a white label. Those steps keep white labels at 4.61:1, 6.45:1, and 9.25:1, so no blend has to be invented for them. Suggested actions keep the accent color directly. Only the libadwaita status backgrounds are documented blends (25-35% of the inset surface) so that white labels keep a usable contrast.
 
-### 7. Optional third-party Discord, Spotify and Steam integrations
+### 6. Optional third-party Discord, Spotify and Steam integrations
 
 Keep unsupported application patching isolated, explicit, and reversible.
 
@@ -136,18 +129,19 @@ The root install and uninstall commands are small component orchestrators. Share
 Current and planned behavior:
 
 - `./install.sh` installs the stable KDE foundation.
-- `--konsole`, `--ghostty`, `--pi`, `--zed`, `--fastfetch`, `--bat`, `--btop`, and `--fish` install their respective application themes without changing application settings.
+- `--konsole`, `--ghostty`, `--pi`, `--zed`, `--fastfetch`, `--bat`, `--btop`, `--fish`, and `--gtk` install their respective application themes without changing application settings.
 - eza, fzf, and tmux are never installed by the root script: eza reads a single fixed `theme.yml`, and fzf and tmux are configured through shell and tmux configuration files, so the installer never edits shared configuration for them.
 - Firefox is published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/) and previewed from a checkout with `web-ext build`, which packages it for `about:debugging` and for upload to that listing. It is store-distributed because normal Firefox release and beta builds require Mozilla signatures for permanent theme installation, so the installer never writes into the profile and cannot collide with a store-installed copy.
 - Chrome is loaded interactively from its unpacked directory in a checkout; it is store-distributed because Chromium browsers have no user-local standalone discovery directory and automatic profile preference edits would not be safely theme-owned.
 - The Firefox theme is released by `.github/workflows/firefox-release.yml`: a manual run checks the manifest version against the public addons.mozilla.org API, lints the theme, builds the unsigned package, and submits it with `web-ext sign --channel listed` using the `WEB_EXT_API_KEY` and `WEB_EXT_API_SECRET` secrets. The run does not wait for review, and the manifest keeps the add-on ID `primer-dark@redasalmi.github.io` that the listing is bound to.
 - Versions are kept only where a browser store requires one: the Firefox and Chrome manifests. There is no suite version, no GitHub Releases, and no `KPlugin.Version` in the KDE metadata, because `install.sh` is the distribution channel for every locally installed port and KDE treats `KPlugin.Version` as optional.
 - `--herdr` is an explicit managed-configuration exception: it safely replaces only bounded, validated theme tables in Herdr's shared `config.toml`, preserves unrelated settings, records the previous theme tables for uninstall, and aborts if the source configuration or restore state changes after preflight.
+- `--gtk` installs the native GTK 3 and GTK 4 theme package and removes it as a whole directory on uninstall. The optional libadwaita override is a documented shared-config snippet that the installer never writes, because `~/.config/gtk-4.0/gtk.css` is shared GTK configuration.
 - The installer preflights every selected component and `--apply` dependency before changing installed files, preventing predictable dependency or configuration failures from leaving a partial installation.
 - Uninstall runs every active-theme and restore-state guard before removing or restoring every registered component.
 - `./scripts/check.sh` validates the palette and every asset that has an official parser, and `.github/workflows/verify.yml` runs it together with ShellCheck on every push to `main` and every pull request.
 - Future component ports extend the shared registry and add an isolated lifecycle module instead of adding implementation blocks to the root scripts.
-- Future explicit flags may select groups such as `--terminal`, `--editors`, `--cli`, `--browsers`, or `--creative`.
+- Future explicit flags may select groups such as `--terminal`, `--editors`, `--cli`, or `--browsers`.
 - A future `--all-supported` flag installs supported native ports only.
 - Third-party integrations always require separate explicit flags.
 - Every installed component records only files owned by Primer Dark, except approved bounded managed sections such as Herdr's, and can be removed without reverting unrelated preferences.
@@ -172,6 +166,16 @@ Current and planned behavior:
 - https://develop.kde.org/docs/plasma/aurorae/
 - https://github.com/catppuccin/kde
 - https://github.com/primer/primitives
+- https://docs.gtk.org/gtk3/class.CssProvider.html
+- https://docs.gtk.org/gtk4/class.CssProvider.html
+- https://docs.gtk.org/gtk4/css-overview.html
+- https://docs.gtk.org/gtk4/css-properties.html
+- https://docs.gtk.org/gtk4/class.Settings.html
+- https://gnome.pages.gitlab.gnome.org/libadwaita/doc/main/css-variables.html
+- https://gnome.pages.gitlab.gnome.org/libadwaita/doc/main/named-colors.html
+- https://gnome.pages.gitlab.gnome.org/libadwaita/doc/main/styles-and-appearance.html
+- https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+- https://gitlab.gnome.org/GNOME/libadwaita/-/blob/1.9.3/src/adw-style-manager.c
 - https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/theme
 - https://extensionworkshop.com/documentation/themes/static-themes/
 - https://extensionworkshop.com/documentation/develop/web-ext-command-reference/
@@ -217,7 +221,7 @@ Add automated visual tests only after the planned theme ports are implemented an
 - **KDE/Qt:** capture Dolphin, the application launcher, clipboard and system-tray popups, tooltips, desktop widgets, dialogs, window decorations, focus states, and maximized/inactive windows. Use black, light, and colorful wallpapers so outer boundaries and shadows are tested.
 - **Terminals and CLI:** capture Konsole and Ghostty with the ANSI 16-color grid, normal/bright/faint text, selections, links, prompts, diffs, and representative Pi and future TUI states.
 - **Editors:** capture Zed, Cursor, and future editor ports with syntax, diagnostics, Git states, selections, matching brackets, search results, terminal output, and inactive panes.
-- **Browsers, creative tools, and GTK:** add fixtures as each port becomes stable, covering the application-specific chrome and interaction states listed in its roadmap section.
+- **Browsers and GTK:** add fixtures as each port becomes stable, covering the application-specific chrome and interaction states listed in its roadmap section.
 - Capture the default supported size plus one constrained or scaled state where layout, clipping, or one-pixel borders could change.
 
 ### 3. Generate and compare baselines

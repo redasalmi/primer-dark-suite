@@ -1,0 +1,1157 @@
+/* Primer Dark for GTK 3
+ * SPDX-FileCopyrightText: 2026 Reda Salmi
+ * SPDX-License-Identifier: MIT
+ *
+ * Colors are derived from GitHub Primer Primitives (MIT).
+ *
+ * Adwaita does not expose its internal Sass colors, so this stylesheet imports
+ * GTK's bundled Adwaita dark theme and overrides its colors with Primer roles.
+ * Only the rules below are part of this project; the imported Adwaita
+ * stylesheet remains part of GTK and keeps its own license.
+ */
+
+@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");
+
+/* Canonical Primer Dark roles. */
+@define-color primer_inset #010409;
+@define-color primer_default #0D1117;
+@define-color primer_muted #151B23;
+@define-color primer_raised #212830;
+@define-color primer_control #262C36;
+@define-color primer_border #3D444D;
+@define-color primer_border_subtle #2F3742;
+@define-color primer_border_emphasis #656C76;
+@define-color primer_fg #F0F6FC;
+@define-color primer_fg_muted #9198A1;
+@define-color primer_fg_disabled #656C76;
+@define-color primer_accent #1F6FEB;
+@define-color primer_accent_fg #FFFFFF;
+@define-color primer_link #4493F8;
+@define-color primer_success #3FB950;
+@define-color primer_warning #D29922;
+@define-color primer_error #F85149;
+@define-color primer_danger_emphasis #DA3633;
+@define-color primer_danger_emphasis_hover #B62324;
+@define-color primer_danger_emphasis_active #8E1519;
+@define-color primer_done #AB7DF8;
+@define-color primer_accent_inset #051D4D;
+@define-color primer_success_inset #04260F;
+@define-color primer_attention_inset #341A00;
+@define-color primer_danger_inset #490202;
+
+/* Named colors exposed to GTK applications (Adwaita's public color API). */
+@define-color theme_fg_color @primer_fg;
+@define-color theme_text_color @primer_fg;
+@define-color theme_bg_color @primer_inset;
+@define-color theme_base_color @primer_default;
+@define-color theme_selected_bg_color @primer_accent;
+@define-color theme_selected_fg_color @primer_accent_fg;
+@define-color insensitive_bg_color @primer_muted;
+@define-color insensitive_fg_color @primer_fg_disabled;
+@define-color insensitive_base_color @primer_default;
+@define-color theme_unfocused_fg_color @primer_fg_muted;
+@define-color theme_unfocused_text_color @primer_fg;
+@define-color theme_unfocused_bg_color @primer_default;
+@define-color theme_unfocused_base_color @primer_default;
+@define-color theme_unfocused_selected_bg_color @primer_accent;
+@define-color theme_unfocused_selected_fg_color @primer_accent_fg;
+@define-color unfocused_insensitive_color @primer_fg_disabled;
+@define-color borders @primer_border;
+@define-color unfocused_borders @primer_border_subtle;
+@define-color warning_color @primer_warning;
+@define-color error_color @primer_error;
+@define-color success_color @primer_success;
+@define-color content_view_bg @primer_default;
+@define-color text_view_bg @primer_default;
+
+/* Window and view surfaces. */
+.background,
+window.background {
+  color: @primer_fg;
+  background-color: @primer_inset;
+}
+
+.background:backdrop,
+window.background:backdrop {
+  color: @primer_fg_muted;
+  background-color: @primer_inset;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+.view,
+iconview,
+.view text,
+iconview text,
+textview text {
+  color: @primer_fg;
+  caret-color: @primer_fg;
+  background-color: @primer_default;
+}
+
+.view:backdrop,
+iconview:backdrop,
+.view text:backdrop,
+iconview text:backdrop,
+textview text:backdrop {
+  color: @primer_fg_muted;
+  background-color: @primer_default;
+}
+
+.view:disabled,
+iconview:disabled,
+.view text:disabled,
+iconview text:disabled,
+textview text:disabled {
+  color: @primer_fg_disabled;
+  background-color: @primer_muted;
+}
+
+textview border {
+  background-color: @primer_muted;
+}
+
+label:disabled {
+  color: @primer_fg_disabled;
+}
+
+/* Selection. */
+*:selected,
+label selection,
+.view:selected,
+.view text:selected,
+iconview:selected,
+iconview text:selected,
+textview text:selected,
+row:selected,
+list row:selected,
+treeview.view:selected {
+  color: @primer_accent_fg;
+  background-color: @primer_accent;
+}
+
+label:disabled > selection,
+label:disabled:selected,
+.view:disabled:selected,
+row:disabled:selected,
+treeview.view:disabled:selected {
+  color: alpha(@primer_accent_fg, 0.7);
+}
+
+/* Links. */
+*:link,
+button.link,
+button:link > label,
+button:visited > label {
+  color: @primer_link;
+}
+
+*:link:visited,
+button.link:visited,
+button:visited > label:visited {
+  color: @primer_done;
+}
+
+*:link:hover,
+button.link:hover,
+button:hover:link,
+button:visited > label:hover {
+  color: mix(@primer_link, @primer_fg, 0.25);
+}
+
+*:link:active,
+button.link:active {
+  color: @primer_link;
+}
+
+*:link:disabled,
+button.link:disabled {
+  color: @primer_fg_disabled;
+}
+
+/* Buttons. */
+button,
+notebook > header > tabs > arrow {
+  color: @primer_fg;
+  border-color: @primer_border;
+  border-bottom-color: @primer_border;
+  background-image: image(@primer_raised);
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+  outline-color: alpha(@primer_accent, 0.8);
+  box-shadow: none;
+}
+
+button:hover,
+notebook > header > tabs > arrow:hover {
+  color: @primer_fg;
+  border-color: @primer_border_emphasis;
+  background-image: image(@primer_control);
+}
+
+button:active,
+button:checked,
+button.keyboard-activating,
+notebook > header > tabs > arrow:active,
+notebook > header > tabs > arrow:checked {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-image: image(@primer_muted);
+  box-shadow: inset 0 1px alpha(@primer_inset, 0.6);
+}
+
+button:disabled,
+notebook > header > tabs > arrow:disabled {
+  color: @primer_fg_disabled;
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_muted);
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+button:backdrop,
+notebook > header > tabs > arrow:backdrop {
+  color: @primer_fg_muted;
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_default);
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+button:backdrop:disabled,
+notebook > header > tabs > arrow:backdrop:disabled {
+  color: @primer_fg_disabled;
+  background-image: image(@primer_muted);
+}
+
+/* Flat, sidebar, and titlebar buttons stay transparent. */
+button.flat,
+button.titlebutton,
+button.sidebar-button,
+notebook > header > tabs > arrow.flat,
+notebook > header > tabs > arrow.titlebutton {
+  color: @primer_fg;
+  border-color: transparent;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+button.flat:hover,
+button.titlebutton:hover,
+button.sidebar-button:hover,
+notebook > header > tabs > arrow.flat:hover {
+  color: @primer_fg;
+  background-color: alpha(@primer_fg, 0.08);
+  background-image: none;
+}
+
+button.flat:active,
+button.flat:checked,
+button.titlebutton:active,
+button.titlebutton:checked,
+button.sidebar-button:active,
+button.sidebar-button:checked {
+  color: @primer_fg;
+  background-color: alpha(@primer_fg, 0.14);
+  background-image: none;
+}
+
+button.flat:disabled,
+button.titlebutton:disabled,
+button.sidebar-button:disabled,
+button.flat:backdrop,
+button.titlebutton:backdrop,
+button.sidebar-button:backdrop {
+  color: @primer_fg_disabled;
+  background-color: transparent;
+  background-image: none;
+}
+
+/* Suggested (primary) actions. */
+button.suggested-action {
+  color: @primer_accent_fg;
+  border-color: @primer_accent;
+  border-bottom-color: @primer_accent;
+  background-image: image(@primer_accent);
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+button.suggested-action:hover {
+  color: @primer_accent_fg;
+  border-color: @primer_link;
+  background-image: image(mix(@primer_accent, @primer_fg, 0.15));
+}
+
+button.suggested-action:active,
+button.suggested-action:checked {
+  color: @primer_accent_fg;
+  border-color: @primer_accent;
+  background-image: image(shade(@primer_accent, 0.85));
+}
+
+button.suggested-action:disabled,
+button.suggested-action:backdrop {
+  color: alpha(@primer_accent_fg, 0.6);
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_muted);
+}
+
+button.suggested-action.flat {
+  color: @primer_link;
+  border-color: transparent;
+  background-color: transparent;
+  background-image: none;
+}
+
+button.suggested-action.flat:hover {
+  background-color: alpha(@primer_link, 0.15);
+}
+
+/* Destructive actions. The error color is a text and icon role: as a solid
+ * background it only reaches 3.35:1 behind a white label, so the buttons use
+ * the Primer danger-emphasis scale steps (white labels reach 4.61:1 at rest,
+ * 6.45:1 on hover, and 9.25:1 when pressed). */
+button.destructive-action {
+  color: @primer_accent_fg;
+  border-color: @primer_danger_emphasis;
+  border-bottom-color: @primer_danger_emphasis;
+  background-image: image(@primer_danger_emphasis);
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+button.destructive-action:hover {
+  color: @primer_accent_fg;
+  border-color: @primer_danger_emphasis_hover;
+  background-image: image(@primer_danger_emphasis_hover);
+}
+
+button.destructive-action:active,
+button.destructive-action:checked {
+  color: @primer_accent_fg;
+  border-color: @primer_danger_emphasis_active;
+  background-image: image(@primer_danger_emphasis_active);
+}
+
+button.destructive-action:disabled,
+button.destructive-action:backdrop {
+  color: alpha(@primer_accent_fg, 0.6);
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_muted);
+}
+
+button.destructive-action.flat {
+  color: @primer_error;
+  border-color: transparent;
+  background-color: transparent;
+  background-image: none;
+}
+
+button.destructive-action.flat:hover {
+  background-color: alpha(@primer_error, 0.15);
+}
+
+/* OSD buttons. */
+button.osd,
+.osd button {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-image: image(@primer_raised);
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+button.osd:hover,
+.osd button:hover {
+  color: @primer_fg;
+  border-color: @primer_border_emphasis;
+  background-image: image(@primer_control);
+}
+
+button.osd:active,
+button.osd:checked,
+.osd button:active,
+.osd button:checked {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-image: image(@primer_muted);
+}
+
+button.osd:disabled,
+.osd button:disabled {
+  color: @primer_fg_disabled;
+  background-image: image(@primer_default);
+}
+
+/* Header bars, title bars, and window controls. */
+headerbar,
+.titlebar:not(headerbar),
+.toolbar {
+  color: @primer_fg;
+  background-color: @primer_inset;
+  border-color: @primer_border;
+  box-shadow: none;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+headerbar:backdrop,
+.titlebar:backdrop:not(headerbar) {
+  color: @primer_fg_muted;
+  background-color: @primer_default;
+  border-color: @primer_border_subtle;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+headerbar .title,
+headerbar .subtitle {
+  color: @primer_fg;
+}
+
+headerbar:backdrop .title,
+headerbar:backdrop .subtitle {
+  color: @primer_fg_muted;
+}
+
+headerbar button.toggle:checked,
+headerbar stackswitcher > button:checked {
+  color: @primer_fg;
+  background-color: @primer_raised;
+  background-image: image(@primer_raised);
+  border-color: @primer_border;
+}
+
+windowcontrols button > image {
+  color: inherit;
+}
+
+/* Entries, spin buttons, and drop-downs. */
+entry,
+spinbutton:not(.vertical) {
+  color: @primer_fg;
+  caret-color: @primer_fg;
+  border-color: @primer_border;
+  background-image: image(@primer_default);
+  box-shadow: none;
+}
+
+entry:focus,
+spinbutton:not(.vertical):focus {
+  border-color: @primer_accent;
+  box-shadow: inset 0 0 0 1px alpha(@primer_accent, 0.6);
+}
+
+entry:disabled,
+spinbutton:not(.vertical):disabled {
+  color: @primer_fg_disabled;
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_muted);
+}
+
+entry:backdrop,
+spinbutton:not(.vertical):backdrop {
+  color: @primer_fg_muted;
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_default);
+}
+
+entry selection,
+spinbutton selection,
+entry > text > selection {
+  color: @primer_accent_fg;
+  background-color: @primer_accent;
+}
+
+spinbutton:not(.vertical) > button.image-button.up:not(.flat),
+spinbutton:not(.vertical) > button.image-button.down:not(.flat) {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-image: image(@primer_raised);
+}
+
+spinbutton:not(.vertical) > button.image-button.up:not(.flat):hover,
+spinbutton:not(.vertical) > button.image-button.down:not(.flat):hover {
+  background-image: image(@primer_control);
+}
+
+entry.error,
+spinbutton.error:not(.vertical) {
+  color: @primer_fg;
+  border-color: @primer_error;
+}
+
+entry.warning,
+spinbutton.warning:not(.vertical) {
+  color: @primer_fg;
+  border-color: @primer_warning;
+}
+
+dropdown popover .dropdown-searchbar,
+combobox popover .dropdown-searchbar {
+  background-color: @primer_muted;
+  border-color: @primer_border;
+}
+
+/* Menus and popovers. GTK 3 keeps the popover background on the popover node
+ * itself and has no contents or arrow child nodes, so the overrides target
+ * popover.background the same way Adwaita does. */
+popover.background,
+menu,
+.menu,
+.context-menu {
+  color: @primer_fg;
+  background-color: @primer_muted;
+  border: 1px solid @primer_border;
+  box-shadow: 0 8px 24px alpha(@primer_inset, 0.6);
+}
+
+.csd popover.background {
+  background-clip: padding-box;
+  border-color: @primer_border;
+}
+
+popover.background:backdrop {
+  color: @primer_fg_muted;
+  background-color: @primer_muted;
+  box-shadow: none;
+}
+
+popover.background > list,
+popover.background > .view,
+popover.background > iconview,
+popover.background > toolbar {
+  background-color: transparent;
+  border-color: @primer_border;
+}
+
+popover.background separator,
+popover.background list separator,
+menuitem accelerator {
+  color: @primer_fg_muted;
+  background-color: @primer_border_subtle;
+}
+
+modelbutton.flat:hover,
+.menuitem.button.flat:hover {
+  color: @primer_fg;
+  background-color: @primer_raised;
+}
+
+modelbutton.flat:disabled {
+  color: @primer_fg_disabled;
+}
+
+menubar,
+.menubar {
+  color: @primer_fg;
+  background-color: @primer_inset;
+  box-shadow: none;
+}
+
+menubar:backdrop,
+.menubar:backdrop {
+  color: @primer_fg_muted;
+  background-color: @primer_default;
+}
+
+menubar > menuitem:hover,
+.menubar > menuitem:hover {
+  color: @primer_fg;
+  box-shadow: inset 0 -3px @primer_accent;
+}
+
+menubar > menuitem:disabled {
+  color: @primer_fg_disabled;
+  box-shadow: none;
+}
+
+/* Tooltips. */
+tooltip,
+tooltip.background {
+  color: @primer_fg;
+  background-color: @primer_raised;
+  border: 1px solid @primer_border;
+  text-shadow: none;
+}
+
+tooltip > box {
+  color: @primer_fg;
+}
+
+/* Lists, rows, and trees. */
+list,
+listview,
+row,
+treeview.view,
+.content-view {
+  color: @primer_fg;
+  background-color: @primer_default;
+  border-color: @primer_border;
+}
+
+list:backdrop,
+listview:backdrop,
+treeview.view:backdrop {
+  color: @primer_fg_muted;
+  background-color: @primer_default;
+}
+
+row.activatable.has-open-popup,
+row.activatable:hover {
+  color: @primer_fg;
+  background-color: @primer_muted;
+}
+
+row.activatable:active {
+  color: @primer_fg;
+  background-color: @primer_raised;
+}
+
+row:selected,
+list row:selected,
+row.activatable:selected:hover,
+row.activatable:selected.has-open-popup {
+  color: @primer_accent_fg;
+  background-color: @primer_accent;
+}
+
+listview.separators > row:not(.separator),
+list.separators > row:not(.separator) {
+  border-color: @primer_border_subtle;
+}
+
+treeview.view > header > button,
+treeview.view > header > button:hover,
+treeview.view > header > button:active {
+  color: @primer_fg;
+  background-image: image(@primer_muted);
+  border-color: @primer_border;
+}
+
+treeview.view > header > button:disabled {
+  color: @primer_fg_disabled;
+}
+
+treeview.view:selected {
+  border-left-color: @primer_accent;
+  border-top-color: alpha(@primer_fg, 0.1);
+}
+
+treeview.view.separator {
+  color: @primer_border_subtle;
+}
+
+treeview.view.expander {
+  color: @primer_fg_muted;
+}
+
+treeview.view.expander:hover,
+treeview.view.expander:selected {
+  color: @primer_fg;
+}
+
+treeview.view.progressbar {
+  background-color: @primer_accent;
+  background-image: image(@primer_accent);
+}
+
+treeview.view.trough {
+  background-color: alpha(@primer_fg, 0.1);
+}
+
+treeview.view.trough:selected {
+  background-color: @primer_accent_inset;
+}
+
+/* Sidebars. */
+.sidebar,
+.stacksidebar,
+placessidebar {
+  color: @primer_fg;
+  background-color: @primer_inset;
+  border-color: @primer_border;
+}
+
+.sidebar:backdrop {
+  color: @primer_fg_muted;
+  background-color: @primer_default;
+  border-color: @primer_border_subtle;
+}
+
+separator.sidebar,
+.sidebar separator {
+  background-color: @primer_border;
+}
+
+.navigation-sidebar > row:hover {
+  background-color: @primer_muted;
+}
+
+.navigation-sidebar > row:selected,
+.navigation-sidebar > row:selected:hover {
+  color: @primer_accent_fg;
+  background-color: @primer_accent;
+}
+
+.navigation-sidebar > row:disabled {
+  color: @primer_fg_disabled;
+}
+
+stacksidebar row:selected {
+  color: @primer_accent_fg;
+  background-color: @primer_accent;
+}
+
+stacksidebar row.needs-attention > label {
+  color: @primer_attention_inset;
+  background-color: @primer_warning;
+}
+
+stacksidebar row.activatable:active,
+stacksidebar row.activatable:selected:active {
+  background-color: shade(@primer_accent, 0.9);
+}
+
+/* Notebooks and tabs. */
+notebook > header {
+  color: @primer_fg;
+  background-color: @primer_inset;
+  border-color: @primer_border;
+}
+
+notebook > header:backdrop {
+  color: @primer_fg_muted;
+  background-color: @primer_default;
+  border-color: @primer_border_subtle;
+}
+
+notebook > header.top > tabs > tab:hover {
+  box-shadow: inset 0 -4px @primer_border;
+}
+
+notebook > header.top > tabs > tab:checked {
+  box-shadow: inset 0 -4px @primer_accent;
+}
+
+notebook > header.bottom > tabs > tab:hover {
+  box-shadow: inset 0 4px @primer_border;
+}
+
+notebook > header.bottom > tabs > tab:checked {
+  box-shadow: inset 0 4px @primer_accent;
+}
+
+notebook > header.left > tabs > tab:hover {
+  box-shadow: inset -4px 0 @primer_border;
+}
+
+notebook > header.left > tabs > tab:checked {
+  box-shadow: inset -4px 0 @primer_accent;
+}
+
+notebook > header.right > tabs > tab:hover {
+  box-shadow: inset 4px 0 @primer_border;
+}
+
+notebook > header.right > tabs > tab:checked {
+  box-shadow: inset 4px 0 @primer_accent;
+}
+
+notebook > header > tabs > tab:not(:checked) {
+  color: @primer_fg_muted;
+}
+
+notebook > header > tabs > tab:checked {
+  color: @primer_fg;
+}
+
+notebook > stack:not(:only-child) {
+  background-color: @primer_default;
+}
+
+/* Scrollbars. GTK 3 names the slider as a descendant of scrollbar instead of a
+ * range/trough child path, so the overrides mirror Adwaita's selectors. */
+scrollbar {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+scrollbar slider {
+  background-color: @primer_border;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+scrollbar slider:hover {
+  background-color: @primer_border_emphasis;
+}
+
+scrollbar slider:hover:active {
+  background-color: @primer_accent;
+}
+
+scrollbar slider:backdrop {
+  background-color: @primer_border_subtle;
+}
+
+scrollbar slider:disabled {
+  background-color: transparent;
+}
+
+scrollbar.overlay-indicator:not(.dragging):not(.hovering) slider {
+  background-color: alpha(@primer_fg, 0.4);
+  border-color: alpha(@primer_inset, 0.4);
+}
+
+scrolledwindow overshoot.top {
+  background-image: linear-gradient(to bottom, alpha(@primer_inset, 0.8), transparent);
+}
+
+scrolledwindow overshoot.bottom {
+  background-image: linear-gradient(to top, alpha(@primer_inset, 0.8), transparent);
+}
+
+scrolledwindow overshoot.left {
+  background-image: linear-gradient(to right, alpha(@primer_inset, 0.8), transparent);
+}
+
+scrolledwindow overshoot.right {
+  background-image: linear-gradient(to left, alpha(@primer_inset, 0.8), transparent);
+}
+
+/* Switches. */
+switch {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-color: @primer_control;
+  text-shadow: none;
+}
+
+switch:checked {
+  color: @primer_accent_fg;
+  border-color: @primer_accent;
+  background-color: @primer_accent;
+  text-shadow: none;
+}
+
+switch:disabled {
+  color: @primer_fg_disabled;
+  border-color: @primer_border_subtle;
+  background-color: @primer_muted;
+}
+
+switch:backdrop {
+  color: @primer_fg_muted;
+  border-color: @primer_border_subtle;
+  background-color: @primer_default;
+}
+
+switch:backdrop:checked {
+  border-color: @primer_accent;
+  background-color: @primer_accent;
+}
+
+switch > slider {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-image: image(@primer_fg);
+  box-shadow: none;
+}
+
+switch:hover > slider {
+  background-image: image(@primer_fg);
+}
+
+switch:checked > slider {
+  border-color: @primer_accent;
+  background-image: image(@primer_accent_fg);
+}
+
+switch:disabled > slider,
+switch:backdrop > slider {
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_fg_disabled);
+}
+
+/* Check buttons and radio buttons. */
+check,
+radio {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-image: image(@primer_control);
+  box-shadow: none;
+}
+
+check:hover,
+radio:hover {
+  border-color: @primer_border_emphasis;
+  background-image: image(@primer_raised);
+}
+
+check:checked,
+radio:checked,
+check:indeterminate,
+radio:indeterminate {
+  color: @primer_accent_fg;
+  border-color: @primer_accent;
+  background-image: image(@primer_accent);
+}
+
+check:checked:hover,
+radio:checked:hover,
+check:indeterminate:hover,
+radio:indeterminate:hover {
+  background-image: image(mix(@primer_accent, @primer_fg, 0.15));
+}
+
+check:disabled,
+radio:disabled {
+  color: @primer_fg_disabled;
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_muted);
+}
+
+check:checked:disabled,
+radio:checked:disabled {
+  color: alpha(@primer_accent_fg, 0.7);
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_muted);
+}
+
+/* Progress, level, and scale widgets. */
+progressbar > trough {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-color: @primer_muted;
+}
+
+progressbar > trough > progress {
+  background-color: @primer_accent;
+  background-image: image(@primer_accent);
+}
+
+progressbar > trough > progress:disabled {
+  background-color: @primer_border;
+}
+
+progressbar.osd > trough {
+  background-color: @primer_muted;
+}
+
+progressbar.osd > trough > progress {
+  background-color: @primer_accent;
+}
+
+levelbar > trough > block {
+  border-color: @primer_accent;
+  background-color: @primer_accent;
+}
+
+/* Adwaita styles filled blocks through a :not(.empty) rule, which is more
+ * specific than the base selector, so the generic Primer color is repeated
+ * here and kept before the offset-specific rules below. */
+levelbar > trough > block:not(.empty) {
+  border-color: @primer_accent;
+  background-color: @primer_accent;
+}
+
+levelbar > trough > block.empty {
+  border-color: @primer_muted;
+  background-color: @primer_muted;
+}
+
+levelbar > trough > block.low {
+  border-color: @primer_warning;
+  background-color: @primer_warning;
+}
+
+levelbar > trough > block.high {
+  border-color: @primer_success;
+  background-color: @primer_success;
+}
+
+levelbar > trough > block.full {
+  border-color: @primer_error;
+  background-color: @primer_error;
+}
+
+scale > trough {
+  color: @primer_fg_muted;
+  border-color: @primer_border;
+  background-color: @primer_border_subtle;
+}
+
+scale > trough > highlight {
+  background-color: @primer_accent;
+}
+
+scale > trough > fill {
+  background-color: @primer_accent;
+}
+
+scale > trough > slider {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-image: image(@primer_fg);
+  box-shadow: none;
+}
+
+scale > trough > slider:hover {
+  border-color: @primer_border_emphasis;
+  background-image: image(@primer_fg);
+}
+
+scale > trough > slider:active {
+  background-image: image(@primer_link);
+}
+
+scale > trough > slider:disabled {
+  border-color: @primer_border_subtle;
+  background-image: image(@primer_fg_disabled);
+}
+
+scale > value {
+  color: @primer_fg_muted;
+}
+
+/* Frames, separators, and panes. */
+frame,
+.frame {
+  border-color: @primer_border;
+  background-color: transparent;
+}
+
+separator {
+  background-color: @primer_border_subtle;
+}
+
+paned > separator {
+  background-color: @primer_border;
+}
+
+paned > separator:selected {
+  background-color: @primer_accent;
+}
+
+/* Information bars and notifications. */
+infobar > revealer > box {
+  color: @primer_fg;
+  background-color: @primer_accent_inset;
+  border-color: @primer_accent;
+}
+
+infobar.info > revealer > box,
+infobar.question > revealer > box {
+  border-color: @primer_accent;
+}
+
+infobar.warning > revealer > box {
+  border-color: @primer_warning;
+}
+
+infobar.error > revealer > box {
+  background-color: @primer_danger_inset;
+  border-color: @primer_error;
+}
+
+infobar.info button,
+infobar.question button,
+infobar.warning button,
+infobar.error button {
+  color: @primer_fg;
+  border-color: @primer_border;
+  background-image: image(@primer_raised);
+}
+
+infobar.info button:hover,
+infobar.question button:hover,
+infobar.warning button:hover,
+infobar.error button:hover {
+  background-image: image(@primer_control);
+}
+
+infobar.info selection,
+infobar.question selection,
+infobar.warning selection,
+infobar.error selection {
+  background-color: @primer_accent;
+  color: @primer_accent_fg;
+}
+
+.app-notification,
+.app-notification border {
+  color: @primer_fg;
+  background-color: @primer_raised;
+  border-color: @primer_border;
+}
+
+/* Calendar. GTK 3 uses the flat calendar.header, calendar.button, and
+ * calendar:selected nodes instead of GTK 4's grid and header children. */
+calendar {
+  color: @primer_fg;
+  border-color: @primer_border;
+}
+
+calendar:backdrop {
+  color: @primer_fg_muted;
+  border-color: @primer_border_subtle;
+}
+
+calendar.header {
+  border-bottom-color: @primer_border;
+}
+
+calendar.button {
+  color: @primer_fg_muted;
+}
+
+calendar.button:hover {
+  color: @primer_fg;
+  background-color: @primer_control;
+}
+
+calendar.highlight {
+  color: @primer_link;
+}
+
+calendar:selected {
+  color: @primer_accent_fg;
+  background-color: @primer_accent;
+}
+
+calendar:indeterminate {
+  color: @primer_fg_disabled;
+}
+
+/* Focus, drop targets, and status accents. */
+*:focus,
+*:focus:focus-visible {
+  outline-color: alpha(@primer_accent, 0.8);
+}
+
+:not(decoration):not(window):drop(active):focus,
+:not(decoration):not(window):drop(active),
+:drop(active) {
+  border-color: @primer_accent;
+  box-shadow: inset 0 0 0 1px @primer_accent;
+}
+
+label.error,
+.error {
+  color: @primer_error;
+}
+
+label.warning,
+.warning {
+  color: @primer_warning;
+}
+
+label.success,
+.success {
+  color: @primer_success;
+}

@@ -38,6 +38,9 @@
       "attentionBright": "#F2CC60",
       "severe": "#DB6D28",
       "danger": "#F85149",
+      "dangerEmphasis": "#DA3633",
+      "dangerEmphasisHover": "#B62324",
+      "dangerEmphasisActive": "#8E1519",
       "dangerBright": "#FFDCD7",
       "done": "#AB7DF8"
     },

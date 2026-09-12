@@ -12,9 +12,9 @@ AURORAE_ID=PrimerDark
 PLASMA_STYLE_ID=PrimerDark
 COLOR_FILE=PrimerDark.colors
 # ALL_COMPONENTS are safe for the root install and uninstall lifecycle.
-ALL_COMPONENTS="kde konsole ghostty herdr pi zed fastfetch bat btop fish"
+ALL_COMPONENTS="kde konsole ghostty herdr pi zed fastfetch bat btop fish gtk"
 # CHECK_COMPONENTS validate their own assets in a check_* hook.
-CHECK_COMPONENTS="kde bat fastfetch pi zed firefox chrome fzf"
+CHECK_COMPONENTS="kde bat fastfetch pi zed firefox chrome fzf gtk"
 # COMPONENT_MODULES are every module sourced by the install, uninstall, and
 # check entry points.
 COMPONENT_MODULES="$ALL_COMPONENTS firefox chrome fzf"
@@ -72,6 +72,8 @@ initialize_user_paths() {
     BTOP_THEME_DEST="$CONFIG_HOME/btop/themes/primer-dark.theme"
     BTOP_CONFIG_FILE="$CONFIG_HOME/btop/btop.conf"
     FISH_THEME_DEST="$CONFIG_HOME/fish/themes/primer-dark.theme"
+    GTK_THEME_SOURCE="$ROOT/gtk/primer-dark"
+    GTK_THEME_DEST="$DATA_HOME/themes/primer-dark"
 }
 
 require_command() {

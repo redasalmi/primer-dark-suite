@@ -7,3 +7,5 @@ Primer Primitives is licensed under the MIT License:
 Copyright (c) 2018 GitHub Inc.
 
 The KDE Plasma package structure and theme formats follow KDE's public Plasma 6 documentation. Catppuccin for KDE was studied as an architectural reference; no Catppuccin artwork is included.
+
+The GTK 3 and GTK 4 stylesheets import GTK's bundled Adwaita and Default themes at runtime through GTK resource URLs. Those stylesheets are part of GTK, are not redistributed here, and remain under the GNU LGPL v2.1 or later.

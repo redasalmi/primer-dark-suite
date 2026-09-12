@@ -1,0 +1,8 @@
+/* Primer Dark for GTK 3 - dark variant entry point
+ * SPDX-FileCopyrightText: 2026 Reda Salmi
+ * SPDX-License-Identifier: MIT
+ *
+ * The theme is dark-only, so the dark variant loads the same stylesheet.
+ */
+
+@import url("gtk.css");

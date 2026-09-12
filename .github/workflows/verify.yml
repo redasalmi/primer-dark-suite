@@ -17,22 +17,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # xmllint validates the KDE SVGs and the bat theme, and is not part of the
-      # runner image. See https://github.com/actions/runner-images/issues/12876
-      - name: Install xmllint
+      # The checks run in Fedora 44 because it matches the validated GTK 4.22
+      # target: the GTK 4 stylesheet needs GTK 4.20 or newer, while the default
+      # Ubuntu runner ships GTK 4.14. ShellCheck lints the shell scripts,
+      # libxml2 provides xmllint for the KDE SVGs and the bat theme, jq parses
+      # the JSON assets, and PyGObject with the Gtk 3.0 and 4.0 typelibs runs
+      # the native CSS parsers used by the GTK validation hook.
+      - name: Validate shell scripts and theme assets
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libxml2-utils
-
-      - name: Check shell scripts
-        run: >-
-          shellcheck
-          install.sh
-          uninstall.sh
-          scripts/check.sh
-          scripts/lib/*.sh
-          scripts/components/*.sh
-          cli/fzf/primer-dark.sh
-
-      - name: Validate theme assets
-        run: ./scripts/check.sh
+          docker run --rm -v "$PWD:/src" -w /src fedora:44 sh -c '
+            dnf install -y ShellCheck libxml2 jq python3-gobject gtk3 gtk4 &&
+            shellcheck install.sh uninstall.sh scripts/check.sh scripts/lib/*.sh scripts/components/*.sh cli/fzf/primer-dark.sh &&
+            ./scripts/check.sh'

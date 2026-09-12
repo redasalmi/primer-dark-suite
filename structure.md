@@ -36,21 +36,14 @@ primer-dark-suite/
 │   ├── firefox/          # implemented: Mozilla Firefox static theme, live on addons.mozilla.org
 │   └── chrome/           # implemented: native Google Chrome theme package
 │
-├── creative/
-│   ├── blender/          # roadmap 5
-│   ├── krita/            # roadmap 5
-│   ├── gimp/             # roadmap 5
-│   ├── inkscape/         # roadmap 5
-│   └── godot/            # roadmap 5
-│
 ├── gtk/
-│   ├── gtk-3.0/          # roadmap 6
-│   └── gtk-4.0/          # roadmap 6
+│   ├── primer-dark/      # implemented: native GTK 3 and GTK 4 theme package
+│   └── libadwaita/       # documented: optional libadwaita color override snippet
 │
 ├── integrations/         # optional and never installed by default
-│   ├── discord/          # roadmap 7: Vencord/BetterDiscord CSS
-│   ├── spotify/          # roadmap 7: Spicetify
-│   └── steam/            # roadmap 7: Millennium/custom CSS
+│   ├── discord/          # roadmap 6: Vencord/BetterDiscord CSS
+│   ├── spotify/          # roadmap 6: Spicetify
+│   └── steam/            # roadmap 6: Millennium/custom CSS
 │
 ├── palette/              # implemented: canonical Primer Dark tokens
 ├── scripts/              # implemented: validation and asset generation

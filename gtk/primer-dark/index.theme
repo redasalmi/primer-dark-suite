@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Primer Dark
+Comment=Dark theme derived from GitHub Primer Primitives
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=primer-dark

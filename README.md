@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Zed, Fastfetch, bat, btop, eza, fzf, Fish, and tmux.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Zed, Fastfetch, bat, btop, eza, fzf, Fish, tmux, and GTK 3/4.
 
 ## Included in v1
 
@@ -20,6 +20,7 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole,
 - complete bat syntax-highlighting theme covering Markdown, diffs, comments, keywords, strings, numbers, types, functions, variables, and diagnostics;
 - complete btop theme covering boxes, dividers, graphs, meters, process states, and pause/follow/banner colors;
 - complete Fish theme with dark and unknown-terminal variants covering syntax, pager, selection, and completion colors;
+- native GTK 3 and GTK 4 theme package covering windows, header bars, controls, entries, menus, popovers, tooltips, lists, selections, focus, disabled states, and destructive actions, plus a documented libadwaita color override;
 - ready-to-merge eza `theme.yml` covering file kinds, permissions, sizes, users, Git states, SELinux contexts, and file types;
 - shell-safe fzf color option set covering borders, prompts, matches, selections, and previews;
 - ready-to-source tmux snippet covering the status bar, window states, pane borders, messages, copy mode, menus, and popups;
@@ -43,13 +44,14 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - bat 0.26.x (the currently validated target) when using the bat theme
 - btop 1.4.x (the currently validated target) when using the btop theme
 - Fish 4.0 or newer when using the Fish theme
+- GTK 3.24 or GTK 4.22 (the currently validated targets) when using the GTK themes
 - eza 0.23.x (the currently validated target) when using the eza theme
 - fzf 0.74.x (the currently validated target) when using the fzf color set
 - tmux 3.7 (the currently validated target) when using the tmux snippet
 - Mozilla Firefox 155.0 (the currently validated target) when using the Firefox theme
 - Google Chrome 152.0.7977.75 (the currently validated target) when using the Chrome theme
 
-The validation helper additionally uses `jq` and `xmllint`.
+The validation helper additionally uses `jq`, `xmllint`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs.
 
 ## Install
 
@@ -177,6 +179,42 @@ fish_config theme save primer-dark
 
 `choose` loads session-local colors; `save primer-dark` loads the named theme into universal variables. Saved colors remain after the theme file is removed and do not automatically follow terminal light/dark changes. The installed file is only needed for choosing and previewing the theme.
 
+To additionally install the GTK 3 and GTK 4 themes:
+
+```sh
+./install.sh --gtk
+```
+
+Select **Primer Dark** (`primer-dark`) in your GTK theme settings. On KDE Plasma, apply it to every GTK application through **System Settings → Colors & Themes → Application Style → Configure GNOME/GTK Application Style**, or with:
+
+```sh
+gsettings set org.gnome.desktop.interface gtk-theme primer-dark
+```
+
+To try it for a single application without changing the session setting:
+
+```sh
+GTK_THEME=primer-dark gtk4-demo
+```
+
+The installer writes a native theme package to `~/.local/share/themes/primer-dark/` with an `index.theme` and `gtk-3.0/` and `gtk-4.0/` stylesheets. The theme is dark-only, so its light and dark variants are identical. Plain GTK 3 and GTK 4 applications load it directly and it covers windows, header bars, controls, entries, menus, popovers, tooltips, lists, trees, notebooks, sidebars, selections, focus, disabled states, and destructive actions.
+
+**Libadwaita applications ignore user GTK themes by design.** Libadwaita forces GTK's empty theme and adds its own stylesheet, so GNOME applications built with libadwaita keep their bundled appearance no matter which GTK theme is selected. To recolor them, merge [`gtk/libadwaita/gtk-4.0.css`](gtk/libadwaita/gtk-4.0.css) into `~/.config/gtk-4.0/gtk.css`, or copy it there when that file does not exist yet. That override defines only libadwaita's color variables, so it recolors libadwaita without replacing its layout or widget styles. It is not installed automatically because `~/.config/gtk-4.0/gtk.css` is shared GTK configuration that affects every GTK 4 application in the session, it can conflict with an existing override, and upstream does not support recoloring libadwaita.
+
+Flatpak applications do not see `~/.local/share/themes` unless the sandbox is granted access. Themes can be shared with:
+
+```sh
+flatpak override --user --filesystem=xdg-data/themes:ro
+```
+
+After that, select `primer-dark` inside the sandbox, or test with a per-application override:
+
+```sh
+flatpak override --user --env=GTK_THEME=primer-dark <app-id>
+```
+
+Flatpak guidance is documented only; it was not verified in this environment.
+
 eza, fzf, and tmux have no safe user-local theme discovery path, so they are intentionally not installed by the root script. Use a repository checkout:
 
 - **eza:** copy `cli/eza/theme.yml` to `$EZA_CONFIG_DIR/theme.yml` or `~/.config/eza/theme.yml`, backing up any existing `theme.yml` first, since eza only reads that single fixed path.
@@ -203,7 +241,7 @@ Google Chrome requires interactive extension loading, so its theme is intentiona
 
 Loading the package activates **Primer Dark** immediately. To update it, replace the files in the checkout and reload the unpacked extension. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance. Other Chromium-based browsers can load the same directory from their equivalent extensions page, with rendering that may differ wherever the browser maps theme colors differently.
 
-The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Fastfetch, bat, btop, and Fish settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
+The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Fastfetch, bat, btop, Fish, and GTK settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
 - `~/.local/share/color-schemes/PrimerDark.colors`
 - `~/.local/share/aurorae/themes/PrimerDark/` (optional Aurorae window-decoration assets)
@@ -219,16 +257,17 @@ The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Fastfetc
 - `~/.config/bat/themes/Primer Dark.tmTheme` when using `--bat`
 - `~/.config/btop/themes/primer-dark.theme` when using `--btop`
 - `~/.config/fish/themes/primer-dark.theme` when using `--fish`
+- `~/.local/share/themes/primer-dark/` when using `--gtk`
 
 ## Uninstall
 
-First select another Global Theme and, if used, other Konsole, Ghostty, Pi, Zed, bat, btop, and Fish themes. Then run:
+First select another Global Theme and, if used, other Konsole, Ghostty, Pi, Zed, bat, btop, Fish, and GTK themes. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value. Then run:
 
 ```sh
 ./uninstall.sh
 ```
 
-The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact.
+The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched.
 
 The script does not manage Firefox, Chrome, eza, fzf, or tmux. Remove a store-installed or signed Firefox theme from **Add-ons and themes → Themes**, or remove a temporary copy from `about:debugging#/runtime/this-firefox` or by restarting Firefox. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
 
@@ -246,7 +285,7 @@ Validate the palette and every asset that has an official parser with:
 ./scripts/check.sh
 ```
 
-This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, and Fastfetch JSON files, and the shell syntax of the fzf snippet. It requires `jq` and `xmllint`. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script on every push to `main` and every pull request.
+This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, and Fastfetch JSON files, the shell syntax of the fzf snippet, and the GTK 3, GTK 4, and libadwaita stylesheets. It requires `jq`, `xmllint`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
 
 ## Versioning
 

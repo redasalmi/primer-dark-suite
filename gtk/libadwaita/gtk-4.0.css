@@ -1,0 +1,129 @@
+/* Primer Dark libadwaita color override
+ * SPDX-FileCopyrightText: 2026 Reda Salmi
+ * SPDX-License-Identifier: MIT
+ *
+ * Colors are derived from GitHub Primer Primitives (MIT).
+ *
+ * Libadwaita ignores user GTK themes by design: it forces the empty "Adwaita"
+ * theme and adds its own stylesheet, so gtk/primer-dark/gtk-4.0/gtk.css is not
+ * loaded by libadwaita applications. The one supported user hook with a higher
+ * provider priority is $XDG_CONFIG_HOME/gtk-4.0/gtk.css (normally
+ * ~/.config/gtk-4.0/gtk.css).
+ *
+ * Merge this file into ~/.config/gtk-4.0/gtk.css, or copy it there when that
+ * file does not exist yet, to recolor libadwaita applications. It defines only
+ * colors, so it does not replace libadwaita's layout or widget styles.
+ *
+ * This is an unofficial override: upstream does not support recoloring
+ * libadwaita, and it affects every GTK 4 application in the session, including
+ * libadwaita applications that are not using the Primer Dark theme.
+ */
+
+/* Canonical Primer Dark roles. */
+@define-color primer_inset #010409;
+@define-color primer_default #0D1117;
+@define-color primer_muted #151B23;
+@define-color primer_raised #212830;
+@define-color primer_border #3D444D;
+@define-color primer_fg #F0F6FC;
+@define-color primer_fg_muted #9198A1;
+@define-color primer_fg_disabled #656C76;
+@define-color primer_accent #1F6FEB;
+@define-color primer_accent_fg #FFFFFF;
+@define-color primer_link #4493F8;
+@define-color primer_success #3FB950;
+@define-color primer_warning #D29922;
+@define-color primer_error #F85149;
+@define-color primer_done #AB7DF8;
+
+/* Libadwaita UI colors. The status backgrounds are darkened blends of the
+ * canonical status colors, mixed 25-35% with the inset surface, so that the
+ * white foreground keeps a usable contrast. */
+:root {
+  --accent-bg-color: @primer_accent;
+  --accent-fg-color: @primer_accent_fg;
+  --accent-color: @primer_link;
+  --destructive-bg-color: mix(@primer_error, @primer_inset, 0.25);
+  --destructive-fg-color: @primer_accent_fg;
+  --destructive-color: @primer_error;
+  --success-bg-color: mix(@primer_success, @primer_inset, 0.35);
+  --success-fg-color: @primer_accent_fg;
+  --success-color: @primer_success;
+  --warning-bg-color: mix(@primer_warning, @primer_inset, 0.3);
+  --warning-fg-color: @primer_accent_fg;
+  --warning-color: @primer_warning;
+  --error-bg-color: mix(@primer_error, @primer_inset, 0.25);
+  --error-fg-color: @primer_accent_fg;
+  --error-color: @primer_error;
+  --window-bg-color: @primer_inset;
+  --window-fg-color: @primer_fg;
+  --view-bg-color: @primer_default;
+  --view-fg-color: @primer_fg;
+  --headerbar-bg-color: @primer_inset;
+  --headerbar-fg-color: @primer_fg;
+  --headerbar-border-color: @primer_border;
+  --headerbar-backdrop-color: @primer_default;
+  --headerbar-shade-color: alpha(@primer_inset, 0.6);
+  --headerbar-darker-shade-color: alpha(@primer_inset, 0.9);
+  --sidebar-bg-color: @primer_inset;
+  --sidebar-fg-color: @primer_fg;
+  --sidebar-backdrop-color: @primer_default;
+  --sidebar-border-color: alpha(@primer_fg, 0.12);
+  --sidebar-shade-color: alpha(@primer_inset, 0.4);
+  --secondary-sidebar-bg-color: @primer_default;
+  --secondary-sidebar-fg-color: @primer_fg;
+  --secondary-sidebar-backdrop-color: @primer_muted;
+  --secondary-sidebar-border-color: alpha(@primer_fg, 0.12);
+  --secondary-sidebar-shade-color: alpha(@primer_inset, 0.4);
+  --card-bg-color: alpha(@primer_fg, 0.04);
+  --card-fg-color: @primer_fg;
+  --card-shade-color: alpha(@primer_inset, 0.5);
+  --dialog-bg-color: @primer_raised;
+  --dialog-fg-color: @primer_fg;
+  --popover-bg-color: @primer_muted;
+  --popover-fg-color: @primer_fg;
+  --popover-shade-color: alpha(@primer_inset, 0.5);
+  --thumbnail-bg-color: @primer_raised;
+  --thumbnail-fg-color: @primer_fg;
+  --shade-color: alpha(@primer_inset, 0.5);
+  --scrollbar-outline-color: alpha(@primer_fg, 0.8);
+  --active-toggle-bg-color: alpha(@primer_fg, 0.2);
+  --active-toggle-fg-color: @primer_fg;
+}
+
+/* Named colors used by libadwaita and GTK applications. */
+@define-color accent_bg_color @primer_accent;
+@define-color accent_fg_color @primer_accent_fg;
+@define-color accent_color @primer_link;
+@define-color destructive_bg_color mix(@primer_error, @primer_inset, 0.25);
+@define-color destructive_fg_color @primer_accent_fg;
+@define-color destructive_color @primer_error;
+@define-color success_bg_color mix(@primer_success, @primer_inset, 0.35);
+@define-color success_fg_color @primer_accent_fg;
+@define-color success_color @primer_success;
+@define-color warning_bg_color mix(@primer_warning, @primer_inset, 0.3);
+@define-color warning_fg_color @primer_accent_fg;
+@define-color warning_color @primer_warning;
+@define-color error_bg_color mix(@primer_error, @primer_inset, 0.25);
+@define-color error_fg_color @primer_accent_fg;
+@define-color error_color @primer_error;
+@define-color window_bg_color @primer_inset;
+@define-color window_fg_color @primer_fg;
+@define-color view_bg_color @primer_default;
+@define-color view_fg_color @primer_fg;
+@define-color headerbar_bg_color @primer_inset;
+@define-color headerbar_fg_color @primer_fg;
+@define-color headerbar_border_color @primer_border;
+@define-color headerbar_backdrop_color @primer_default;
+@define-color headerbar_shade_color alpha(@primer_inset, 0.6);
+@define-color card_bg_color alpha(@primer_fg, 0.04);
+@define-color card_fg_color @primer_fg;
+@define-color popover_bg_color @primer_muted;
+@define-color popover_fg_color @primer_fg;
+@define-color dialog_bg_color @primer_raised;
+@define-color dialog_fg_color @primer_fg;
+@define-color sidebar_bg_color @primer_inset;
+@define-color sidebar_fg_color @primer_fg;
+@define-color sidebar_backdrop_color @primer_default;
+@define-color shade_color alpha(@primer_inset, 0.5);
+@define-color scrollbar_outline_color alpha(@primer_fg, 0.8);

@@ -26,8 +26,6 @@ uninstall_zed() {
     rm -f -- "$ZED_DEST"
 }
 
-package_zed() {
+check_zed() {
     jq -e . "$ROOT/editors/zed/primer-dark.json" >/dev/null
-    cp "$ROOT/editors/zed/primer-dark.json" "$DIST/Primer-Dark-Zed.json"
-    register_artifact Primer-Dark-Zed.json
 }

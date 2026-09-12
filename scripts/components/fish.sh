@@ -20,8 +20,3 @@ guard_fish() {
 uninstall_fish() {
     rm -f -- "$FISH_THEME_DEST"
 }
-
-package_fish() {
-    tar -C "$ROOT/cli/fish" -czf "$DIST/Primer-Dark-Fish.tar.gz" primer-dark.theme
-    register_artifact Primer-Dark-Fish.tar.gz
-}

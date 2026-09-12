@@ -44,8 +44,3 @@ EOF
 uninstall_btop() {
     rm -f -- "$BTOP_THEME_DEST"
 }
-
-package_btop() {
-    tar -C "$ROOT/cli/btop" -czf "$DIST/Primer-Dark-Btop.tar.gz" primer-dark.theme
-    register_artifact Primer-Dark-Btop.tar.gz
-}

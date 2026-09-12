@@ -44,7 +44,7 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Breeze application and Plasma styles driven by Primer colors.
 - Breeze Dark icons and Breeze cursors.
 - Logo-free splash screen and System Settings previews.
-- Offline install, uninstall, update, and release packaging scripts.
+- Offline install, uninstall, update, and validation scripts.
 - Native Konsole color scheme with coordinated normal, bright, and faint ANSI colors plus an optional color-only profile.
 - Native Ghostty theme with coordinated foreground, background, cursor, selection, and ANSI colors.
 - Complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, thinking levels, and bash mode.
@@ -131,19 +131,21 @@ Keep unsupported application patching isolated, explicit, and reversible.
 
 ## Installation architecture
 
-The root install and uninstall commands are small component orchestrators. Shared paths and the component registry live under `scripts/lib/`, while each port's preflight, install, active-state guard, uninstall, and packaging hooks live under `scripts/components/`.
+The root install and uninstall commands are small component orchestrators. Shared paths and the component registry live under `scripts/lib/`, while each port's preflight, install, active-state guard, uninstall, and check hooks live under `scripts/components/`.
 
 Current and planned behavior:
 
 - `./install.sh` installs the stable KDE foundation.
 - `--konsole`, `--ghostty`, `--pi`, `--zed`, `--fastfetch`, `--bat`, `--btop`, and `--fish` install their respective application themes without changing application settings.
-- eza, fzf, and tmux are package-only: eza reads a single fixed `theme.yml`, and fzf and tmux are configured through shell and tmux configuration files, so the installer never edits shared configuration for them.
-- Firefox is distributed as `Primer-Dark-Firefox.zip`, which can be loaded temporarily from `about:debugging` or submitted to addons.mozilla.org for signing. It is package-only because normal Firefox release and beta builds require Mozilla signatures for permanent theme installation.
-- Chrome is distributed as `Primer-Dark-Chrome.zip` and loaded interactively from its extensions page; it is package-only because Chromium browsers have no user-local standalone discovery directory and automatic profile preference edits would not be safely theme-owned.
+- eza, fzf, and tmux are never installed by the root script: eza reads a single fixed `theme.yml`, and fzf and tmux are configured through shell and tmux configuration files, so the installer never edits shared configuration for them.
+- Firefox is published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/) and previewed from a checkout with `web-ext build`, which packages it for `about:debugging` and for upload to that listing. It is store-distributed because normal Firefox release and beta builds require Mozilla signatures for permanent theme installation, so the installer never writes into the profile and cannot collide with a store-installed copy.
+- Chrome is loaded interactively from its unpacked directory in a checkout; it is store-distributed because Chromium browsers have no user-local standalone discovery directory and automatic profile preference edits would not be safely theme-owned.
+- The Firefox theme is released by `.github/workflows/firefox-release.yml`: a manual run checks the manifest version against the public addons.mozilla.org API, lints the theme, builds the unsigned package, and submits it with `web-ext sign --channel listed` using the `WEB_EXT_API_KEY` and `WEB_EXT_API_SECRET` secrets. The run does not wait for review, and the manifest keeps the add-on ID `primer-dark@redasalmi.github.io` that the listing is bound to.
+- Versions are kept only where a browser store requires one: the Firefox and Chrome manifests. There is no suite version, no GitHub Releases, and no `KPlugin.Version` in the KDE metadata, because `install.sh` is the distribution channel for every locally installed port and KDE treats `KPlugin.Version` as optional.
 - `--herdr` is an explicit managed-configuration exception: it safely replaces only bounded, validated theme tables in Herdr's shared `config.toml`, preserves unrelated settings, records the previous theme tables for uninstall, and aborts if the source configuration or restore state changes after preflight.
 - The installer preflights every selected component and `--apply` dependency before changing installed files, preventing predictable dependency or configuration failures from leaving a partial installation.
 - Uninstall runs every active-theme and restore-state guard before removing or restoring every registered component.
-- Release packaging builds and validates every component in a staging directory, replacing `dist/` only after the complete artifact set and checksums succeed.
+- `./scripts/check.sh` validates the palette and every asset that has an official parser, and `.github/workflows/verify.yml` runs it together with ShellCheck on every push to `main` and every pull request.
 - Future component ports extend the shared registry and add an isolated lifecycle module instead of adding implementation blocks to the root scripts.
 - Future explicit flags may select groups such as `--terminal`, `--editors`, `--cli`, `--browsers`, or `--creative`.
 - A future `--all-supported` flag installs supported native ports only.
@@ -172,6 +174,8 @@ Current and planned behavior:
 - https://github.com/primer/primitives
 - https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/theme
 - https://extensionworkshop.com/documentation/themes/static-themes/
+- https://extensionworkshop.com/documentation/develop/web-ext-command-reference/
+- https://addons.mozilla.org/en-US/developers/addon/api/key/
 - https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Temporary_Installation_in_Firefox
 - https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Alternative_distribution_options
 - https://hg.mozilla.org/releases/mozilla-release/file/FIREFOX_155_0_RELEASE/toolkit/components/extensions/schemas/theme.json
@@ -225,7 +229,7 @@ Add automated visual tests only after the planned theme ports are implemented an
 
 ### 4. Run checks in layers
 
-- Run schema, parser, package, token, and static SVG checks on every change.
+- Run schema, parser, token, and static SVG checks on every change.
 - Run fast deterministic image renders for changed components in normal pull-request validation.
 - Run native application and Plasma captures on a pinned VM image before release, and whenever shared palette, surface, border, text, focus, or selection tokens change.
 - Require a human review of intentional baseline updates, with before, after, and diff images attached to the change.

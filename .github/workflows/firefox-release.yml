@@ -1,0 +1,121 @@
+name: Release Firefox theme
+
+# Submits browsers/firefox/primer-dark to addons.mozilla.org.
+#
+# Required repository secrets (Settings -> Secrets and variables -> Actions):
+#   WEB_EXT_API_KEY     AMO API key (JWT issuer), e.g. user:12345:67
+#   WEB_EXT_API_SECRET  AMO API secret (JWT secret)
+# Create them at https://addons.mozilla.org/en-US/developers/addon/api/key/
+#
+# Run this workflow manually after committing a version bump in
+# browsers/firefox/primer-dark/manifest.json. The browser manifests are the only
+# place this project keeps a version, so nothing else needs to be updated.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_DIR: browsers/firefox/primer-dark
+  MANIFEST: browsers/firefox/primer-dark/manifest.json
+  WEB_EXT_VERSION: 10.6.0
+  AMO_API: https://addons.mozilla.org/api/v5/addons/addon
+
+jobs:
+  publish:
+    name: Submit to addons.mozilla.org
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install web-ext
+        run: npm install --global "web-ext@$WEB_EXT_VERSION"
+
+      - name: Read manifest version
+        id: manifest
+        run: |
+          version=$(node -p "require('./$MANIFEST').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Firefox theme version: $version"
+
+      # AMO rejects a version that already exists, so fail early with an
+      # actionable message instead of burning a submission.
+      - name: Check the version against addons.mozilla.org
+        env:
+          MANIFEST_VERSION: ${{ steps.manifest.outputs.version }}
+        run: |
+          addon_id=$(node -p "require('./$MANIFEST').browser_specific_settings.gecko.id")
+          published=$(curl -fsS "$AMO_API/$addon_id/" 2>/dev/null \
+            | node -e 'let s="";process.stdin.on("data",(c)=>{s+=c}).on("end",()=>{try{console.log(JSON.parse(s).current_version.version)}catch{}})')
+          echo "Published on addons.mozilla.org: ${published:-none}"
+          node -e '
+            const [manifest, published] = process.argv.slice(1);
+            const parts = (value) => String(value || "0").split(".").map((n) => Number(n) || 0);
+            const compare = (a, b) => {
+              for (let i = 0; i < Math.max(a.length, b.length); i += 1) {
+                const delta = (a[i] || 0) - (b[i] || 0);
+                if (delta !== 0) return Math.sign(delta);
+              }
+              return 0;
+            };
+            if (compare(parts(manifest), parts(published)) <= 0) {
+              console.error(`::error::Manifest version ${manifest} is not newer than the published version ${published}. Bump browsers/firefox/primer-dark/manifest.json.`);
+              process.exit(1);
+            }
+            console.log(`Manifest version ${manifest} is newer than the published version ${published}.`);
+          ' "$MANIFEST_VERSION" "${published:-0.0.0}"
+
+      - name: Check AMO credentials
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
+        run: |
+          if [ -z "$WEB_EXT_API_KEY" ] || [ -z "$WEB_EXT_API_SECRET" ]; then
+            echo "::error::Set the WEB_EXT_API_KEY and WEB_EXT_API_SECRET repository secrets."
+            echo "Create them at https://addons.mozilla.org/en-US/developers/addon/api/key/"
+            exit 1
+          fi
+
+      - name: Lint theme
+        run: >-
+          web-ext lint
+          --source-dir "$SOURCE_DIR"
+          --warnings-as-errors
+          --no-config-discovery
+
+      - name: Build unsigned package
+        run: >-
+          web-ext build
+          --source-dir "$SOURCE_DIR"
+          --artifacts-dir web-ext-artifacts
+          --overwrite-dest
+          --ignore-files "Cached Theme.pak"
+          --no-config-discovery
+
+      - name: Submit to addons.mozilla.org
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
+        run: >-
+          web-ext sign
+          --source-dir "$SOURCE_DIR"
+          --channel listed
+          --approval-timeout 0
+          --ignore-files "Cached Theme.pak"
+          --no-config-discovery
+
+      - name: Upload unsigned package
+        uses: actions/upload-artifact@v4
+        with:
+          name: primer-dark-firefox-${{ steps.manifest.outputs.version }}
+          path: web-ext-artifacts/*.zip
+          if-no-files-found: error

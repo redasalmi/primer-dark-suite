@@ -33,7 +33,7 @@ primer-dark-suite/
 │   └── tmux/             # implemented: tmux style snippet
 │
 ├── browsers/
-│   ├── firefox/          # implemented: native Mozilla Firefox static theme package
+│   ├── firefox/          # implemented: Mozilla Firefox static theme, live on addons.mozilla.org
 │   └── chrome/           # implemented: native Google Chrome theme package
 │
 ├── creative/
@@ -53,9 +53,11 @@ primer-dark-suite/
 │   └── steam/            # roadmap 7: Millennium/custom CSS
 │
 ├── palette/              # implemented: canonical Primer Dark tokens
-├── scripts/              # implemented: packaging and asset generation
-│   ├── components/       # shared per-component install, uninstall, and package hooks
+├── scripts/              # implemented: validation and asset generation
+│   ├── check.sh          # implemented: palette and per-component asset validation
+│   ├── components/       # shared per-component preflight, install, guard, uninstall, and check hooks
 │   └── lib/              # shared component registry, paths, and shell helpers
+├── .github/              # implemented: verification and Firefox release workflows
 ├── install.sh            # implemented: preflighted user-local component orchestrator
 ├── uninstall.sh          # implemented: safe component lifecycle orchestrator
 ├── plan.md

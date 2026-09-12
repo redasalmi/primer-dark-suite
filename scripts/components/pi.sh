@@ -26,8 +26,6 @@ uninstall_pi() {
     rm -f -- "$PI_DEST"
 }
 
-package_pi() {
+check_pi() {
     jq -e . "$ROOT/cli/pi/primer-dark.json" >/dev/null
-    cp "$ROOT/cli/pi/primer-dark.json" "$DIST/Primer-Dark-Pi.json"
-    register_artifact Primer-Dark-Pi.json
 }

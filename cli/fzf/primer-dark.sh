@@ -1,5 +1,6 @@
 # Primer Dark for fzf
 # SPDX-License-Identifier: MIT
+# shellcheck shell=sh
 #
 # fzf has no theme file or discovery path; its colors come from FZF_DEFAULT_OPTS.
 # Source this file from your shell startup file, or copy the value below into an

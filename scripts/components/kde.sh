@@ -59,7 +59,7 @@ uninstall_kde() {
     rm -rf -- "$AURORAE_DEST" "$PLASMA_STYLE_DEST"
 }
 
-package_kde() {
+check_kde() {
     jq -e . "$ROOT/kde/look-and-feel/$PACKAGE_ID/metadata.json" >/dev/null
     jq -e . "$ROOT/kde/aurorae/$AURORAE_ID/metadata.json" >/dev/null
     jq -e . "$ROOT/kde/plasma-style/$PLASMA_STYLE_ID/metadata.json" >/dev/null
@@ -70,13 +70,4 @@ package_kde() {
         echo "Global theme packages cannot contain symlinks." >&2
         exit 1
     fi
-
-    tar -C "$ROOT/kde/look-and-feel" -czf "$DIST/Primer-Dark-Global.tar.gz" "$PACKAGE_ID"
-    tar -C "$ROOT/kde/aurorae" -czf "$DIST/Primer-Dark-Aurorae.tar.gz" "$AURORAE_ID"
-    tar -C "$ROOT/kde/plasma-style" -czf "$DIST/Primer-Dark-Plasma-Style.tar.gz" "$PLASMA_STYLE_ID"
-    cp "$ROOT/kde/colors/$COLOR_FILE" "$DIST/"
-    register_artifact Primer-Dark-Global.tar.gz
-    register_artifact Primer-Dark-Aurorae.tar.gz
-    register_artifact Primer-Dark-Plasma-Style.tar.gz
-    register_artifact "$COLOR_FILE"
 }

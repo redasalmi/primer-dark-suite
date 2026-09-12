@@ -21,8 +21,6 @@ uninstall_fastfetch() {
     rm -f -- "$FASTFETCH_DEST"
 }
 
-package_fastfetch() {
+check_fastfetch() {
     jq -e . "$ROOT/cli/fastfetch/primer-dark.jsonc" >/dev/null
-    cp "$ROOT/cli/fastfetch/primer-dark.jsonc" "$DIST/Primer-Dark-Fastfetch.jsonc"
-    register_artifact Primer-Dark-Fastfetch.jsonc
 }

@@ -145,9 +145,11 @@ preflight_herdr() {
         fi
     fi
 
-    printf '%s\n' "$HERDR_BEGIN" >> "$HERDR_CONFIG_TMP"
-    cat "$ROOT/cli/herdr/primer-dark.toml" >> "$HERDR_CONFIG_TMP"
-    printf '%s\n' "$HERDR_END" >> "$HERDR_CONFIG_TMP"
+    {
+        printf '%s\n' "$HERDR_BEGIN"
+        cat "$ROOT/cli/herdr/primer-dark.toml"
+        printf '%s\n' "$HERDR_END"
+    } >> "$HERDR_CONFIG_TMP"
 
     if ! HERDR_CONFIG_PATH="$HERDR_CONFIG_TMP" herdr config check; then
         echo "Herdr rejected the merged Primer Dark configuration; the existing configuration was not changed." >&2
@@ -243,9 +245,4 @@ EOF
     fi
     rm -f -- "$HERDR_BACKUP" "$HERDR_STATE"
     printf 'Restored the previous Herdr theme configuration in %s\n' "$HERDR_CONFIG"
-}
-
-package_herdr() {
-    cp "$ROOT/cli/herdr/primer-dark.toml" "$DIST/Primer-Dark-Herdr.toml"
-    register_artifact Primer-Dark-Herdr.toml
 }

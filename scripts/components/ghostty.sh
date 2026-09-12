@@ -29,8 +29,3 @@ EOF
 uninstall_ghostty() {
     rm -f -- "$GHOSTTY_DEST"
 }
-
-package_ghostty() {
-    tar -C "$ROOT/terminals/ghostty" -czf "$DIST/Primer-Dark-Ghostty.tar.gz" "Primer Dark"
-    register_artifact Primer-Dark-Ghostty.tar.gz
-}

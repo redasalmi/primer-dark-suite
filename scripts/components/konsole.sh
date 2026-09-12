@@ -45,8 +45,3 @@ EOF
 uninstall_konsole() {
     rm -f -- "$KONSOLE_SCHEME_DEST" "$KONSOLE_PROFILE_DEST"
 }
-
-package_konsole() {
-    tar -C "$ROOT/kde/konsole" -czf "$DIST/Primer-Dark-Konsole.tar.gz" PrimerDark.colorscheme PrimerDark.profile
-    register_artifact Primer-Dark-Konsole.tar.gz
-}

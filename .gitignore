@@ -1,4 +1,4 @@
-dist/
-*.tar.gz
+web-ext-artifacts/
 browsers/*/*/Cached Theme.pak
+browsers/*/*/.amo-upload-uuid
 *~

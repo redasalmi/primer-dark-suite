@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 set -eu
 
-ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+ROOT=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
 # shellcheck source=scripts/lib/common.sh
 . "$ROOT/scripts/lib/common.sh"
 initialize_user_paths

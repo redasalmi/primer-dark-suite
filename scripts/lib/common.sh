@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 # SPDX-License-Identifier: MIT
 
+# The *_DEST, *_SOURCE, and HERDR_* variables below are read by the component
+# modules that source this file, so ShellCheck reports them as unused here.
+# shellcheck disable=SC2034
+
 : "${ROOT:?ROOT must be set before loading common.sh}"
 
 PACKAGE_ID=io.github.redasalmi.primerdark.desktop
@@ -9,8 +13,11 @@ PLASMA_STYLE_ID=PrimerDark
 COLOR_FILE=PrimerDark.colors
 # ALL_COMPONENTS are safe for the root install and uninstall lifecycle.
 ALL_COMPONENTS="kde konsole ghostty herdr pi zed fastfetch bat btop fish"
-# Manual-only ports still participate in release packaging.
-PACKAGE_COMPONENTS="$ALL_COMPONENTS firefox chrome eza fzf tmux"
+# CHECK_COMPONENTS validate their own assets in a check_* hook.
+CHECK_COMPONENTS="kde bat fastfetch pi zed firefox chrome fzf"
+# COMPONENT_MODULES are every module sourced by the install, uninstall, and
+# check entry points.
+COMPONENT_MODULES="$ALL_COMPONENTS firefox chrome fzf"
 PLASMA_STYLE_SOURCE="$ROOT/kde/plasma-style/$PLASMA_STYLE_ID"
 GLOBAL_SOURCE="$ROOT/kde/look-and-feel/$PACKAGE_ID"
 HERDR_BEGIN='# BEGIN Primer Dark Herdr theme (managed by primer-dark-suite)'
@@ -82,7 +89,7 @@ component_is_known() {
 }
 
 load_components() {
-    for component in $PACKAGE_COMPONENTS; do
+    for component in $COMPONENT_MODULES; do
         # shellcheck source=/dev/null
         . "$ROOT/scripts/components/$component.sh"
     done

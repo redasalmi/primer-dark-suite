@@ -100,8 +100,6 @@ uninstall_bat() {
     rm -f -- "$BAT_THEME_DEST"
 }
 
-package_bat() {
+check_bat() {
     xmllint --noout "$ROOT/cli/bat/Primer Dark.tmTheme"
-    tar -C "$ROOT/cli/bat" -czf "$DIST/Primer-Dark-Bat.tar.gz" "Primer Dark.tmTheme"
-    register_artifact Primer-Dark-Bat.tar.gz
 }

@@ -23,9 +23,9 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Konsole,
 - ready-to-merge eza `theme.yml` covering file kinds, permissions, sizes, users, Git states, SELinux contexts, and file types;
 - shell-safe fzf color option set covering borders, prompts, matches, selections, and previews;
 - ready-to-source tmux snippet covering the status bar, window states, pane borders, messages, copy mode, menus, and popups;
-- native Manifest V3 Mozilla Firefox static theme covering every effective color exposed by Firefox's current theme API;
+- native Manifest V3 Mozilla Firefox static theme covering every effective color exposed by Firefox's current theme API, published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/);
 - native Manifest V3 Chromium theme covering every color exposed by Chromium's current theme API, usable in Chrome and other Chromium-based browsers;
-- System Settings previews and offline packaging scripts.
+- System Settings previews and offline validation scripts.
 
 Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-button order. KDE Plasma Login theming is intentionally outside the v1 scope because login-manager integration is system-level and requires separate packaging and safety work.
 
@@ -49,7 +49,7 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - Mozilla Firefox 155.0 (the currently validated target) when using the Firefox theme
 - Google Chrome 152.0.7977.75 (the currently validated target) when using the Chrome theme
 
-The release and validation helper additionally uses `jq`, `xmllint`, `zip`, and standard Unix archive tools.
+The validation helper additionally uses `jq` and `xmllint`.
 
 ## Install
 
@@ -97,7 +97,7 @@ The installer replaces only Herdr's `[theme]` tables, preserves the rest of `~/.
 herdr server reload-config
 ```
 
-Herdr does not currently discover standalone theme files, so this opt-in installation safely merges [`cli/herdr/primer-dark.toml`](cli/herdr/primer-dark.toml) into its shared configuration. A ready-to-merge copy is also published as `Primer-Dark-Herdr.toml` in release artifacts.
+Herdr does not currently discover standalone theme files, so this opt-in installation safely merges [`cli/herdr/primer-dark.toml`](cli/herdr/primer-dark.toml) into its shared configuration.
 
 To additionally install the Pi theme:
 
@@ -133,7 +133,7 @@ Then load it per invocation:
 fastfetch --config primer-dark
 ```
 
-Fastfetch has no persistent active-theme state; presets are selected per invocation and replace the loaded configuration. The preset is therefore installed as a user-local preset under `~/.local/share/fastfetch/presets/primer-dark.jsonc` and selected with `--config`. It is not merged into or used as the default `~/.config/fastfetch/config.jsonc`. To make it permanent without editing the shared config, alias `fastfetch` or add `--config primer-dark` to the invocation; the same ready-to-use file is published as `Primer-Dark-Fastfetch.jsonc` in release artifacts.
+Fastfetch has no persistent active-theme state; presets are selected per invocation and replace the loaded configuration. The preset is therefore installed as a user-local preset under `~/.local/share/fastfetch/presets/primer-dark.jsonc` and selected with `--config`. It is not merged into or used as the default `~/.config/fastfetch/config.jsonc`. To make it permanent without editing the shared config, alias `fastfetch` or add `--config primer-dark` to the invocation.
 
 To additionally install the bat syntax-highlighting theme:
 
@@ -177,19 +177,23 @@ fish_config theme save primer-dark
 
 `choose` loads session-local colors; `save primer-dark` loads the named theme into universal variables. Saved colors remain after the theme file is removed and do not automatically follow terminal light/dark changes. The installed file is only needed for choosing and previewing the theme.
 
-eza, fzf, and tmux have no safe user-local theme discovery path, so they are intentionally not installed by the root script. Use their release artifacts or a repository checkout:
+eza, fzf, and tmux have no safe user-local theme discovery path, so they are intentionally not installed by the root script. Use a repository checkout:
 
 - **eza:** copy `cli/eza/theme.yml` to `$EZA_CONFIG_DIR/theme.yml` or `~/.config/eza/theme.yml`, backing up any existing `theme.yml` first, since eza only reads that single fixed path.
 - **fzf:** source `cli/fzf/primer-dark.sh` from your shell startup file, or copy its `FZF_DEFAULT_OPTS_PRIMER_DARK` value into an existing `FZF_DEFAULT_OPTS`. The snippet appends nothing when a `--color` option is already present.
 - **tmux:** add `source-file /path/to/primer-dark.conf` to `~/.tmux.conf` and reload with `tmux source-file ~/.tmux.conf`. Only styles are set, so your status format and key bindings are preserved.
 
-Firefox requires Mozilla signing for permanent installation in release and beta builds, so its theme is intentionally not installed by the root script. To preview it temporarily from a repository checkout:
+Firefox requires Mozilla signing for permanent installation in release and beta builds, so its theme is intentionally not installed by the root script. It is published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/).
+
+**Install from the store:** open the [listing](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/) and choose **Add to Firefox**. Mozilla signs the theme and Firefox updates it through your profile, so nothing is copied into a user-local theme directory and the install and uninstall scripts never manage it.
+
+**Preview an unreleased change instead** from a repository checkout:
 
 1. Open `about:debugging#/runtime/this-firefox`.
 2. Choose **Load Temporary Add-on**.
 3. Select `browsers/firefox/primer-dark/manifest.json`.
 
-The temporary theme remains active until it is removed from **This Firefox** or Firefox restarts. `Primer-Dark-Firefox.zip` can also be selected directly from **Load Temporary Add-on** and is ready for submission to [addons.mozilla.org](https://addons.mozilla.org/) for public or unlisted signing. A Mozilla-signed package is required for permanent installation in normal Firefox releases. The theme covers the frame, tabs, toolbars, address field, buttons, popups, new-tab page, and sidebar, and explicitly requests dark browser and content color schemes. It does not restyle arbitrary website content or DevTools.
+The temporary theme remains active until it is removed from **This Firefox** or Firefox restarts. Remove it before installing the store version, because both builds share the add-on ID `primer-dark@redasalmi.github.io` and would otherwise appear as two entries in **Add-ons and themes**. `web-ext build --source-dir browsers/firefox/primer-dark` produces the same package as a zip that **Load Temporary Add-on** and the [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/) submission both accept. The theme covers the frame, tabs, toolbars, address field, buttons, popups, new-tab page, and sidebar, and explicitly requests dark browser and content color schemes. It does not restyle arbitrary website content or DevTools.
 
 Google Chrome requires interactive extension loading, so its theme is intentionally not installed by the root script. From a repository checkout:
 
@@ -197,7 +201,7 @@ Google Chrome requires interactive extension loading, so its theme is intentiona
 2. Enable **Developer mode**.
 3. Choose **Load unpacked** and select `browsers/chrome/primer-dark/`.
 
-Loading the package activates **Primer Dark** immediately. For the release artifact, extract `Primer-Dark-Chrome.zip` into its own directory first, then select that directory. To update it, reset Chrome to its default theme, replace the extracted package, and load the new directory again. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance. Other Chromium-based browsers can load the same `Primer-Dark-Chrome.zip` from their equivalent extensions page, with rendering that may differ wherever the browser maps theme colors differently.
+Loading the package activates **Primer Dark** immediately. To update it, replace the files in the checkout and reload the unpacked extension. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance. Other Chromium-based browsers can load the same directory from their equivalent extensions page, with rendering that may differ wherever the browser maps theme colors differently.
 
 The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Fastfetch, bat, btop, and Fish settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
@@ -226,9 +230,9 @@ First select another Global Theme and, if used, other Konsole, Ghostty, Pi, Zed,
 
 The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact.
 
-The script does not manage Firefox, Chrome, eza, fzf, or tmux. Remove a temporary Firefox theme from `about:debugging#/runtime/this-firefox` or restart Firefox; remove a signed Firefox theme from **Add-ons and themes → Themes**. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
+The script does not manage Firefox, Chrome, eza, fzf, or tmux. Remove a store-installed or signed Firefox theme from **Add-ons and themes → Themes**, or remove a temporary copy from `about:debugging#/runtime/this-firefox` or by restarting Firefox. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
 
-## Build release artifacts
+## Validate
 
 The finished theme assets are committed and installation does not require a generator. To regenerate button SVGs after changing their source template:
 
@@ -236,13 +240,51 @@ The finished theme assets are committed and installation does not require a gene
 ./scripts/generate-buttons.py
 ```
 
-Create installable archives and checksums with:
+Validate the palette and every asset that has an official parser with:
 
 ```sh
-./scripts/package.sh
+./scripts/check.sh
 ```
 
-Artifacts are written to `dist/`. `Primer-Dark-Firefox.zip` and `Primer-Dark-Chrome.zip` each contain a ready-to-load `manifest.json` at the archive root. The Firefox ZIP must be signed by Mozilla before permanent installation in a normal release build. `Primer-Dark-Bat.tar.gz`, `Primer-Dark-Btop.tar.gz`, and `Primer-Dark-Fish.tar.gz` each contain a single theme file under the name their application expects, while `Primer-Dark-Eza.yml`, `Primer-Dark-Fzf.sh`, and `Primer-Dark-Tmux.conf` are plain files for manual use.
+This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, and Fastfetch JSON files, and the shell syntax of the fzf snippet. It requires `jq` and `xmllint`. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script on every push to `main` and every pull request.
+
+## Versioning
+
+This project cuts no GitHub Releases and keeps no suite version. `install.sh` is the distribution channel for every port it can install, so a version number would have nothing to identify.
+
+Versions exist only where a browser store requires them, and only in the two manifest files:
+
+- `browsers/firefox/primer-dark/manifest.json`
+- `browsers/chrome/primer-dark/manifest.json`
+
+`KPlugin.Version` is deliberately absent from the KDE `metadata.json` files: KDE treats it as optional, and kpackagetool6 installs and updates those packages without it. Bump only the manifest of the store you are publishing to; there is no cross-file version to keep in sync.
+
+## Release the Firefox theme
+
+[`.github/workflows/firefox-release.yml`](.github/workflows/firefox-release.yml) lints the Firefox theme, builds the unsigned package, and submits the manifest version to [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/) with `web-ext sign --channel listed`.
+
+One-time setup:
+
+1. Sign in to addons.mozilla.org and open the [API credentials page](https://addons.mozilla.org/en-US/developers/addon/api/key/).
+2. Generate a key and copy its **JWT issuer** (for example `user:12345:67`) and **JWT secret**; the secret is shown only once.
+3. In the repository, add them under **Settings → Secrets and variables → Actions** as `WEB_EXT_API_KEY` (issuer) and `WEB_EXT_API_SECRET` (secret). The workflow reads both from the environment, so no other configuration is needed.
+4. Keep the manifest add-on ID `primer-dark@redasalmi.github.io` unchanged, because AMO matches every submission to the existing listing by that ID.
+
+To publish a version:
+
+1. Bump `version` in [`browsers/firefox/primer-dark/manifest.json`](browsers/firefox/primer-dark/manifest.json). AMO rejects a version that already exists on any channel, so this is required.
+2. Commit the bump to the default branch.
+3. Run the workflow from the **Actions** tab (**Release Firefox theme → Run workflow**).
+
+The workflow fails if the manifest version is not newer than the version published on AMO, if `web-ext lint` reports any warning, or if a secret is missing. It reads the published version from the public AMO API, so a forgotten bump is reported before the submission is attempted. It then submits the version and stops without waiting for review, because a review that outlasts the job is not a failure: the submission is already queued on AMO, and the update appears on the listing once it is approved.
+
+To submit from a local checkout instead, install `web-ext` and provide the same credentials in the environment:
+
+```sh
+npm install --global web-ext@10.6.0
+WEB_EXT_API_KEY=user:12345:67 WEB_EXT_API_SECRET=<secret> \
+  web-ext sign --source-dir browsers/firefox/primer-dark --channel listed --approval-timeout 0
+```
 
 ## Design tokens
 

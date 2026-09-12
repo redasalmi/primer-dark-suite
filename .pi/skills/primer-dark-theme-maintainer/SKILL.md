@@ -1,12 +1,12 @@
 ---
 name: primer-dark-theme-maintainer
-description: Creates, updates, or removes application, editor, terminal, CLI/TUI, desktop, browser, and integration theme ports in Primer Dark Suite. Use when a Primer Dark port must be researched against official documentation, implemented from the canonical palette, connected to install/uninstall and release packaging where safe, documented in structure.md and plan.md, and validated end to end.
+description: Creates, updates, or removes application, editor, terminal, CLI/TUI, desktop, browser, and integration theme ports in Primer Dark Suite. Use when a Primer Dark port must be researched against official documentation, implemented from the canonical palette, connected to install/uninstall and asset validation where safe, documented in structure.md and plan.md, and validated end to end.
 compatibility: Intended for the primer-dark-suite repository and a Unix shell with the target application's official validation tools when available.
 ---
 
 # Primer Dark theme maintainer
 
-Maintain one theme port through its complete lifecycle: official research, semantic color mapping, native asset creation, safe installation/removal, packaging, documentation, and verification.
+Maintain one theme port through its complete lifecycle: official research, semantic color mapping, native asset creation, safe installation/removal, validation, documentation, and verification.
 
 Run repository commands from the Git root, not from this skill directory:
 
@@ -25,14 +25,14 @@ cd "$REPO"
 - Commit ready-to-use assets; installation must work offline and must not require generation.
 - Keep changes minimal and consistent with the repository's existing shell and documentation style.
 - Do not add, remove, or modify tests unless the user explicitly asks. Do run existing applicable checks.
-- Do not claim a port is implemented until its native format, installation/discovery path, release artifact, and representative states have been verified as far as the environment permits.
+- Do not claim a port is implemented until its native format, installation/discovery path, validation hook, and representative states have been verified as far as the environment permits.
 
 ## 1. Establish the lifecycle operation
 
 Classify the request as one of:
 
 - **Create:** add a new target port.
-- **Update:** change an existing port for colors, coverage, schema, app version, install path, packaging, or behavior.
+- **Update:** change an existing port for colors, coverage, schema, app version, install path, validation, or behavior.
 - **Delete/retire:** remove a port from the repository and stop distributing/installing it while preserving a safe migration path for users of released versions.
 
 Determine these facts before editing:
@@ -41,7 +41,7 @@ Determine these facts before editing:
 2. Repository category and path (`kde/`, `terminals/`, `editors/`, `cli/`, `browsers/`, `creative/`, `gtk/`, or `integrations/`).
 3. Whether the app supports a standalone theme file/package, only a shared config snippet, or no supported theming API.
 4. Requested scope: UI chrome, syntax, ANSI colors, statuses, diagrams, or all supported theme fields.
-5. Whether the port has shipped before. For deletion or path changes, inspect Git history and release packaging.
+5. Whether the port has shipped before. For deletion or path changes, inspect Git history and asset validation.
 
 Ask a question only if missing information materially changes safety or architecture. Otherwise follow official behavior and repository conventions, then state the assumption.
 
@@ -52,11 +52,11 @@ Always inspect:
 - `git status --short` and the relevant diff;
 - `palette/primer-dark.json`;
 - `README.md`, `structure.md`, and `plan.md`;
-- `install.sh`, `uninstall.sh`, `scripts/package.sh`, `scripts/lib/common.sh`, and the relevant `scripts/components/<target>.sh` module;
+- `install.sh`, `uninstall.sh`, `scripts/check.sh`, `scripts/lib/common.sh`, and the relevant `scripts/components/<target>.sh` module;
 - one or more neighboring implemented ports in the same category;
 - all references to the target's names, IDs, paths, flags, and artifact names.
 
-For updates, read every existing target asset before editing. For deletions, search the whole repository and use `git log -- <path>` to determine whether legacy uninstall support is needed. Never overwrite or revert unrelated changes, including generated `dist/` output.
+For updates, read every existing target asset before editing. For deletions, search the whole repository and use `git log -- <path>` to determine whether legacy uninstall support is needed. Never overwrite or revert unrelated changes, including generated `web-ext-artifacts/` output.
 
 ## 3. Research official behavior before designing
 
@@ -140,7 +140,7 @@ Follow the component-orchestrator pattern and update all of these together:
 
 - add the component ID to `ALL_COMPONENTS` in `scripts/lib/common.sh` so `--<target>` is recognized;
 - define shared destination variables using `XDG_DATA_HOME`, `XDG_CONFIG_HOME`, or the documented app-specific environment variable;
-- add `preflight_<target>`, `install_<target>`, `guard_<target>`, `uninstall_<target>`, and `package_<target>` hooks under `scripts/components/`;
+- add `preflight_<target>`, `install_<target>`, `guard_<target>`, and `uninstall_<target>` hooks under `scripts/components/`, plus a `check_<target>` hook when the asset format has a non-interactive validator;
 - keep the install hook idempotent using `install -Dm644` for files or remove/recreate/copy for a wholly owned package directory;
 - validate every selected component in its preflight hook without changing installed files;
 - print a concise destination and activation message.
@@ -162,19 +162,16 @@ If the installer owns a destination:
 
 If active-theme detection is unavailable, do not invent a brittle check. Document that users must switch first, limit deletion to the owned asset, and explain the limitation in the final report.
 
-### 6.4 Update release packaging
+### 6.4 Register asset validation
 
-In `scripts/package.sh`:
+Add a `check_<target>()` hook to the component module that validates the port's own asset format, then add the component to `CHECK_COMPONENTS` in `scripts/lib/common.sh`.
 
 - add the official native parser/schema validation when it is non-interactive and available as an established dependency;
-- validate and emit through the component hook into the staging directory supplied by `scripts/package.sh`; never clear or write the published `dist/` directly;
-- copy a single-file port or create the appropriate archive for a package directory;
-- use the repository artifact naming form `Primer-Dark-<Target>.<ext>`;
-- include the artifact exactly once in `SHA256SUMS`;
-- retain deterministic ordering consistent with neighboring artifacts;
-- do not package caches, local settings, screenshots not intended for release, or build-only files.
+- parse JSON with `jq -e .` and XML/SVG with `xmllint --noout` where those are the native formats;
+- keep the hook free of side effects: it must not write, install, or fetch anything;
+- do not add a hook when the format has no non-interactive validator; document that gap instead.
 
-Do not introduce a new packaging dependency unless the native format requires it and the dependency is documented in `README.md`.
+Do not introduce a new validation dependency unless the native format requires it and the dependency is documented in `README.md`.
 
 ### 6.5 Update documentation
 
@@ -197,7 +194,7 @@ Repeat official research; do not assume the old schema or install path is still 
 4. Validate all supported states, not just the changed color.
 5. Change installer/uninstaller paths only if official discovery changed.
 6. On a filename, identifier, or destination migration, install the new owned path and make uninstall clean both known old and new owned paths. Remove an old installed path during update only when ownership is certain and the migration is documented.
-7. Refresh package validation/artifacts/checksums and only the documentation facts that changed.
+7. Refresh the component's `check_<target>` hook and only the documentation facts that changed.
 8. Report compatibility or migration implications explicitly.
 
 A palette-wide update is larger than a single-port update: search every implemented asset for affected values, update all semantic consumers, and run every applicable port validator.
@@ -206,10 +203,10 @@ A palette-wide update is larger than a single-port update: search every implemen
 
 Deletion means removing repository support, not deleting files from the user's live home directory.
 
-1. Confirm the requested target and whether it appeared in a released package.
+1. Confirm the requested target and whether it appeared in a published store listing.
 2. Remove source assets and now-empty target directories.
-3. Remove the component ID from `ALL_COMPONENTS`, its lifecycle module, any help text, and activation messages.
-4. Remove its packaging hook and generated release artifacts.
+3. Remove the component ID from `ALL_COMPONENTS` and `CHECK_COMPONENTS`, its lifecycle module, any help text, and activation messages.
+4. Remove its `check_<target>` hook and its entry in `COMPONENT_MODULES`.
 5. Remove or revise README requirements, install paths, usage, and feature claims.
 6. Update `structure.md` and `plan.md`: remove the target entirely, return it to roadmap status, or mark it retired according to the request. Explain why when the theming API was removed or became unsafe.
 7. Search for stale names, flags, IDs, paths, and artifact references.
@@ -223,7 +220,7 @@ Run the narrowest applicable checks first. Use official commands discovered duri
 ### Static and native checks
 
 - Parse JSON with `jq -e .`, XML/SVG with `xmllint --noout`, and other formats with the target's official parser/checker.
-- Run `sh -n install.sh uninstall.sh scripts/package.sh scripts/lib/common.sh scripts/components/*.sh` after shell edits.
+- Run `shellcheck install.sh uninstall.sh scripts/check.sh scripts/lib/*.sh scripts/components/*.sh cli/fzf/primer-dark.sh` after shell edits, or `sh -n` on the same files where ShellCheck is unavailable.
 - Validate required metadata, schema version, key completeness, stable identifiers, and exact discovery names.
 - Check that theme values come from canonical palette values or documented alpha/blend derivatives.
 - Use the target application's theme discovery/import/config check when available.
@@ -241,14 +238,12 @@ Verify:
 5. uninstall refuses removal when a safely simulated active state is supported;
 6. uninstall removes owned paths and preserves sentinels.
 
-### Package check
+### Validation check
 
-Run `./scripts/package.sh` when its declared dependencies are available and doing so will not overwrite unrelated work. Then:
+Run `./scripts/check.sh` when `jq` and `xmllint` are available. Then:
 
-- list archive contents;
-- confirm the new/updated artifact name and native layout;
-- run `(cd dist && sha256sum -c SHA256SUMS)`;
-- confirm removed ports no longer appear;
+- confirm the check fails when the target asset is deliberately malformed, so the hook is not vacuous;
+- confirm removed ports no longer register a hook or appear in `CHECK_COMPONENTS`;
 - inspect `git status` so generated output or unrelated changes are not accidentally included.
 
 ### Visual/behavioral check
@@ -269,4 +264,4 @@ Lead with the result and include:
 - exact verification commands and outcomes;
 - checks not run, remaining risks, and migration notes.
 
-A port is complete only when the source asset, safe lifecycle integration, `README.md`, `structure.md`, `plan.md`, package output, and applicable native validation agree with one another.
+A port is complete only when the source asset, safe lifecycle integration, `README.md`, `structure.md`, `plan.md`, the component's validation hook, and applicable native validation agree with one another.

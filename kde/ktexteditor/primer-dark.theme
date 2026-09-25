@@ -1,0 +1,215 @@
+{
+    "metadata": {
+        "name": "Primer Dark",
+        "revision": 1,
+        "license": "SPDX-License-Identifier: MIT",
+        "copyright": [
+            "SPDX-FileCopyrightText: 2026 Reda Salmi",
+            "Colors derived from GitHub Primer Primitives (MIT)"
+        ]
+    },
+    "text-styles": {
+        "Normal": {
+            "text-color": "#F0F6FC",
+            "selected-text-color": "#F0F6FC"
+        },
+        "Keyword": {
+            "text-color": "#FF7B72",
+            "selected-text-color": "#FF7B72"
+        },
+        "Function": {
+            "text-color": "#D2A8FF",
+            "selected-text-color": "#D2A8FF"
+        },
+        "Variable": {
+            "text-color": "#FFA657",
+            "selected-text-color": "#FFA657"
+        },
+        "ControlFlow": {
+            "text-color": "#FF7B72",
+            "selected-text-color": "#FF7B72"
+        },
+        "Operator": {
+            "text-color": "#FF7B72",
+            "selected-text-color": "#FF7B72"
+        },
+        "BuiltIn": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "Extension": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "Preprocessor": {
+            "text-color": "#FF7B72",
+            "selected-text-color": "#FF7B72"
+        },
+        "Attribute": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "Char": {
+            "text-color": "#A5D6FF",
+            "selected-text-color": "#A5D6FF"
+        },
+        "SpecialChar": {
+            "text-color": "#FF7B72",
+            "selected-text-color": "#FF7B72"
+        },
+        "String": {
+            "text-color": "#A5D6FF",
+            "selected-text-color": "#A5D6FF"
+        },
+        "VerbatimString": {
+            "text-color": "#A5D6FF",
+            "selected-text-color": "#A5D6FF"
+        },
+        "SpecialString": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "Import": {
+            "text-color": "#A5D6FF",
+            "selected-text-color": "#A5D6FF"
+        },
+        "DataType": {
+            "text-color": "#FFA657",
+            "selected-text-color": "#FFA657"
+        },
+        "DecVal": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "BaseN": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "Float": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "Constant": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "Comment": {
+            "text-color": "#9198A1",
+            "selected-text-color": "#9198A1"
+        },
+        "Documentation": {
+            "text-color": "#9198A1",
+            "selected-text-color": "#9198A1"
+        },
+        "Annotation": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "CommentVar": {
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
+        },
+        "RegionMarker": {
+            "text-color": "#4493F8",
+            "selected-text-color": "#4493F8",
+            "background-color": "#051D4D"
+        },
+        "Information": {
+            "text-color": "#4493F8",
+            "selected-text-color": "#4493F8"
+        },
+        "Warning": {
+            "text-color": "#D29922",
+            "selected-text-color": "#D29922"
+        },
+        "Alert": {
+            "text-color": "#F85149",
+            "selected-text-color": "#F85149",
+            "bold": true,
+            "background-color": "#490202"
+        },
+        "Error": {
+            "text-color": "#F85149",
+            "selected-text-color": "#F85149",
+            "underline": true
+        },
+        "Others": {
+            "text-color": "#7EE787",
+            "selected-text-color": "#7EE787"
+        }
+    },
+    "editor-colors": {
+        "BackgroundColor": "#0D1117",
+        "BracketMatching": "#182B44",
+        "CodeFolding": "#051D4D",
+        "CurrentLine": "#151B23",
+        "CurrentLineNumber": "#F0F6FC",
+        "IconBorder": "#0D1117",
+        "IndentationLine": "#2F3742",
+        "LineNumbers": "#656C76",
+        "MarkBookmark": "#4493F8",
+        "MarkBreakpointActive": "#F85149",
+        "MarkBreakpointDisabled": "#AB7DF8",
+        "MarkBreakpointReached": "#D29922",
+        "MarkError": "#F85149",
+        "MarkExecution": "#3D444D",
+        "MarkWarning": "#D29922",
+        "ModifiedLines": "#D29922",
+        "ReplaceHighlight": "#1E492A",
+        "SavedLines": "#3FB950",
+        "SearchHighlight": "#4F3E1B",
+        "Separator": "#3D444D",
+        "SpellChecking": "#F85149",
+        "TabMarker": "#2F3742",
+        "TemplateBackground": "#151B23",
+        "TemplateFocusedPlaceholder": "#212830",
+        "TemplatePlaceholder": "#151B23",
+        "TemplateReadOnlyPlaceholder": "#010409",
+        "TextSelection": "#14376C",
+        "WordWrapMarker": "#2F3742"
+    },
+    "custom-styles": {
+        "Alerts": {
+            "Alert Level 1": {
+                "text-color": "#F85149",
+                "selected-text-color": "#F85149",
+                "bold": true,
+                "background-color": "#490202"
+            },
+            "Alert Level 2": {
+                "text-color": "#D29922",
+                "selected-text-color": "#D29922",
+                "bold": true,
+                "background-color": "#341A00"
+            },
+            "Alert Level 3": {
+                "text-color": "#3FB950",
+                "selected-text-color": "#3FB950",
+                "bold": true,
+                "background-color": "#04260F"
+            }
+        },
+        "HTML": {
+            "Element": {
+                "text-color": "#7EE787",
+                "selected-text-color": "#7EE787"
+            }
+        },
+        "JSON": {
+            "Style_String_Key": {
+                "text-color": "#7EE787",
+                "selected-text-color": "#7EE787"
+            },
+            "Style_Seperator_Pair": {
+                "text-color": "#F0F6FC",
+                "selected-text-color": "#F0F6FC"
+            }
+        },
+        "XML": {
+            "Element": {
+                "text-color": "#7EE787",
+                "selected-text-color": "#7EE787"
+            }
+        }
+    }
+}

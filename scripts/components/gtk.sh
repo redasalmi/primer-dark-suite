@@ -39,6 +39,12 @@ guard_gtk() {
             active_gtk_theme=1
         fi
     done
+    # Plasma also publishes the GTK theme to X11 GTK applications through
+    # xsettingsd, whose configuration keeps its own copy of the theme name.
+    if [ -f "$CONFIG_HOME/xsettingsd/xsettingsd.conf" ] \
+        && grep -Eq '^[[:space:]]*Net/ThemeName[[:space:]]+"primer-dark"' "$CONFIG_HOME/xsettingsd/xsettingsd.conf"; then
+        active_gtk_theme=1
+    fi
     if [ "$active_gtk_theme" -eq 0 ] && command -v gsettings >/dev/null 2>&1; then
         gsettings_gtk_theme=$(gsettings get org.gnome.desktop.interface gtk-theme 2>/dev/null || true)
         case "$gsettings_gtk_theme" in

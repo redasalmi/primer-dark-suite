@@ -12,9 +12,9 @@ AURORAE_ID=PrimerDark
 PLASMA_STYLE_ID=PrimerDark
 COLOR_FILE=PrimerDark.colors
 # ALL_COMPONENTS are safe for the root install and uninstall lifecycle.
-ALL_COMPONENTS="kde konsole ghostty herdr pi zed cursor fastfetch bat btop fish gtk kvantum"
+ALL_COMPONENTS="kde konsole ghostty herdr pi zed cursor fastfetch bat btop fish gtk kvantum ktexteditor micro atuin codex claude godot"
 # CHECK_COMPONENTS validate their own assets in a check_* hook.
-CHECK_COMPONENTS="kde bat fastfetch pi zed cursor firefox chrome fzf gtk kvantum"
+CHECK_COMPONENTS="kde bat fastfetch pi zed cursor firefox chrome fzf gtk kvantum ktexteditor micro atuin claude godot"
 # COMPONENT_MODULES are every module sourced by the install, uninstall, and
 # check entry points.
 COMPONENT_MODULES="$ALL_COMPONENTS firefox chrome fzf"
@@ -44,6 +44,28 @@ initialize_user_paths() {
         CONFIG_HOME="$HOME/.config"
     else
         echo "HOME or XDG_CONFIG_HOME is required for user configuration paths." >&2
+        exit 1
+    fi
+
+    if [ -n "${CODEX_HOME:-}" ]; then
+        CODEX_DIR=$CODEX_HOME
+    elif [ -n "${HOME:-}" ]; then
+        CODEX_DIR="$HOME/.codex"
+    else
+        echo "HOME or CODEX_HOME is required for the Codex theme path." >&2
+        exit 1
+    fi
+
+    # Claude Code keeps its global .claude.json inside CLAUDE_CONFIG_DIR when
+    # that is set, and in the home directory otherwise.
+    if [ -n "${CLAUDE_CONFIG_DIR:-}" ]; then
+        CLAUDE_DIR=$CLAUDE_CONFIG_DIR
+        CLAUDE_GLOBAL_CONFIG="$CLAUDE_DIR/.claude.json"
+    elif [ -n "${HOME:-}" ]; then
+        CLAUDE_DIR="$HOME/.claude"
+        CLAUDE_GLOBAL_CONFIG="$HOME/.claude.json"
+    else
+        echo "HOME or CLAUDE_CONFIG_DIR is required for the Claude Code theme path." >&2
         exit 1
     fi
 
@@ -90,6 +112,15 @@ initialize_user_paths() {
     FISH_THEME_DEST="$CONFIG_HOME/fish/themes/primer-dark.theme"
     GTK_THEME_SOURCE="$ROOT/gtk/primer-dark"
     GTK_THEME_DEST="$DATA_HOME/themes/primer-dark"
+    KTEXTEDITOR_THEME_DEST="$DATA_HOME/org.kde.syntax-highlighting/themes/primer-dark.theme"
+    MICRO_CONFIG_ROOT=${MICRO_CONFIG_HOME:-"$CONFIG_HOME/micro"}
+    MICRO_THEME_DEST="$MICRO_CONFIG_ROOT/colorschemes/primer-dark.micro"
+    ATUIN_CONFIG_ROOT=${ATUIN_CONFIG_DIR:-"$CONFIG_HOME/atuin"}
+    ATUIN_THEME_DEST="${ATUIN_THEME_DIR:-"$ATUIN_CONFIG_ROOT/themes"}/primer-dark.toml"
+    CODEX_THEME_DEST="$CODEX_DIR/themes/primer-dark.tmTheme"
+    CLAUDE_THEME_DEST="$CLAUDE_DIR/themes/primer-dark.json"
+    GODOT_CONFIG_ROOT="$CONFIG_HOME/godot"
+    GODOT_THEME_DEST="$GODOT_CONFIG_ROOT/text_editor_themes/PrimerDark.tet"
 }
 
 require_command() {
@@ -97,6 +128,38 @@ require_command() {
         printf '%s\n' "$2" >&2
         exit 1
     fi
+}
+
+# Succeeds when KEY is set to the string VALUE for TABLE in a TOML file, in any
+# of the forms TOML allows: a [TABLE] section, a top-level dotted TABLE.KEY, or
+# a top-level inline TABLE = { KEY = ... }. A file that exists but cannot be
+# read stops the uninstall, because the active theme is then unknown.
+toml_table_key_is() {
+    toml_file=$1
+    [ -e "$toml_file" ] || return 1
+    toml_status=0
+    [ -r "$toml_file" ] || toml_status=2
+    if [ "$toml_status" -eq 0 ]; then
+        awk -v table="$2" -v key="$3" -v value="$4" '
+            BEGIN {
+                sp = "[[:space:]]*"
+                assign = key sp "=" sp "[\"\047]" value "[\"\047]"
+                section_re = "^" sp "\\[" sp table sp "\\]" sp "(#.*)?$"
+                dotted_re = "^" sp table sp "\\." sp assign
+                inline_re = "^" sp table sp "=" sp "\\{([^}]*,)?" sp assign
+                top_level = 1
+            }
+            /^[[:space:]]*\[/ { in_table = ($0 ~ section_re); top_level = 0; next }
+            in_table && $0 ~ ("^" sp assign) { found = 1 }
+            top_level && ($0 ~ dotted_re || $0 ~ inline_re) { found = 1 }
+            END { exit found ? 0 : 1 }
+        ' "$toml_file" || toml_status=$?
+    fi
+    case "$toml_status" in
+        0|1) return "$toml_status" ;;
+    esac
+    printf 'Cannot read %s safely; no files were removed.\n' "$toml_file" >&2
+    exit 1
 }
 
 component_is_known() {

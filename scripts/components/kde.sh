@@ -45,6 +45,21 @@ No files were removed.
 EOF
             exit 1
         fi
+
+        # The color scheme, Aurorae decoration, and splash screen can each be
+        # selected on their own while another Global Theme is active.
+        active_color_scheme=$(kreadconfig6 --file kdeglobals --group General --key ColorScheme 2>/dev/null || true)
+        active_decoration=$(kreadconfig6 --file kwinrc --group org.kde.kdecoration2 --key theme 2>/dev/null || true)
+        active_splash=$(kreadconfig6 --file ksplashrc --group KSplash --key Theme 2>/dev/null || true)
+        if [ "$active_color_scheme" = "${COLOR_FILE%.colors}" ] \
+            || [ "$active_decoration" = "__aurorae__svg__$AURORAE_ID" ] \
+            || [ "$active_splash" = "$PACKAGE_ID" ]; then
+            cat >&2 <<'EOF'
+The Primer Dark color scheme, window decoration, or splash screen is still selected. Select other ones in System Settings before uninstalling Primer Dark.
+No files were removed.
+EOF
+            exit 1
+        fi
     fi
 }
 

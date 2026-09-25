@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum, Konsole, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Zed, Cursor, Fastfetch, bat, btop, eza, fzf, Fish, tmux, and GTK 3/4.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum, Konsole, KWrite/Kate, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Claude Code, Codex, Zed, Cursor, micro, Godot, Fastfetch, bat, btop, bottom, Atuin, eza, fzf, Fish, tmux, LS_COLORS, mpv, MangoHud, and GTK 3/4.
 
 ## Included in v1
 
@@ -12,11 +12,17 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum,
 - logo-free Plasma splash screen;
 - native Konsole color scheme with coordinated normal, bright, and faint ANSI colors;
 - optional color-only Konsole profile that does not declare shell or font settings;
+- native KSyntaxHighlighting color theme for KWrite, Kate, and every other KTextEditor application, covering syntax styles, editor colors, search and replace highlights, markers, and alert comments with the shared editor syntax mapping;
 - native Ghostty theme with a coordinated ANSI 16-color palette;
 - complete Herdr TUI palette covering chrome, sidebar states, text hierarchy, and agent statuses;
 - complete Pi TUI theme covering messages, tools, Markdown, diffs, syntax, search, and thinking levels;
 - complete Zed theme covering the workbench, editor, syntax, diagnostics, Git states, collaboration, Vim modes, and integrated terminal;
 - native Cursor/VS Code-compatible color theme extension covering the workbench, editor, syntax, semantic highlighting, diagnostics, Git decorations, integrated terminal, and ANSI colors;
+- native micro colorscheme covering every documented highlight group plus the status line, tab bar, gutter, diff, search, and whitespace-error states;
+- native Godot 4 text editor theme covering all 49 script editor colors, plus documented editor base and accent colors;
+- native Claude Code custom theme covering its text, status, mode, diff, transcript, usage, subagent, and shimmer tokens;
+- Codex syntax theme, installed from the bat TextMate theme;
+- native Atuin theme covering every Atuin 18 meaning;
 - complete Fastfetch preset covering the logo, keys, title, output, separator, bars, and status colors;
 - complete bat syntax-highlighting theme covering Markdown, diffs, comments, keywords, strings, numbers, types, functions, variables, and diagnostics;
 - complete btop theme covering boxes, dividers, graphs, meters, process states, and pause/follow/banner colors;
@@ -24,7 +30,9 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum,
 - native GTK 3 and GTK 4 theme package covering windows, header bars, controls, entries, menus, popovers, tooltips, lists, selections, focus, disabled states, and destructive actions, plus a documented libadwaita color override;
 - native Kvantum theme defining the complete Kvantum color spec (window, inactive window, base, alternate base, button, bevel, frame, grid, highlight, tooltip, text, disabled, link, and progress colors) with the same semantic roles as the KDE color scheme;
 - ready-to-merge eza `theme.yml` covering file kinds, permissions, sizes, users, Git states, SELinux contexts, and file types;
-- shell-safe fzf color option set covering borders, prompts, matches, selections, and previews;
+- shell-safe fzf color option set covering borders, prompts, matches, selections, and previews, for POSIX shells and fish;
+- ready-to-load GNU dircolors database for `LS_COLORS` (ls, tree, fd, and shell completion) matching the eza file kinds;
+- ready-to-merge bottom `[styles]` tables, mpv OSD/OSC/console color snippet, and MangoHud color snippet;
 - ready-to-source tmux snippet covering the status bar, window states, pane borders, messages, copy mode, menus, and popups;
 - native Manifest V3 Mozilla Firefox static theme covering every effective color exposed by Firefox's current theme API, published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/);
 - native Manifest V3 Chromium theme covering every color exposed by Chromium's current theme API, usable in Chrome and other Chromium-based browsers;
@@ -42,7 +50,14 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - Herdr 0.8.2 or newer when installing the TUI theme
 - Pi when installing the optional CLI coding-agent theme
 - Zed 1.19.2 or newer when installing the optional editor theme
-- Cursor 3.20.17, whose bundled VS Code 1.128.0 theme registry defines the validated color keys, when installing the optional editor theme extension
+- Cursor 3.20.17 or newer (3.22.7 is the currently validated installer target), whose bundled VS Code theme registry defines the validated color keys, plus its `cursor` command-line launcher and `python3` when installing the optional editor theme extension
+- KWrite or Kate from KDE Frameworks 6 (KSyntaxHighlighting 6.30 is the currently validated target) when using the editor color theme
+- micro 2.0.14 or newer (2.0.15 is the currently validated target) when using the micro colorscheme
+- Godot 4.7 (the currently validated target) when using the Godot text editor theme
+- Claude Code with custom theme support (`~/.claude/themes/`) when using the Claude Code theme
+- Codex CLI with custom `.tmTheme` support (0.157 is the currently validated target) when using the Codex syntax theme
+- Atuin 18.x (18.12 is the currently validated target) when using the Atuin theme
+- bottom 0.14.x, mpv 0.41, and MangoHud 0.8 (the currently validated targets) when using their snippets
 - Fastfetch 2.66.0 or newer (the currently validated target) when using the Fastfetch preset
 - bat 0.26.x (the currently validated target) when using the bat theme
 - btop 1.4.x (the currently validated target) when using the btop theme
@@ -55,7 +70,7 @@ Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-
 - Mozilla Firefox 155.0 (the currently validated target) when using the Firefox theme
 - Google Chrome 152.0.7977.75 (the currently validated target) when using the Chrome theme
 
-The validation helper additionally uses `jq`, `xmllint`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs.
+The validation helper additionally uses `jq`, `xmllint`, `fish`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs.
 
 ## Install
 
@@ -133,7 +148,7 @@ To additionally install the Cursor theme extension:
 ./install.sh --cursor
 ```
 
-Restart Cursor, then select **Primer Dark** in **Preferences: Theme: Color Theme**. The extension is installed as an unpacked VS Code-compatible theme extension, so Cursor owns the extension bookkeeping and no settings file is rewritten.
+Reload Cursor, then select **Primer Dark** in **Preferences: Theme: Color Theme**. The installer packages the extension as a VSIX in a temporary directory and installs it with `cursor --install-extension`, so Cursor records it in its own `extensions.json`; no settings file is rewritten. Cursor ignores an extension directory that is merely copied into `~/.cursor/extensions/` once that bookkeeping file exists, which is why the extension is not copied directly.
 
 To additionally install the Fastfetch preset:
 
@@ -241,11 +256,85 @@ theme=PrimerDark
 
 The installer writes `~/.config/Kvantum/PrimerDark/` and never rewrites the Kvantum selection file, so activating the theme stays a user action. The theme defines Kvantum's complete documented color spec with the same semantic roles as `PrimerDark.colors`, so Qt applications styled by Kvantum resolve the same window, inactive window, base, alternate base, button, bevel, frame, grid, highlight, tooltip, text, link, and progress colors as Breeze. Kvantum paints widget shapes from an SVG image and falls back per element to its built-in default SVG, so this theme colors the style without replacing that artwork; Primer artwork for Kvantum is future work. Kvantum was not installed in the environment where this theme was authored, so it was validated with Qt's own settings parser and Kvantum's official theme-configuration documentation rather than in a running Kvantum session.
 
+To additionally install the KWrite/Kate editor color theme:
+
+```sh
+./install.sh --ktexteditor
+```
+
+Restart KWrite or Kate, then select **Primer Dark** in **Settings → Configure → Appearance → Color Themes**. The theme is a native KSyntaxHighlighting theme in `~/.local/share/org.kde.syntax-highlighting/themes/`, so every KTextEditor application and `ksyntaxhighlighter6 --theme "Primer Dark"` can use it. Syntax colors match the Zed and Cursor ports; the selection, search, replace, and bracket highlights are solid blends of the Cursor translucent colors over the editor background because KTextEditor paints them opaquely.
+
+To additionally install the micro colorscheme:
+
+```sh
+./install.sh --micro
+```
+
+Run `> set colorscheme primer-dark` inside micro, or set `"colorscheme": "primer-dark"` in `~/.config/micro/settings.json`. micro renders the exact colors when the terminal reports true color (`COLORTERM=truecolor`, which Konsole and Ghostty set) and approximates them otherwise.
+
+To additionally install the Godot text editor theme:
+
+```sh
+./install.sh --godot
+```
+
+Select **PrimerDark** in **Editor → Editor Settings → Text Editor → Theme → Color Theme**. Godot's editor chrome is generated from a base and an accent color rather than from a theme file, and those live in the shared `editor_settings-4.x.tres`, so set them yourself under **Interface → Theme**: **Color Preset** `Custom`, **Base Color** `#0D1117`, **Accent Color** `#4493F8`. The equivalent settings lines are:
+
+```ini
+interface/theme/color_preset = "Custom"
+interface/theme/base_color = Color(0.051, 0.067, 0.09, 1)
+interface/theme/accent_color = Color(0.267, 0.576, 0.973, 1)
+```
+
+To additionally install the Claude Code theme:
+
+```sh
+./install.sh --claude
+```
+
+Select **Primer Dark** with `/theme`. The theme is a custom theme file in `~/.claude/themes/` (or `$CLAUDE_CONFIG_DIR/themes/`) based on the built-in `dark` preset; Claude Code reloads that directory while it runs, but needs one restart if the directory did not exist when it started.
+
+To additionally install the Codex syntax theme:
+
+```sh
+./install.sh --codex
+```
+
+Select **primer-dark** with `/theme` in Codex, or set it under `[tui]` in `~/.codex/config.toml`:
+
+```toml
+[tui]
+theme = "primer-dark"
+```
+
+Codex highlights code with TextMate themes, so the installer copies the bat theme to `$CODEX_HOME/themes/primer-dark.tmTheme`. Codex's own interface chrome follows the terminal palette.
+
+To additionally install the Atuin theme:
+
+```sh
+./install.sh --atuin
+```
+
+Then select it in `~/.config/atuin/config.toml`:
+
+```toml
+[theme]
+name = "primer-dark"
+```
+
+The theme leaves Atuin's base color unset so history text keeps the terminal foreground, and it lists only the meanings Atuin 18 defines, because Atuin rejects a theme that names an unknown meaning.
+
 eza, fzf, and tmux have no safe user-local theme discovery path, so they are intentionally not installed by the root script. Use a repository checkout:
 
 - **eza:** copy `cli/eza/theme.yml` to `$EZA_CONFIG_DIR/theme.yml` or `~/.config/eza/theme.yml`, backing up any existing `theme.yml` first, since eza only reads that single fixed path.
 - **fzf:** source `cli/fzf/primer-dark.sh` from your shell startup file, or copy its `FZF_DEFAULT_OPTS_PRIMER_DARK` value into an existing `FZF_DEFAULT_OPTS`. The snippet appends nothing when a `--color` option is already present.
 - **tmux:** add `source-file /path/to/primer-dark.conf` to `~/.tmux.conf` and reload with `tmux source-file ~/.tmux.conf`. Only styles are set, so your status format and key bindings are preserved.
+- **fzf in fish:** fish cannot source the POSIX snippet, so source `cli/fzf/primer-dark.fish` from `~/.config/fish/config.fish` or copy it into `~/.config/fish/conf.d/`. It carries the same color set and also leaves an existing `--color` option alone.
+- **LS_COLORS:** load `cli/dircolors/primer-dark.dircolors` with `eval "$(dircolors -b /path/to/primer-dark.dircolors)"` in sh or bash, or with `set -gx LS_COLORS (dircolors -c /path/to/primer-dark.dircolors | string split "'")[2]` in fish. It colors ls, tree, fd, and shell completion with the eza file kinds in terminals that advertise 24-bit color through `COLORTERM` (or a `*-direct` or Ghostty `TERM`); elsewhere `LS_COLORS` stays empty.
+- **bottom:** try `btm -C cli/bottom/primer-dark.toml`, then merge its `[styles]` tables into `~/.config/bottom/bottom.toml`. bottom has no theme directory, so the installer never edits that shared file.
+- **mpv:** copy `media/mpv/primer-dark.conf` to `~/.config/mpv/` and add `include="~~/primer-dark.conf"` to `mpv.conf`. It recolors the OSD, on-screen controller, and console only; subtitle styling is left to the media.
+- **MangoHud:** try `MANGOHUD_CONFIGFILE=gaming/mangohud/primer-dark.conf mangohud <game>`, then append its lines to `~/.config/MangoHud/MangoHud.conf`. GOverlay rewrites that file, so reapply the colors after saving from GOverlay.
+- **GIMP 3:** GIMP draws its own **Default** theme instead of the GTK theme. Select **System** in **Edit → Preferences → Interface → Theme** to have GIMP use the installed `primer-dark` GTK theme.
 
 Firefox requires Mozilla signing for permanent installation in release and beta builds, so its theme is intentionally not installed by the root script. It is published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/).
 
@@ -267,7 +356,7 @@ Google Chrome requires interactive extension loading, so its theme is intentiona
 
 Loading the package activates **Primer Dark** immediately. To update it, replace the files in the checkout and reload the unpacked extension. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance. Other Chromium-based browsers can load the same directory from their equivalent extensions page, with rendering that may differ wherever the browser maps theme colors differently.
 
-The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Cursor, Fastfetch, bat, btop, Fish, GTK, and Kvantum settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
+The installer preserves your existing Konsole, KWrite/Kate, Ghostty, Herdr, Pi, Zed, Cursor, micro, Godot, Claude Code, Codex, Atuin, Fastfetch, bat, btop, Fish, GTK, and Kvantum settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
 - `~/.local/share/color-schemes/PrimerDark.colors`
 - `~/.local/share/aurorae/themes/PrimerDark/` (optional Aurorae window-decoration assets)
@@ -279,7 +368,13 @@ The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Cursor, 
 - `~/.config/herdr/config.toml` plus hidden theme restore state beside it when using `--herdr`
 - `~/.pi/agent/themes/primer-dark.json` when using `--pi`
 - `~/.config/zed/themes/primer-dark.json` when using `--zed`
-- `~/.cursor/extensions/redasalmi.primer-dark-1.0.0/` when using `--cursor`
+- `~/.cursor/extensions/redasalmi.primer-dark-1.0.0/`, registered through Cursor's `extensions.json`, when using `--cursor`
+- `~/.local/share/org.kde.syntax-highlighting/themes/primer-dark.theme` when using `--ktexteditor`
+- `~/.config/micro/colorschemes/primer-dark.micro` when using `--micro`
+- `~/.config/godot/text_editor_themes/PrimerDark.tet` when using `--godot`
+- `~/.claude/themes/primer-dark.json` when using `--claude`
+- `~/.codex/themes/primer-dark.tmTheme` when using `--codex`
+- `~/.config/atuin/themes/primer-dark.toml` when using `--atuin`
 - `~/.local/share/fastfetch/presets/primer-dark.jsonc` when using `--fastfetch`
 - `~/.config/bat/themes/Primer Dark.tmTheme` when using `--bat`
 - `~/.config/btop/themes/primer-dark.theme` when using `--btop`
@@ -289,15 +384,15 @@ The installer preserves your existing Konsole, Ghostty, Herdr, Pi, Zed, Cursor, 
 
 ## Uninstall
 
-First select another Global Theme and, if used, other Konsole, Ghostty, Pi, Zed, Cursor, bat, btop, Fish, GTK, and Kvantum themes. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value, and the Kvantum theme must not be selected in Kvantum's configuration, including a `[Applications]` assignment that gives it to specific applications. Then run:
+First select another Global Theme, color scheme, window decoration, and splash screen and, if used, other Konsole, KWrite/Kate, Ghostty, Pi, Zed, Cursor, micro, Godot, Claude Code, Codex, Atuin, bat, btop, Fish, GTK, and Kvantum themes. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the `Net/ThemeName` in `~/.config/xsettingsd/xsettingsd.conf`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value, and the Kvantum theme must not be selected in Kvantum's configuration, including a `[Applications]` assignment that gives it to specific applications. Then run:
 
 ```sh
 ./uninstall.sh
 ```
 
-The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The Cursor extension directory is removed only after its active-theme guard passes in the default profile and in every named profile. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched. The Kvantum theme directory is removed only after its guard reads the same configuration Kvantum reads and confirms the theme is neither the selected theme nor assigned to individual applications, and the shared Kvantum selection file is never rewritten. When that configuration uses a construct the guard cannot decode with certainty, such as an unparseable line or an escape sequence, removal stops instead of risking an active theme.
+The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The Cursor extension is uninstalled through `cursor --uninstall-extension` and its directory removed only after its active-theme guard passes in the default profile and in every named profile. The KWrite/Kate, micro, Godot, Claude Code, Codex, and Atuin theme files are removed only after their guards confirm the theme is not selected in `kwriterc`/`katerc`, micro's `settings.json`, Godot's `editor_settings-*.tres`, Claude Code's settings, Codex's `config.toml`, or Atuin's `config.toml`. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched. The Kvantum theme directory is removed only after its guard reads the same configuration Kvantum reads and confirms the theme is neither the selected theme nor assigned to individual applications, and the shared Kvantum selection file is never rewritten. When that configuration uses a construct the guard cannot decode with certainty, such as an unparseable line or an escape sequence, removal stops instead of risking an active theme.
 
-The script does not manage Firefox, Chrome, eza, fzf, or tmux. Remove a store-installed or signed Firefox theme from **Add-ons and themes → Themes**, or remove a temporary copy from `about:debugging#/runtime/this-firefox` or by restarting Firefox. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
+The script does not manage Firefox, Chrome, eza, fzf, tmux, LS_COLORS, bottom, mpv, MangoHud, or the Godot editor base and accent colors. Remove a store-installed or signed Firefox theme from **Add-ons and themes → Themes**, or remove a temporary copy from `about:debugging#/runtime/this-firefox` or by restarting Firefox. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
 
 ## Validate
 
@@ -313,7 +408,7 @@ Validate the palette and every asset that has an official parser with:
 ./scripts/check.sh
 ```
 
-This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, Cursor, and Fastfetch files, the Kvantum theme's color spec against the canonical palette, the shell syntax of the fzf snippet, and the GTK 3, GTK 4, and libadwaita stylesheets. It requires `jq`, `xmllint`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
+This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, Cursor, Claude Code, KWrite/Kate, and Fastfetch files, the Cursor package version against the installer, the micro, Atuin, and Godot line grammars, the Kvantum theme's color spec against the canonical palette, the POSIX and fish fzf snippets and their shared color set, and the GTK 3, GTK 4, and libadwaita stylesheets. It requires `jq`, `xmllint`, `fish`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
 
 ## Versioning
 
@@ -325,7 +420,7 @@ Versions exist only where the editor or browser format requires them, and only i
 - `browsers/chrome/primer-dark/manifest.json`
 - `editors/cursor/primer-dark/package.json`
 
-The Cursor extension version appears twice and must be kept in sync: in `package.json` and in the installed directory name, which the installer builds from the version in `scripts/lib/common.sh`.
+The Cursor extension version appears twice and must be kept in sync: in `package.json` and in `CURSOR_EXT_VERSION` in `scripts/lib/common.sh`; `./scripts/check.sh` fails when they differ.
 
 `KPlugin.Version` is deliberately absent from the KDE `metadata.json` files: KDE treats it as optional, and kpackagetool6 installs and updates those packages without it. Bump only the manifest of the editor or browser you are publishing to, and bump the two Cursor version locations together.
 

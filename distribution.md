@@ -23,7 +23,9 @@ Local install mechanics and lifecycle behavior stay in `README.md`; roadmap scop
 | Ghostty | upstream iTerm2-Color-Schemes (vendored into Ghostty) | Not submitted | user theme today, upstream contribution if a built-in is wanted |
 | btop | upstream `aristocratos/btop` `themes/` | Not submitted | user theme today, upstream PR if a built-in is wanted |
 | Fish | upstream `fish-shell/fish-shell` bundled themes | Not submitted | user theme today, upstream PR if a built-in is wanted |
-| fastfetch, bat, eza, fzf, tmux, Pi, Herdr, libadwaita | None | Not applicable | files and snippets users copy or merge themselves |
+| KWrite/Kate | upstream KDE `syntax-highlighting` `data/themes/` | Not submitted | user theme today, upstream merge request if a bundled theme is wanted |
+| micro | upstream `micro-editor/micro` `runtime/colorschemes/` | Not submitted | user colorscheme today, upstream PR if a built-in is wanted |
+| fastfetch, bat, eza, fzf, tmux, Pi, Herdr, libadwaita, Claude Code, Codex, Atuin, Godot, bottom, LS_COLORS, mpv, MangoHud | None | Not applicable | files and snippets users copy or merge themselves |
 
 ## Store channels
 
@@ -59,7 +61,7 @@ Local install mechanics and lifecycle behavior stay in `README.md`; roadmap scop
 - The repository publishes no VSIX and no store account yet. Publishing requires packaging the directory with `vsce package` and both a Microsoft publisher and an Open VSX namespace matching the `publisher` field, which is currently `redasalmi`.
 - Visual Studio Marketplace: publishing runs through Azure DevOps credentials with `vsce publish`. Global personal access tokens are retired on 1 December 2026, so prefer Entra ID authentication with workload identity federation and `vsce publish --oidc` for automated publishing.
 - Open VSX: requires an Eclipse Foundation account whose GitHub username matches the Open VSX login, a signed publisher agreement, and a namespace matching the `publisher` field, then `ovsx publish`. Cursor reads Open VSX rather than the Microsoft Marketplace, so publishing to both keeps the same extension available everywhere.
-- The extension state to keep in sync when publishing: the version in `package.json` and the version in `CURSOR_EXT_VERSION` in `scripts/lib/common.sh`, which the installer uses for the installed directory name.
+- The extension state to keep in sync when publishing: the version in `package.json` and the version in `CURSOR_EXT_VERSION` in `scripts/lib/common.sh`, which the installer uses for the installed directory name; `./scripts/check.sh` fails when they differ. The installer already packages a VSIX locally for `cursor --install-extension`, but that throwaway package is not a store artifact.
 
 ### KDE — KDE Store (not published)
 

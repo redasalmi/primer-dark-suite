@@ -10,12 +10,19 @@ APPLY=0
 SELECTED_COMPONENTS="kde"
 
 usage() {
-    cat <<'EOF'
-Usage: ./install.sh [--apply] [--konsole] [--ghostty] [--herdr] [--pi] [--zed] [--cursor] [--fastfetch] [--bat] [--btop] [--fish] [--gtk] [--kvantum]
+    # Build the flag list from the component registry so it cannot drift.
+    optional_flags=""
+    for component in $ALL_COMPONENTS; do
+        [ "$component" = "kde" ] && continue
+        optional_flags="$optional_flags [--$component]"
+    done
+    cat <<EOF
+Usage: ./install.sh [--apply]$optional_flags
 
 Install the Primer Dark KDE theme into the current user's XDG data directory.
 The KDE theme is not applied unless --apply is provided.
-Use --konsole, --ghostty, --herdr, --pi, --zed, --cursor, --fastfetch, --bat, --btop, --fish, --gtk, or --kvantum to additionally install those application themes.
+Each optional flag additionally installs that application's theme without
+activating it.
 EOF
 }
 
@@ -54,6 +61,7 @@ load_components
 
 cleanup_install_temps() {
     cleanup_herdr_temps
+    cleanup_cursor_temps
 }
 trap cleanup_install_temps 0
 trap 'exit 129' HUP

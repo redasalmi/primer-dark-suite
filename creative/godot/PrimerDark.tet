@@ -1,0 +1,61 @@
+; Primer Dark text editor theme for Godot 4
+; SPDX-License-Identifier: MIT
+;
+; Install with `./install.sh --godot`, then select "PrimerDark" in
+; Editor Settings > Text Editor > Theme > Color Theme.
+;
+; Values are Godot HTML colors in RRGGBB or RRGGBBAA order. Syntax roles
+; follow the shared Zed and Cursor mapping; translucent highlights reuse the
+; Cursor alpha values over the canonical palette colors.
+
+[color_theme]
+
+symbol_color="f0f6fc"
+keyword_color="ff7b72"
+control_flow_keyword_color="ff7b72"
+base_type_color="79c0ff"
+engine_type_color="ffa657"
+user_type_color="ffa657"
+comment_color="9198a1"
+doc_comment_color="9198a1"
+string_color="a5d6ff"
+string_placeholder_color="79c0ff"
+background_color="0d1117"
+completion_background_color="212830"
+completion_selected_color="262c36"
+completion_existing_color="4493f833"
+completion_scroll_color="656c76"
+completion_scroll_hovered_color="9198a1"
+completion_font_color="f0f6fc"
+text_color="f0f6fc"
+line_number_color="656c76"
+safe_line_number_color="3fb950"
+caret_color="4493f8"
+caret_background_color="0d1117"
+text_selected_color="00000000"
+selection_color="1f6feb66"
+brace_mismatch_color="f85149"
+current_line_color="151b23"
+line_length_guideline_color="2f3742"
+word_highlighted_color="656c7633"
+number_color="79c0ff"
+function_color="d2a8ff"
+member_variable_color="f0f6fc"
+mark_color="f8514933"
+bookmark_color="4493f8"
+breakpoint_color="f85149"
+executing_line_color="d29922"
+code_folding_color="9198a1"
+folded_code_region_color="1f6feb33"
+search_result_color="d2992255"
+search_result_border_color="d29922"
+warning_color="d299221a"
+gdscript/function_definition_color="d2a8ff"
+gdscript/global_function_color="79c0ff"
+gdscript/node_path_color="7ee787"
+gdscript/node_reference_color="7ee787"
+gdscript/annotation_color="79c0ff"
+gdscript/string_name_color="79c0ff"
+comment_markers/critical_color="f85149"
+comment_markers/warning_color="d29922"
+comment_markers/notice_color="3fb950"

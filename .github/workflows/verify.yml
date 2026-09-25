@@ -22,10 +22,11 @@ jobs:
       # Ubuntu runner ships GTK 4.14. ShellCheck lints the shell scripts,
       # libxml2 provides xmllint for the KDE SVGs and the bat theme, jq parses
       # the JSON assets, and PyGObject with the Gtk 3.0 and 4.0 typelibs runs
-      # the native CSS parsers used by the GTK validation hook.
+      # the native CSS parsers used by the GTK validation hook, and fish parses
+      # the fish fzf snippet.
       - name: Validate shell scripts and theme assets
         run: |
           docker run --rm -v "$PWD:/src" -w /src fedora:44 sh -c '
-            dnf install -y ShellCheck libxml2 jq python3-gobject gtk3 gtk4 &&
+            dnf install -y ShellCheck libxml2 jq python3-gobject gtk3 gtk4 fish &&
             shellcheck install.sh uninstall.sh scripts/check.sh scripts/lib/*.sh scripts/components/*.sh cli/fzf/primer-dark.sh &&
             ./scripts/check.sh'

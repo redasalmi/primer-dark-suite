@@ -38,7 +38,7 @@ Classify the request as one of:
 Determine these facts before editing:
 
 1. Official target name and current supported version or version range.
-2. Repository category and path (`kde/`, `terminals/`, `editors/`, `cli/`, `browsers/`, `creative/`, `gtk/`, or `integrations/`).
+2. Repository category and path (`kde/`, `terminals/`, `editors/`, `cli/`, `browsers/`, `creative/`, `media/`, `gaming/`, `gtk/`, or `integrations/`).
 3. Whether the app supports a standalone theme file/package, only a shared config snippet, or no supported theming API.
 4. Requested scope: UI chrome, syntax, ANSI colors, statuses, diagrams, or all supported theme fields.
 5. Whether the port has shipped before. For deletion or path changes, inspect Git history and asset validation.

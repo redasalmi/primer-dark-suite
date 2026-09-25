@@ -1,0 +1,54 @@
+# Primer Dark for bottom (btm)
+# SPDX-License-Identifier: MIT
+#
+# bottom has no theme directory; custom styles live in the [styles] table of
+# its shared configuration file. Merge the tables below into
+# ~/.config/bottom/bottom.toml (replacing any existing [styles] tables), or try
+# them without editing that file:
+#     btm -C /path/to/primer-dark.toml
+#
+# Ramps match the btop theme: CPU cores cycle through the Primer accents, RAM
+# and cache use blues, swap uses attention, and download/upload use blue and
+# purple.
+
+[styles.cpu]
+all_entry_color = "#4493F8"
+avg_entry_color = "#F85149"
+cpu_core_colors = ["#3FB950", "#4493F8", "#D29922", "#AB7DF8", "#39C5CF", "#DB61A2", "#FFA657", "#79C0FF", "#7EE787", "#D2A8FF", "#F2CC60", "#56D4DD"]
+
+[styles.memory]
+ram_color = "#4493F8"
+cache_color = "#79C0FF"
+swap_color = "#D29922"
+arc_color = "#39C5CF"
+gpu_colors = ["#AB7DF8", "#DB61A2", "#39C5CF", "#7EE787"]
+
+[styles.network]
+rx_color = "#4493F8"
+tx_color = "#AB7DF8"
+rx_total_color = "#79C0FF"
+tx_total_color = "#D2A8FF"
+
+[styles.battery]
+high_battery_color = "#3FB950"
+medium_battery_color = "#D29922"
+low_battery_color = "#F85149"
+
+[styles.temp_graph]
+temp_graph_color_styles = ["#3FB950", "#D29922", "#DB6D28", "#F85149", "#4493F8", "#AB7DF8"]
+
+[styles.tables]
+headers = { color = "#4493F8", bold = true }
+
+[styles.graphs]
+graph_color = "#656C76"
+legend_text = { color = "#9198A1" }
+
+[styles.widgets]
+border_color = "#3D444D"
+selected_border_color = "#1F6FEB"
+widget_title = { color = "#F0F6FC", bold = true }
+text = { color = "#F0F6FC" }
+selected_text = { color = "#FFFFFF", bg_color = "#1F6FEB" }
+disabled_text = { color = "#656C76" }
+thread_text = { color = "#3FB950" }

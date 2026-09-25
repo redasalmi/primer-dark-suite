@@ -1,0 +1,67 @@
+# Primer Dark for micro
+# SPDX-License-Identifier: MIT
+#
+# Install with `./install.sh --micro`, then select it with
+# `> set colorscheme primer-dark` inside micro or with
+# `"colorscheme": "primer-dark"` in ~/.config/micro/settings.json.
+#
+# Syntax roles follow the shared Zed and Cursor mapping. Terminal cells cannot
+# blend, so selection and search use the same solid Primer colors as the
+# terminal themes. micro renders these hex values exactly in true-color
+# terminals and approximates them in 256-color terminals.
+
+color-link default "#F0F6FC,#0D1117"
+color-link comment "#9198A1"
+color-link comment.bright "#9198A1"
+color-link identifier "#D2A8FF"
+color-link identifier.class "#D2A8FF"
+color-link identifier.macro "#79C0FF"
+color-link identifier.var "#FFA657"
+color-link constant "#79C0FF"
+color-link constant.bool "#79C0FF"
+color-link constant.number "#79C0FF"
+color-link constant.specialChar "#FF7B72"
+color-link constant.string "#A5D6FF"
+color-link constant.string.url "underline #79C0FF"
+color-link statement "#FF7B72"
+color-link symbol "#FF7B72"
+color-link symbol.brackets "#F0F6FC"
+color-link symbol.operator "#FF7B72"
+color-link symbol.tag "#7EE787"
+color-link preproc "#FF7B72"
+color-link preproc.shebang "#9198A1"
+color-link type "#FFA657"
+color-link type.keyword "#FF7B72"
+color-link special "#79C0FF"
+color-link underlined "underline #4493F8"
+color-link error "bold #F85149"
+color-link todo "bold #D29922"
+color-link ignore "#656C76"
+
+color-link selection "#FFFFFF,#1F6FEB"
+color-link cursor-line "#151B23"
+color-link color-column "#151B23"
+color-link line-number "#656C76,#0D1117"
+color-link current-line-number "#F0F6FC,#151B23"
+color-link indent-char "#3D444D"
+color-link scrollbar "#656C76,#0D1117"
+color-link divider "#3D444D,#0D1117"
+color-link match-brace "#0D1117,#79C0FF"
+color-link hlsearch "#0D1117,#D29922"
+color-link tab-error "#F0F6FC,#490202"
+color-link trailingws "#F0F6FC,#490202"
+
+color-link gutter-info "#4493F8,#0D1117"
+color-link gutter-warning "#D29922,#0D1117"
+color-link gutter-error "#F85149,#0D1117"
+color-link diff-added "#3FB950"
+color-link diff-modified "#D29922"
+color-link diff-deleted "#F85149"
+
+color-link statusline "#F0F6FC,#212830"
+color-link statusline.inactive "#9198A1,#151B23"
+color-link statusline.suggestions "#F0F6FC,#212830"
+color-link tabbar "#9198A1,#010409"
+color-link tabbar.active "#F0F6FC,#0D1117"
+color-link message "#F0F6FC,#0D1117"
+color-link error-message "#F85149,#0D1117"

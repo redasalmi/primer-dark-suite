@@ -1,0 +1,25 @@
+# Primer Dark for Atuin
+# SPDX-License-Identifier: MIT
+#
+# Install with `./install.sh --atuin`, then select it in ~/.config/atuin/config.toml:
+#
+#     [theme]
+#     name = "primer-dark"
+#
+# Base is intentionally unset, so history text keeps the terminal foreground
+# that the Konsole and Ghostty themes already set to Primer's primary text.
+# Atuin rejects the whole theme on an unknown meaning, so only the meanings
+# defined by Atuin 18.x are listed.
+
+[theme]
+name = "primer-dark"
+
+[colors]
+AlertInfo = "#3FB950"
+AlertWarn = "#D29922"
+AlertError = "#F85149"
+Annotation = "#9198A1"
+Guidance = "#4493F8"
+Important = "#79C0FF"
+Title = "#F0F6FC"
+Muted = "#656C76"

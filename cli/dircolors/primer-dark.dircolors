@@ -1,0 +1,165 @@
+# Primer Dark for GNU dircolors (LS_COLORS)
+# SPDX-License-Identifier: MIT
+#
+# LS_COLORS is read by ls, tree, fd, fish and bash completion, and eza when no
+# eza theme overrides a kind. Load it from a shell startup file:
+#     sh/bash:  eval "$(dircolors -b /path/to/primer-dark.dircolors)"
+#     fish:     set -gx LS_COLORS (dircolors -c /path/to/primer-dark.dircolors | string split "'")[2]
+# or copy it to ~/.dir_colors where a distribution profile script loads it.
+#
+# Kinds match cli/eza/theme.yml. Colors use 24-bit SGR sequences, so every
+# terminal theme in this suite renders the exact Primer values. They are only
+# emitted when the terminal advertises 24-bit color through COLORTERM or a
+# direct-color TERM; elsewhere, such as the Linux console, LS_COLORS is empty
+# and ls keeps its built-in colors.
+
+COLORTERM ?*
+TERM *-direct
+TERM xterm-ghostty
+
+# File kinds
+RESET 0
+DIR 01;38;2;68;147;248
+LINK 38;2;57;197;207
+MULTIHARDLINK 00
+FIFO 38;2;210;153;34
+SOCK 01;38;2;248;81;73
+DOOR 01;38;2;248;81;73
+BLK 01;38;2;210;153;34
+CHR 01;38;2;210;153;34
+ORPHAN 01;38;2;248;81;73;48;2;73;2;2
+MISSING 01;38;2;248;81;73;48;2;73;2;2
+SETUID 38;2;240;246;252;48;2;73;2;2
+SETGID 38;2;240;246;252;48;2;52;26;0
+CAPABILITY 38;2;240;246;252;48;2;73;2;2
+STICKY_OTHER_WRITABLE 38;2;240;246;252;48;2;4;38;15
+OTHER_WRITABLE 38;2;68;147;248;48;2;4;38;15
+STICKY 38;2;240;246;252;48;2;5;29;77
+EXEC 01;38;2;63;185;80
+
+# Archives and compressed files
+.tar 38;2;248;81;73
+.tgz 38;2;248;81;73
+.gz 38;2;248;81;73
+.xz 38;2;248;81;73
+.zst 38;2;248;81;73
+.bz2 38;2;248;81;73
+.lz 38;2;248;81;73
+.lzma 38;2;248;81;73
+.lz4 38;2;248;81;73
+.7z 38;2;248;81;73
+.zip 38;2;248;81;73
+.rar 38;2;248;81;73
+.jar 38;2;248;81;73
+.deb 38;2;248;81;73
+.rpm 38;2;248;81;73
+.cpio 38;2;248;81;73
+.iso 38;2;248;81;73
+.img 38;2;248;81;73
+.apk 38;2;248;81;73
+.AppImage 38;2;248;81;73
+.flatpak 38;2;248;81;73
+.whl 38;2;248;81;73
+.crate 38;2;248;81;73
+
+# Images
+.png 38;2;171;125;248
+.jpg 38;2;171;125;248
+.jpeg 38;2;171;125;248
+.gif 38;2;171;125;248
+.bmp 38;2;171;125;248
+.webp 38;2;171;125;248
+.avif 38;2;171;125;248
+.heic 38;2;171;125;248
+.jxl 38;2;171;125;248
+.tif 38;2;171;125;248
+.tiff 38;2;171;125;248
+.svg 38;2;171;125;248
+.svgz 38;2;171;125;248
+.ico 38;2;171;125;248
+.xcf 38;2;171;125;248
+.kra 38;2;171;125;248
+.ora 38;2;171;125;248
+.psd 38;2;171;125;248
+.exr 38;2;171;125;248
+.raw 38;2;171;125;248
+.cr2 38;2;171;125;248
+.nef 38;2;171;125;248
+.dng 38;2;171;125;248
+
+# Video
+.mp4 38;2;219;97;162
+.mkv 38;2;219;97;162
+.webm 38;2;219;97;162
+.mov 38;2;219;97;162
+.avi 38;2;219;97;162
+.m4v 38;2;219;97;162
+.mpg 38;2;219;97;162
+.mpeg 38;2;219;97;162
+.ogv 38;2;219;97;162
+.flv 38;2;219;97;162
+.wmv 38;2;219;97;162
+.ts 38;2;219;97;162
+
+# Audio
+.mp3 38;2;57;197;207
+.flac 38;2;57;197;207
+.ogg 38;2;57;197;207
+.opus 38;2;57;197;207
+.oga 38;2;57;197;207
+.wav 38;2;57;197;207
+.m4a 38;2;57;197;207
+.aac 38;2;57;197;207
+.wma 38;2;57;197;207
+.aiff 38;2;57;197;207
+.mid 38;2;57;197;207
+.midi 38;2;57;197;207
+
+# Documents
+.pdf 38;2;121;192;255
+.epub 38;2;121;192;255
+.djvu 38;2;121;192;255
+.odt 38;2;121;192;255
+.ods 38;2;121;192;255
+.odp 38;2;121;192;255
+.odg 38;2;121;192;255
+.doc 38;2;121;192;255
+.docx 38;2;121;192;255
+.xls 38;2;121;192;255
+.xlsx 38;2;121;192;255
+.ppt 38;2;121;192;255
+.pptx 38;2;121;192;255
+.rtf 38;2;121;192;255
+.md 38;2;121;192;255
+.rst 38;2;121;192;255
+.org 38;2;121;192;255
+.tex 38;2;121;192;255
+.txt 38;2;121;192;255
+
+# Build and project files
+*Makefile 04;38;2;255;166;87
+*CMakeLists.txt 04;38;2;255;166;87
+*Cargo.toml 04;38;2;255;166;87
+*package.json 04;38;2;255;166;87
+*pyproject.toml 04;38;2;255;166;87
+*meson.build 04;38;2;255;166;87
+*justfile 04;38;2;255;166;87
+*Justfile 04;38;2;255;166;87
+*Dockerfile 04;38;2;255;166;87
+*Containerfile 04;38;2;255;166;87
+
+# Temporary and backup files
+*~ 38;2;101;108;118
+.bak 38;2;101;108;118
+.old 38;2;101;108;118
+.orig 38;2;101;108;118
+.rej 38;2;101;108;118
+.swp 38;2;101;108;118
+.swo 38;2;101;108;118
+.tmp 38;2;101;108;118
+.part 38;2;101;108;118
+.crdownload 38;2;101;108;118
+.log 38;2;101;108;118
+.pyc 38;2;101;108;118
+.o 38;2;101;108;118
+.class 38;2;101;108;118

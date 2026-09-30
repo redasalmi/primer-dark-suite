@@ -1,18 +1,18 @@
 # Primer Dark for Ghostty
 # SPDX-License-Identifier: MIT
 
-palette = 0=#3D444D
-palette = 1=#F85149
+palette = 0=#2F3742
+palette = 1=#FF7B72
 palette = 2=#3FB950
 palette = 3=#D29922
-palette = 4=#4493F8
-palette = 5=#AB7DF8
+palette = 4=#58A6FF
+palette = 5=#BE8FFF
 palette = 6=#39C5CF
-palette = 7=#B1BAC4
+palette = 7=#F0F6FC
 palette = 8=#656C76
-palette = 9=#FF7B72
-palette = 10=#7EE787
-palette = 11=#FFA657
+palette = 9=#FFA198
+palette = 10=#56D364
+palette = 11=#E3B341
 palette = 12=#79C0FF
 palette = 13=#D2A8FF
 palette = 14=#56D4DD

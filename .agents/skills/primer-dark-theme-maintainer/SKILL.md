@@ -117,6 +117,7 @@ Preferred mappings:
 | Links/accent text | `accent.foreground` |
 | Success, warning, severe, error, completed | matching `status.*` tokens |
 | Syntax categories | matching `syntax.*` tokens |
+| Diff line and changed-word backgrounds | `surface.successMuted`/`surface.dangerMuted` and `diff.*` |
 | ANSI colors | matching `terminal.*` tokens |
 
 Preserve application semantics instead of mechanically assigning colors by field name. Cover hover, active, selected, focused, disabled, inactive, error, warning, success, diffs, search, and syntax/ANSI states when the target exposes them.

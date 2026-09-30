@@ -14,6 +14,7 @@ primer-dark-suite/
 │   ├── plasma-style/     # implemented: bordered Plasma popup and widget frames
 │   ├── kvantum/          # implemented: native Kvantum theme config
 │   ├── ktexteditor/      # implemented: KSyntaxHighlighting theme for KWrite and Kate
+│   ├── icons/            # planned: thin PrimerDark icon theme inheriting Papirus-Dark
 │   └── plasma-login/     # future: KDE Plasma Login greeter
 │
 ├── terminals/
@@ -67,6 +68,8 @@ primer-dark-suite/
 │   ├── vencord/          # planned: Discord CSS theme for Vencord
 │   ├── spicetify/        # planned: Spotify color.ini and user.css theme for Spicetify
 │   └── steam/            # planned: Steam CSS theme for a third-party client loader
+│
+├── fonts/                # planned: vendored OFL Mona Sans, Hubot Sans, and Monaspace Neon with licenses
 │
 ├── palette/              # implemented: canonical Primer Dark tokens
 ├── scripts/              # implemented: validation and asset generation

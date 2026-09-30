@@ -8,7 +8,6 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum,
 - native Breeze window decoration with Primer-colored titlebars, borders, and shadows;
 - Plasma 6 Global Theme KPackage;
 - Breeze application style plus a custom Plasma style with crisp Primer borders around launchers, tray popups, tooltips, and desktop widgets;
-- Breeze Dark icons and Breeze cursors;
 - logo-free Plasma splash screen;
 - native Konsole color scheme with coordinated normal, bright, and faint ANSI colors;
 - optional color-only Konsole profile that does not declare shell or font settings;
@@ -38,7 +37,7 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum,
 - native Manifest V3 Chromium theme covering every color exposed by Chromium's current theme API, usable in Chrome and other Chromium-based browsers;
 - System Settings previews and offline validation scripts.
 
-Primer Dark does **not** replace your panel layout, wallpaper, fonts, or window-button order. KDE Plasma Login theming is intentionally outside the v1 scope because login-manager integration is system-level and requires separate packaging and safety work.
+Primer Dark does **not** replace your icon theme, cursor theme, panel layout, wallpaper, fonts, or window-button order, including when it is applied with `--apply`. Breeze Dark icons and Breeze cursors match the suite and can be selected separately in **System Settings → Colors & Themes → Icons** and **Cursors**. KDE Plasma Login theming is intentionally outside the v1 scope because login-manager integration is system-level and requires separate packaging and safety work.
 
 ## Requirements
 

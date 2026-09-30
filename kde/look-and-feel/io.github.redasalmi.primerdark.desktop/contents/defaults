@@ -4,14 +4,8 @@ widgetStyle=Breeze
 [kdeglobals][General]
 ColorScheme=PrimerDark
 
-[kdeglobals][Icons]
-Theme=breeze-dark
-
 [plasmarc][Theme]
 name=PrimerDark
-
-[kcminputrc][Mouse]
-cursorTheme=breeze_cursors
 
 [kwinrc][org.kde.kdecoration2]
 library=org.kde.breeze

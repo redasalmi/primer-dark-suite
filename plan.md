@@ -42,7 +42,7 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Native Breeze window decoration driven by Primer titlebar colors, borders, and shadows; Aurorae assets remain optional.
 - Strict Plasma 6 Look-and-Feel KPackage.
 - Breeze application and Plasma styles driven by Primer colors.
-- Breeze Dark icons and Breeze cursors.
+- Icon and cursor themes are left to the user: the global theme declares neither, so applying it keeps the current selections. Breeze Dark icons and Breeze cursors are the recommended match.
 - Logo-free splash screen and System Settings previews.
 - Offline install, uninstall, update, and validation scripts.
 - Native Konsole color scheme with coordinated normal, bright, and faint ANSI colors plus an optional color-only profile.
@@ -62,7 +62,7 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 - Native KSyntaxHighlighting color theme for KWrite, Kate, and other KTextEditor applications, using the shared editor syntax mapping.
 - Native micro colorscheme, Godot 4 text editor theme, Claude Code custom theme, Codex syntax theme (the bat TextMate theme), and Atuin theme, each installed as one owned file.
 - Ready-to-merge fish fzf snippet, GNU dircolors database, bottom styles, mpv OSD/OSC/console snippet, and MangoHud color snippet.
-- No panel layout, wallpaper, font, or window-button-order changes.
+- No icon theme, cursor theme, panel layout, wallpaper, font, or window-button-order changes.
 
 ## Suite roadmap
 

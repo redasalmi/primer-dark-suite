@@ -42,6 +42,12 @@
         "editor.foreground": "#F0F6FCFF",
         "editor.gutter.background": "#0D1117FF",
         "editor.highlighted_line.background": "#656C7633",
+        "editor.diff_hunk.added.background": "#2EA04326",
+        "editor.diff_hunk.deleted.background": "#F851491A",
+        "version_control.word_added": "#2EA04366",
+        "version_control.word_deleted": "#F8514966",
+        "version_control.conflict_marker.ours": "#2EA04326",
+        "version_control.conflict_marker.theirs": "#388BFD1A",
         "editor.invisible": "#656C76FF",
         "editor.line_number": "#9198A1FF",
         "editor.subheader.background": "#151B23FF",
@@ -221,7 +227,7 @@
             "font_weight": null
           },
           "constructor": {
-            "color": "#FF7B72FF",
+            "color": "#D2A8FFFF",
             "font_style": null,
             "font_weight": null
           },
@@ -281,8 +287,8 @@
             "font_weight": null
           },
           "link_text": {
-            "color": "#A5D6FFFF",
-            "font_style": "italic",
+            "color": "#79C0FFFF",
+            "font_style": null,
             "font_weight": null
           },
           "link_uri": {
@@ -326,7 +332,7 @@
             "font_weight": null
           },
           "punctuation": {
-            "color": "#FF7B72FF",
+            "color": "#F0F6FCFF",
             "font_style": null,
             "font_weight": null
           },
@@ -341,7 +347,7 @@
             "font_weight": null
           },
           "punctuation.delimiter.jsx": {
-            "color": "#FF7B72FF",
+            "color": "#7EE787FF",
             "font_style": null,
             "font_weight": null
           },

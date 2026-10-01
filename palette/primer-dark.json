@@ -56,6 +56,15 @@
       "removedNumber": "#542426",
       "hunkNumber": "#0C2D6B"
     },
+    "overlay": {
+      "accentMuted": "#388BFD1A",
+      "successMuted": "#2EA04326",
+      "dangerMuted": "#F851491A",
+      "addedWord": "#2EA04366",
+      "removedWord": "#F8514966",
+      "addedNumber": "#3FB9504D",
+      "removedNumber": "#F851494D"
+    },
     "syntax": {
       "comment": "#9198A1",
       "keyword": "#FF7B72",
@@ -64,17 +73,12 @@
       "entityTag": "#7EE787",
       "variable": "#FFA657",
       "string": "#A5D6FF",
-      "stringRegexp": "#7EE787",
-      "markupHeading": "#1F6FEB",
-      "markupList": "#F2CC60",
       "markupInsertedText": "#AFF5B4",
       "markupInsertedBackground": "#033A16",
       "markupDeletedText": "#FFDCD7",
       "markupDeletedBackground": "#67060C",
       "markupChangedText": "#FFDFB6",
-      "markupChangedBackground": "#5A1E02",
-      "metaDiffRange": "#D2A8FF",
-      "bracketUnmatched": "#F85149"
+      "markupChangedBackground": "#5A1E02"
     },
     "terminal": {
       "black": "#2F3742",

@@ -138,12 +138,12 @@
     "editorHoverWidget.border": "#3D444D",
     "editorHoverWidget.highlightForeground": "#4493F8",
 
-    "diffEditor.insertedTextBackground": "#3FB95033",
-    "diffEditor.removedTextBackground": "#F8514933",
-    "diffEditor.insertedLineBackground": "#3FB95026",
-    "diffEditor.removedLineBackground": "#F8514926",
-    "diffEditorGutter.insertedLineBackground": "#3FB95033",
-    "diffEditorGutter.removedLineBackground": "#F8514933",
+    "diffEditor.insertedTextBackground": "#2EA04366",
+    "diffEditor.removedTextBackground": "#F8514966",
+    "diffEditor.insertedLineBackground": "#2EA04326",
+    "diffEditor.removedLineBackground": "#F851491A",
+    "diffEditorGutter.insertedLineBackground": "#3FB9504D",
+    "diffEditorGutter.removedLineBackground": "#F851494D",
     "diffEditorOverview.insertedForeground": "#3FB950CC",
     "diffEditorOverview.removedForeground": "#F85149CC",
 
@@ -512,7 +512,7 @@
     "decorator": "#79C0FF",
     "macro": "#79C0FF",
     "label": "#79C0FF",
-    "namespace": "#FF7B72",
+    "namespace": "#FFA657",
     "class": "#FFA657",
     "enum": "#FFA657",
     "enumMember": "#79C0FF",
@@ -629,7 +629,15 @@
         "entity.name.class",
         "entity.name.namespace",
         "entity.name.scope-resolution",
-        "entity.other.inherited-class",
+        "entity.other.inherited-class"
+      ],
+      "settings": {
+        "foreground": "#FFA657"
+      }
+    },
+    {
+      "name": "Built-in type, class, and constant",
+      "scope": [
         "support.class",
         "support.type",
         "support.constant.math",
@@ -637,15 +645,14 @@
         "support.constant.json"
       ],
       "settings": {
-        "foreground": "#FFA657"
+        "foreground": "#79C0FF"
       }
     },
     {
       "name": "Enum and variant",
       "scope": [
         "entity.name.type.enum",
-        "entity.name.type.variant",
-        "variable.other.enummember"
+        "entity.name.type.variant"
       ],
       "settings": {
         "foreground": "#FFA657"
@@ -696,6 +703,13 @@
       "scope": ["meta.object-literal.key", "support.type.property-name", "meta.property-name"],
       "settings": {
         "foreground": "#79C0FF"
+      }
+    },
+    {
+      "name": "JSON key",
+      "scope": ["support.type.property-name.json"],
+      "settings": {
+        "foreground": "#7EE787"
       }
     },
     {
@@ -770,21 +784,32 @@
       "name": "Diff inserted",
       "scope": ["markup.inserted", "meta.diff.header.to-file"],
       "settings": {
-        "foreground": "#3FB950"
+        "foreground": "#AFF5B4",
+        "background": "#033A16"
       }
     },
     {
       "name": "Diff deleted",
       "scope": ["markup.deleted", "meta.diff.header.from-file"],
       "settings": {
-        "foreground": "#F85149"
+        "foreground": "#FFDCD7",
+        "background": "#67060C"
       }
     },
     {
-      "name": "Diff changed and range",
-      "scope": ["markup.changed", "meta.diff.range"],
+      "name": "Diff changed",
+      "scope": ["markup.changed"],
       "settings": {
-        "foreground": "#D29922"
+        "foreground": "#FFDFB6",
+        "background": "#5A1E02"
+      }
+    },
+    {
+      "name": "Diff range",
+      "scope": ["meta.diff.range"],
+      "settings": {
+        "foreground": "#D2A8FF",
+        "fontStyle": "bold"
       }
     },
     {

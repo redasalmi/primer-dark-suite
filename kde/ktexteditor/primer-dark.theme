@@ -50,8 +50,8 @@
             "selected-text-color": "#79C0FF"
         },
         "Char": {
-            "text-color": "#A5D6FF",
-            "selected-text-color": "#A5D6FF"
+            "text-color": "#79C0FF",
+            "selected-text-color": "#79C0FF"
         },
         "SpecialChar": {
             "text-color": "#FF7B72",

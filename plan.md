@@ -39,9 +39,32 @@ The KDE Plasma 6 global theme is the implemented foundation. Future work expands
 The palette tracks the dark functional tokens of `@primer/primitives` 11.10.0 (checked 2026-09-30), grouped by role:
 
 - `surface`, `foreground`, `border`, `accent`, and `status` are Primer's functional colors. `foreground.subtle` (`#B7BDC8`) is Primer's base neutral step 10, for text that sits between muted and default, such as shimmer highlights. The `*Inset` surfaces are earlier Primer scale steps that the existing ports keep for status fills.
-- `surface.*Muted` and `diff.*` are Primer's translucent `bgColor-*-muted` and `diffBlob` colors flattened over `surface.default`, because most native theme formats paint opaque colors. New and updated ports use `surface.successMuted` and `surface.dangerMuted` for diff lines, `diff.addedWord` and `diff.removedWord` for changed words, and `surface.accentMuted` for hunk headers; ports whose format supports alpha may use the translucent originals instead. Claude Code already follows this; Zed's Git backgrounds still use the `*Inset` surfaces and Cursor's diff overlays use its own alpha steps of the status colors.
-- `syntax.*` is named after Primer's `prettylights` syntax roles (comment, keyword, constant, entity, entity tag, variable, string, regular expression, and Markdown and diff markup), so every editor and CLI port maps the same language construct to the same role.
+- `overlay.*` holds Primer's translucent `bgColor-*-muted` and `diffBlob` colors as published, and `surface.*Muted` and `diff.*` hold the same colors flattened over `surface.default` for native formats that paint opaque colors. Diff lines use the success and danger muted colors, changed words use the added and removed word colors, and gutter numbers use the added and removed number colors. Zed (editor diff hunks, word diffs, and conflict markers) and Cursor (diff editor) use the `overlay` originals; Claude Code uses the flattened colors. Zed's Git status `.background` colors keep the `*Inset` surfaces for status badges.
+- `syntax.*` holds Primer's `prettylights` syntax roles (comment, keyword, constant, entity, entity tag, variable, and string) plus the diff markup text and background pairs. Every editor and CLI port assigns language constructs to these roles with the shared syntax mapping below.
 - `terminal.*` is Primer's ANSI set without changes: normal, bright, and the faint blends derived from it in Konsole.
+
+### Shared syntax mapping
+
+The mapping follows GitHub's own editor theme ([primer/github-vscode-theme](https://github.com/primer/github-vscode-theme) 6.3.5, `src/theme.js`), which applies the `prettylights` roles to TextMate scopes, and was applied to every syntax port on 2026-10-01.
+
+| Construct | Role |
+| --- | --- |
+| Comments and documentation comments; Markdown quotes (italic) | `syntax.comment` |
+| Keywords, storage, operators, escape sequences, preprocessor directives, and embedded-code punctuation (`${`) | `syntax.keyword` |
+| Constants, numbers, booleans, characters, language variables (`this`, `self`), read-only variables, enum members, attributes, decorators, labels, property and object keys, built-in types, classes, and constants, links, and Markdown headings (bold) | `syntax.constant` |
+| Function and method names, constructors, and built-in functions; diff ranges (bold) | `syntax.entity` |
+| Class, type, interface, struct, enum, and namespace names, type parameters, function parameters, sigil variables (`$var`), and Markdown list markers | `syntax.variable` |
+| HTML, XML, and JSX tags and their delimiters, and JSON and YAML keys | `syntax.entityTag` |
+| Strings, regular expressions, and Markdown inline and block code | `syntax.string` |
+| Plain variables, properties, punctuation, brackets, and import or package modifiers | `foreground.default` |
+| Inserted, deleted, and changed diff lines | `syntax.markup*Text` on `syntax.markup*Background` |
+| Invalid code | `status.danger` (bat paints it as a background behind `foreground.onEmphasis`) |
+
+Port limits:
+
+- bat and Codex render TextMate foregrounds only, so the bat theme keeps `status.success`, `status.danger`, and `status.attention` as the diff markup foregrounds; the backgrounds stay in the file for consumers that paint them.
+- KSyntaxHighlighting has one `BuiltIn` style for built-in types, functions, and variables, so built-in functions are `syntax.constant` in KWrite and Kate.
+- Fish highlights shell input rather than a language grammar: commands keep `accent.foreground`, options use `syntax.entityTag`, and parameters and redirections use `syntax.variable`.
 
 ## Implemented foundation
 

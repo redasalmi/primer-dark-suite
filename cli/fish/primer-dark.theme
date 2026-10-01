@@ -15,7 +15,7 @@ fish_color_cwd 3FB950
 fish_color_cwd_root F85149
 fish_color_end D2A8FF
 fish_color_error F85149
-fish_color_escape 39C5CF
+fish_color_escape FF7B72
 fish_color_gray 9198A1
 fish_color_history_current --bold
 fish_color_host 4493F8
@@ -48,7 +48,7 @@ fish_color_cwd 3FB950
 fish_color_cwd_root F85149
 fish_color_end D2A8FF
 fish_color_error F85149
-fish_color_escape 39C5CF
+fish_color_escape FF7B72
 fish_color_gray 9198A1
 fish_color_history_current --bold
 fish_color_host 4493F8

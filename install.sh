@@ -62,6 +62,7 @@ load_components
 cleanup_install_temps() {
     cleanup_herdr_temps
     cleanup_cursor_temps
+    cleanup_icons_temps
 }
 trap cleanup_install_temps 0
 trap 'exit 129' HUP

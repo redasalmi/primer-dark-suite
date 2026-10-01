@@ -12,9 +12,9 @@ AURORAE_ID=PrimerDark
 PLASMA_STYLE_ID=PrimerDark
 COLOR_FILE=PrimerDark.colors
 # ALL_COMPONENTS are safe for the root install and uninstall lifecycle.
-ALL_COMPONENTS="kde konsole ghostty herdr pi zed cursor fastfetch bat btop fish gtk kvantum ktexteditor micro atuin codex claude godot"
+ALL_COMPONENTS="kde konsole ghostty herdr pi zed cursor fastfetch bat btop fish gtk kvantum ktexteditor micro atuin codex claude godot fonts icons"
 # CHECK_COMPONENTS validate their own assets in a check_* hook.
-CHECK_COMPONENTS="kde bat fastfetch pi zed cursor firefox chrome fzf gtk kvantum ktexteditor micro atuin claude godot"
+CHECK_COMPONENTS="kde bat fastfetch pi zed cursor firefox chrome fzf gtk kvantum ktexteditor micro atuin claude godot fonts icons"
 # COMPONENT_MODULES are every module sourced by the install, uninstall, and
 # check entry points.
 COMPONENT_MODULES="$ALL_COMPONENTS firefox chrome fzf"
@@ -25,6 +25,15 @@ CURSOR_EXT_ID=redasalmi.primer-dark
 CURSOR_EXT_VERSION=1.0.0
 KVANTUM_THEME_ID=PrimerDark
 KVANTUM_THEME_SOURCE="$ROOT/kde/kvantum/$KVANTUM_THEME_ID"
+FONTS_MANIFEST="$ROOT/fonts/sources.tsv"
+# Papirus is downloaded from this pinned release tag and verified against the
+# checksum of GitHub's archive for that tag.
+PAPIRUS_VERSION=20260801
+PAPIRUS_URL="https://github.com/PapirusDevelopmentTeam/papirus-icon-theme/archive/refs/tags/$PAPIRUS_VERSION.tar.gz"
+PAPIRUS_SHA256=646f622e9e7e9e65eef9d0ab58999d4920ddb33d98e6a75232627cfe3bd508f9
+# Marks a Papirus directory as installed by this suite, so only those copies
+# are ever replaced or removed.
+PAPIRUS_MARKER=.primer-dark-suite
 HERDR_BEGIN='# BEGIN Primer Dark Herdr theme (managed by primer-dark-suite)'
 HERDR_END='# END Primer Dark Herdr theme (managed by primer-dark-suite)'
 
@@ -121,6 +130,74 @@ initialize_user_paths() {
     CLAUDE_THEME_DEST="$CLAUDE_DIR/themes/primer-dark.json"
     GODOT_CONFIG_ROOT="$CONFIG_HOME/godot"
     GODOT_THEME_DEST="$GODOT_CONFIG_ROOT/text_editor_themes/PrimerDark.tet"
+    FONTS_ROOT="$DATA_HOME/fonts"
+    FONTS_DEST="$FONTS_ROOT/primer-dark"
+    ICONS_ROOT="$DATA_HOME/icons"
+
+    if [ -n "${XDG_CACHE_HOME:-}" ]; then
+        DOWNLOAD_CACHE="$XDG_CACHE_HOME/primer-dark-suite/downloads"
+    elif [ -n "${HOME:-}" ]; then
+        DOWNLOAD_CACHE="$HOME/.cache/primer-dark-suite/downloads"
+    else
+        echo "HOME or XDG_CACHE_HOME is required for the download cache." >&2
+        exit 1
+    fi
+}
+
+sha256_of() {
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum -- "$1" | cut -c1-64
+    else
+        shasum -a 256 -- "$1" | cut -c1-64
+    fi
+}
+
+# Makes a verified copy of URL available at "$DOWNLOAD_CACHE/SHA256".
+# Downloads are pinned to an upstream release and kept by checksum, so a
+# reinstall works offline. PRIMER_DARK_DOWNLOADS may name a directory of
+# pre-downloaded files, named as the last segment of their URL with %20 read
+# as a space, for machines without network access. A file whose checksum does
+# not match stops the installation before anything is installed.
+fetch_verified() {
+    fetch_url=$1
+    fetch_sha256=$2
+    fetch_dest="$DOWNLOAD_CACHE/$fetch_sha256"
+    if ! command -v sha256sum >/dev/null 2>&1 && ! command -v shasum >/dev/null 2>&1; then
+        echo "sha256sum or shasum is required to verify downloads." >&2
+        exit 1
+    fi
+    if [ -f "$fetch_dest" ] && [ "$(sha256_of "$fetch_dest")" = "$fetch_sha256" ]; then
+        return 0
+    fi
+
+    mkdir -p -- "$DOWNLOAD_CACHE"
+    fetch_tmp="$fetch_dest.part"
+    fetch_name=$(printf '%s\n' "${fetch_url##*/}" | sed 's/%20/ /g')
+    if [ -n "${PRIMER_DARK_DOWNLOADS:-}" ] && [ -f "$PRIMER_DARK_DOWNLOADS/$fetch_name" ]; then
+        cp -- "$PRIMER_DARK_DOWNLOADS/$fetch_name" "$fetch_tmp"
+    elif command -v curl >/dev/null 2>&1; then
+        if ! curl -fsSL --proto '=https' --tlsv1.2 --retry 2 -o "$fetch_tmp" "$fetch_url"; then
+            rm -f -- "$fetch_tmp"
+            printf 'Could not download %s; nothing was installed.\n' "$fetch_url" >&2
+            exit 1
+        fi
+    elif command -v wget >/dev/null 2>&1; then
+        if ! wget -q --https-only -O "$fetch_tmp" "$fetch_url"; then
+            rm -f -- "$fetch_tmp"
+            printf 'Could not download %s; nothing was installed.\n' "$fetch_url" >&2
+            exit 1
+        fi
+    else
+        printf 'curl or wget is required to download %s.\n' "$fetch_name" >&2
+        exit 1
+    fi
+
+    if [ "$(sha256_of "$fetch_tmp")" != "$fetch_sha256" ]; then
+        rm -f -- "$fetch_tmp"
+        printf 'The checksum of %s does not match the pinned value; nothing was installed.\n' "$fetch_url" >&2
+        exit 1
+    fi
+    mv -- "$fetch_tmp" "$fetch_dest"
 }
 
 require_command() {

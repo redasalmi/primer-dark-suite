@@ -22,7 +22,7 @@ cd "$REPO"
 - Preserve unrelated user settings and unrelated working-tree changes.
 - Install only user-local, theme-owned files by default. A shared application configuration may be changed only as an explicit documented exception with bounded managed sections, native validation, atomic replacement, and exact restore state; otherwise provide a manual snippet.
 - Make optional ports opt-in. Unsupported patchers and third-party modifications stay under `integrations/` and are never installed by default.
-- Commit ready-to-use assets; installation must work offline and must not require generation.
+- Commit ready-to-use assets; installation must work offline and must not require generation. Third-party fonts and icons are the only exception: pin them to an upstream release and SHA-256 checksum, fetch them with `fetch_verified`, and validate the pins in `check_<target>` and `scripts/check-downloads.sh`.
 - Keep changes minimal and consistent with the repository's existing shell and documentation style.
 - Do not add, remove, or modify tests unless the user explicitly asks. Do run existing applicable checks.
 - Do not claim a port is implemented until its native format, installation/discovery path, validation hook, and representative states have been verified as far as the environment permits.
@@ -221,7 +221,7 @@ Run the narrowest applicable checks first. Use official commands discovered duri
 ### Static and native checks
 
 - Parse JSON with `jq -e .`, XML/SVG with `xmllint --noout`, and other formats with the target's official parser/checker.
-- Run `shellcheck install.sh uninstall.sh scripts/check.sh scripts/lib/*.sh scripts/components/*.sh cli/fzf/primer-dark.sh` after shell edits, or `sh -n` on the same files where ShellCheck is unavailable.
+- Run `shellcheck install.sh uninstall.sh scripts/check.sh scripts/check-downloads.sh scripts/lib/*.sh scripts/components/*.sh cli/fzf/primer-dark.sh` after shell edits, or `sh -n` on the same files where ShellCheck is unavailable.
 - Validate required metadata, schema version, key completeness, stable identifiers, and exact discovery names.
 - Check that theme values come from canonical palette values or documented alpha/blend derivatives.
 - Use the target application's theme discovery/import/config check when available.

@@ -28,5 +28,5 @@ jobs:
         run: |
           docker run --rm -v "$PWD:/src" -w /src fedora:44 sh -c '
             dnf install -y ShellCheck libxml2 jq python3-gobject gtk3 gtk4 fish &&
-            shellcheck install.sh uninstall.sh scripts/check.sh scripts/lib/*.sh scripts/components/*.sh cli/fzf/primer-dark.sh &&
+            shellcheck install.sh uninstall.sh scripts/check.sh scripts/check-downloads.sh scripts/lib/*.sh scripts/components/*.sh cli/fzf/primer-dark.sh &&
             ./scripts/check.sh'

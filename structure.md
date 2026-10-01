@@ -14,7 +14,6 @@ primer-dark-suite/
 │   ├── plasma-style/     # implemented: bordered Plasma popup and widget frames
 │   ├── kvantum/          # implemented: native Kvantum theme config
 │   ├── ktexteditor/      # implemented: KSyntaxHighlighting theme for KWrite and Kate
-│   ├── icons/            # planned: thin PrimerDark icon theme inheriting Papirus-Dark
 │   └── plasma-login/     # future: KDE Plasma Login greeter
 │
 ├── terminals/
@@ -69,11 +68,12 @@ primer-dark-suite/
 │   ├── spicetify/        # planned: Spotify color.ini and user.css theme for Spicetify
 │   └── steam/            # planned: Steam CSS theme for a third-party client loader
 │
-├── fonts/                # planned: vendored OFL Mona Sans, Hubot Sans, and Monaspace Neon with licenses
+├── fonts/                # implemented: sources.tsv pins the downloaded font files by release tag and checksum
 │
 ├── palette/              # implemented: canonical Primer Dark tokens
 ├── scripts/              # implemented: validation and asset generation
 │   ├── check.sh          # implemented: palette and per-component asset validation
+│   ├── check-downloads.sh # implemented: downloads and verifies every pinned font and icon file
 │   ├── components/       # shared per-component preflight, install, guard, uninstall, and check hooks
 │   └── lib/              # shared component registry, paths, and shell helpers
 ├── .github/              # implemented: verification and Firefox release workflows

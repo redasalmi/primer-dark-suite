@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum, Konsole, KWrite/Kate, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Claude Code, Codex, Zed, Cursor, micro, Godot, Fastfetch, bat, btop, bottom, Atuin, eza, fzf, Fish, tmux, LS_COLORS, mpv, MangoHud, and GTK 3/4.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum, Konsole, KWrite/Kate, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Claude Code, Codex, Zed, Cursor, micro, Godot, Fastfetch, bat, btop, bottom, Atuin, eza, fzf, Fish, tmux, LS_COLORS, mpv, MangoHud, and GTK 3/4, with GitHub's own fonts and Papirus-Dark icons to complete the desktop.
 
 ## Included in v1
 
@@ -35,9 +35,11 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum,
 - ready-to-source tmux snippet covering the status bar, window states, pane borders, messages, copy mode, menus, and popups;
 - native Manifest V3 Mozilla Firefox static theme covering every effective color exposed by Firefox's current theme API, published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/);
 - native Manifest V3 Chromium theme covering every color exposed by Chromium's current theme API, usable in Chrome and other Chromium-based browsers;
+- optional fonts component that downloads GitHub's Mona Sans, Hubot Sans, and Monaspace Neon families plus Symbols Nerd Font Mono for terminal icon glyphs, pinned to upstream releases and verified by checksum;
+- optional icons component that downloads a pinned, checksum-verified Papirus-Dark into your user icon directory when it is not already installed;
 - System Settings previews and offline validation scripts.
 
-Primer Dark does **not** replace your icon theme, cursor theme, panel layout, wallpaper, fonts, or window-button order, including when it is applied with `--apply`. Breeze Dark icons and Breeze cursors match the suite and can be selected separately in **System Settings → Colors & Themes → Icons** and **Cursors**. KDE Plasma Login theming is intentionally outside the v1 scope because login-manager integration is system-level and requires separate packaging and safety work.
+Primer Dark does **not** replace your icon theme, cursor theme, panel layout, wallpaper, fonts, or window-button order, including when it is applied with `--apply`. The optional `--fonts` and `--icons` components install the recommended fonts and Papirus-Dark without selecting them, and Breeze cursors remain the recommended cursor theme; select each in **System Settings**. KDE Plasma Login theming is intentionally outside the v1 scope because login-manager integration is system-level and requires separate packaging and safety work.
 
 ## Requirements
 
@@ -68,6 +70,8 @@ Primer Dark does **not** replace your icon theme, cursor theme, panel layout, wa
 - tmux 3.7 (the currently validated target) when using the tmux snippet
 - Mozilla Firefox 155.0 (the currently validated target) when using the Firefox theme
 - Google Chrome 152.0.7977.75 (the currently validated target) when using the Chrome theme
+- fontconfig (`fc-list` and `fc-cache`) when installing the fonts
+- `curl` or `wget`, `sha256sum` (or `shasum`), and network access on the first install of the fonts or icons; `tar` for the icons
 
 The validation helper additionally uses `jq`, `xmllint`, `fish`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs.
 
@@ -323,6 +327,33 @@ name = "primer-dark"
 
 The theme leaves Atuin's base color unset so history text keeps the terminal foreground, and it lists only the meanings Atuin 18 defines, because Atuin rejects a theme that names an unknown meaning.
 
+To additionally install the recommended fonts:
+
+```sh
+./install.sh --fonts
+```
+
+The installer downloads the font files listed in [`fonts/sources.tsv`](fonts/sources.tsv), each pinned to an upstream release tag and a SHA-256 checksum: Mona Sans 2.0.27, Hubot Sans 1.0.1, and Monaspace Neon 1.400 from GitHub under the SIL Open Font License, and Symbols Nerd Font Mono from Nerd Fonts 3.5.1 under the MIT License. It verifies every checksum before anything is installed, copies the fonts with their licenses into `~/.local/share/fonts/primer-dark/`, and refreshes the font cache. A family that fontconfig already finds elsewhere, such as a distribution package or your own copy in `~/.local/share/fonts/`, is skipped and not downloaded. Nothing is selected for you; set these in **System Settings → Text & Fonts**:
+
+| Setting | Font |
+| --- | --- |
+| General, Menu, and Toolbar | Mona Sans 10 |
+| Small | Mona Sans 8 |
+| Window title | Hubot Sans SemiBold 10 |
+| Fixed width | Monaspace Neon 10 |
+
+Applications that keep their own font setting need it set once in their own configuration: `font-family = Monaspace Neon` in Ghostty, `"buffer_font_family": "Monaspace Neon"` and `"ui_font_family": "Mona Sans"` in Zed, `"editor.fontFamily"` and `"terminal.integrated.fontFamily"` set to `Monaspace Neon` in Cursor, and the font of your Konsole profile and of **Settings → Configure → Appearance** in KWrite/Kate. Symbols Nerd Font Mono needs no selection: fontconfig uses it automatically for the icon glyphs that eza, Fastfetch, and prompt tools print.
+
+To additionally install the recommended icon theme:
+
+```sh
+./install.sh --icons
+```
+
+Papirus-Dark is the recommended icon theme: its flat dark set covers KDE, GTK, and Flatpak applications, its default blue folders sit close to the Primer accent, and its monochrome icons follow the active KDE color scheme, so they pick up the Primer Dark colors. When Papirus-Dark is already installed, for example by your distribution's `papirus-icon-theme` package, the installer leaves it alone and downloads nothing; a distribution package also keeps it updated with the system. Otherwise it downloads Papirus release 20260801 from GitHub, verifies its SHA-256 checksum, and installs `Papirus` and `Papirus-Dark` (which links into `Papirus`) into `~/.local/share/icons/` without administrator access. Those two directories carry a `.primer-dark-suite` marker, and the installer refuses to replace a `Papirus` directory there that it did not install. Select **Papirus-Dark** in **System Settings → Colors & Themes → Icons**.
+
+Downloads are kept by checksum in `~/.cache/primer-dark-suite/downloads/`, so reinstalling works offline. To install on a machine without network access, download the files listed in `fonts/sources.tsv` and the Papirus archive (`20260801.tar.gz`) elsewhere, put them in one directory under their URL file names, and run the installer with `PRIMER_DARK_DOWNLOADS=/path/to/that/directory`; their checksums are verified the same way.
+
 eza, fzf, and tmux have no safe user-local theme discovery path, so they are intentionally not installed by the root script. Use a repository checkout:
 
 - **eza:** copy `cli/eza/theme.yml` to `$EZA_CONFIG_DIR/theme.yml` or `~/.config/eza/theme.yml`, backing up any existing `theme.yml` first, since eza only reads that single fixed path.
@@ -380,16 +411,19 @@ The installer preserves your existing Konsole, KWrite/Kate, Ghostty, Herdr, Pi, 
 - `~/.config/fish/themes/primer-dark.theme` when using `--fish`
 - `~/.local/share/themes/primer-dark/` when using `--gtk`
 - `~/.config/Kvantum/PrimerDark/PrimerDark.kvconfig` when using `--kvantum`
+- `~/.local/share/fonts/primer-dark/` when using `--fonts`
+- `~/.local/share/icons/Papirus/` and `~/.local/share/icons/Papirus-Dark/` when using `--icons` and Papirus-Dark is not already installed
+- `~/.cache/primer-dark-suite/downloads/` for the verified downloads of `--fonts` and `--icons`
 
 ## Uninstall
 
-First select another Global Theme, color scheme, window decoration, and splash screen and, if used, other Konsole, KWrite/Kate, Ghostty, Pi, Zed, Cursor, micro, Godot, Claude Code, Codex, Atuin, bat, btop, Fish, GTK, and Kvantum themes. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the `Net/ThemeName` in `~/.config/xsettingsd/xsettingsd.conf`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value, and the Kvantum theme must not be selected in Kvantum's configuration, including a `[Applications]` assignment that gives it to specific applications. Then run:
+First select another Global Theme, color scheme, window decoration, and splash screen and, if used, other Konsole, KWrite/Kate, Ghostty, Pi, Zed, Cursor, micro, Godot, Claude Code, Codex, Atuin, bat, btop, Fish, GTK, and Kvantum themes, Papirus-Dark when only the copy installed by `--icons` provides it, and any font that only the Primer Dark fonts directory provides. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the `Net/ThemeName` in `~/.config/xsettingsd/xsettingsd.conf`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value, and the Kvantum theme must not be selected in Kvantum's configuration, including a `[Applications]` assignment that gives it to specific applications. Then run:
 
 ```sh
 ./uninstall.sh
 ```
 
-The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The Cursor extension is uninstalled through `cursor --uninstall-extension` and its directory removed only after its active-theme guard passes in the default profile and in every named profile. The KWrite/Kate, micro, Godot, Claude Code, Codex, and Atuin theme files are removed only after their guards confirm the theme is not selected in `kwriterc`/`katerc`, micro's `settings.json`, Godot's `editor_settings-*.tres`, Claude Code's settings, Codex's `config.toml`, or Atuin's `config.toml`. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched. The Kvantum theme directory is removed only after its guard reads the same configuration Kvantum reads and confirms the theme is neither the selected theme nor assigned to individual applications, and the shared Kvantum selection file is never rewritten. When that configuration uses a construct the guard cannot decode with certainty, such as an unparseable line or an escape sequence, removal stops instead of risking an active theme.
+The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The Cursor extension is uninstalled through `cursor --uninstall-extension` and its directory removed only after its active-theme guard passes in the default profile and in every named profile. The KWrite/Kate, micro, Godot, Claude Code, Codex, and Atuin theme files are removed only after their guards confirm the theme is not selected in `kwriterc`/`katerc`, micro's `settings.json`, Godot's `editor_settings-*.tres`, Claude Code's settings, Codex's `config.toml`, or Atuin's `config.toml`. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched. The Kvantum theme directory is removed only after its guard reads the same configuration Kvantum reads and confirms the theme is neither the selected theme nor assigned to individual applications, and the shared Kvantum selection file is never rewritten. When that configuration uses a construct the guard cannot decode with certainty, such as an unparseable line or an escape sequence, removal stops instead of risking an active theme. The fonts directory is removed only when no font that it alone provides is selected for a `kdeglobals` font role, including the window title; fonts chosen inside individual applications such as Ghostty, Zed, or Konsole are not checked, so switch those first. The Papirus copy installed by `--icons` is removed only when Papirus-Dark is not selected in `kdeglobals`, the GTK `settings.ini` files, or xsettingsd, or when another copy of Papirus-Dark remains installed; a distribution-installed Papirus is never touched. The download cache is left in place; delete `~/.cache/primer-dark-suite/` to reclaim it.
 
 The script does not manage Firefox, Chrome, eza, fzf, tmux, LS_COLORS, bottom, mpv, MangoHud, or the Godot editor base and accent colors. Remove a store-installed or signed Firefox theme from **Add-ons and themes → Themes**, or remove a temporary copy from `about:debugging#/runtime/this-firefox` or by restarting Firefox. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
 
@@ -407,7 +441,15 @@ Validate the palette and every asset that has an official parser with:
 ./scripts/check.sh
 ```
 
-This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, Cursor, Claude Code, KWrite/Kate, and Fastfetch files, the Cursor package version against the installer, the micro, Atuin, and Godot line grammars, the Kvantum theme's color spec against the canonical palette, the POSIX and fish fzf snippets and their shared color set, and the GTK 3, GTK 4, and libadwaita stylesheets. It requires `jq`, `xmllint`, `fish`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
+This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, Cursor, Claude Code, KWrite/Kate, and Fastfetch files, the Cursor package version against the installer, the micro, Atuin, and Godot line grammars, the Kvantum theme's color spec against the canonical palette, the POSIX and fish fzf snippets and their shared color set, the GTK 3, GTK 4, and libadwaita stylesheets and the pinned font and Papirus downloads offline: every pin must name a release tag, an HTTPS URL, and a SHA-256 checksum. It requires `jq`, `xmllint`, `fish`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
+
+After changing a font or Papirus pin, download and verify every pinned file with:
+
+```sh
+./scripts/check-downloads.sh
+```
+
+It fetches each file into a temporary cache, checks its SHA-256 checksum, confirms with `fc-query` that every font reports the family its manifest line names, and confirms that the Papirus archive contains both themes. It needs network access, `fc-query`, and `tar`.
 
 ## Versioning
 

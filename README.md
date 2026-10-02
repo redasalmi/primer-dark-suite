@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum, Konsole, KWrite/Kate, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Claude Code, Codex, Zed, Cursor, micro, Godot, Fastfetch, bat, btop, bottom, Atuin, eza, fzf, Fish, tmux, LS_COLORS, mpv, MangoHud, and GTK 3/4, with the Inter and JetBrains Mono fonts and Papirus-Dark icons to complete the desktop.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum, Konsole, KWrite/Kate, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Claude Code, Codex, Zed, Cursor, micro, Godot, Blender, LibreOffice, Fastfetch, bat, btop, bottom, Atuin, eza, fzf, Fish, tmux, LS_COLORS, mpv, MangoHud, and GTK 3/4, with the Inter and JetBrains Mono fonts and Papirus-Dark icons to complete the desktop.
 
 ## Included in v1
 
@@ -19,6 +19,8 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum,
 - native Cursor/VS Code-compatible color theme extension covering the workbench, editor, syntax, semantic highlighting, diagnostics, Git decorations, integrated terminal, and ANSI colors;
 - native micro colorscheme covering every documented highlight group plus the status line, tab bar, gutter, diff, search, and whitespace-error states;
 - native Godot 4 text editor theme covering all 49 script editor colors, plus documented editor base and accent colors;
+- native Blender interface theme covering all 649 theme colors of Blender 5.2: widgets, panels, regions, every editor, node categories, report banners, Text Editor syntax, and bone, collection, and strip colors;
+- native LibreOffice theme extension covering all 91 items of the LibreOffice 26.2 color scheme: document and application backgrounds, text, links, Writer, Calc, Draw, and HTML source markers, tracked-change authors, Basic IDE and SQL syntax, and the application colors;
 - native Claude Code custom theme covering its text, status, mode, diff, transcript, usage, subagent, and shimmer tokens;
 - Codex syntax theme, installed from the bat TextMate theme;
 - native Atuin theme covering every Atuin 18 meaning;
@@ -55,6 +57,8 @@ Primer Dark does **not** replace your icon theme, cursor theme, panel layout, wa
 - KWrite or Kate from KDE Frameworks 6 (KSyntaxHighlighting 6.30 is the currently validated target) when using the editor color theme
 - micro 2.0.14 or newer (2.0.15 is the currently validated target) when using the micro colorscheme
 - Godot 4.7 (the currently validated target) when using the Godot text editor theme
+- Blender 5.2 (5.2.2 is the currently validated target) when using the Blender theme
+- LibreOffice 26.2 (26.2.6 is the currently validated target) with its `unopkg` command and `python3` when installing the LibreOffice theme extension
 - Claude Code with custom theme support (`~/.claude/themes/`) when using the Claude Code theme
 - Codex CLI with custom `.tmTheme` support (0.157 is the currently validated target) when using the Codex syntax theme
 - Atuin 18.x (18.12 is the currently validated target) when using the Atuin theme
@@ -289,6 +293,32 @@ interface/theme/base_color = Color(0.051, 0.067, 0.09, 1)
 interface/theme/accent_color = Color(0.267, 0.576, 0.973, 1)
 ```
 
+To additionally install the Blender theme:
+
+```sh
+./install.sh --blender
+```
+
+Select **Primer Dark** in **Edit → Preferences → Themes** from the theme preset menu. Blender keeps user presets per minor version, so the installer copies the theme into `~/.config/blender/<version>/scripts/presets/interface_theme/` for the Blender on `PATH` and for every version directory that already exists, and stops before installing anything when it finds neither. Selecting a preset copies its colors into Blender's preferences, which Blender saves with its other preferences. The theme leaves interface font styles untouched. Other Blender versions skip keys they do not know and keep their defaults for keys the file lacks. Flatpak Blender reads its configuration from `~/.var/app/org.blender.Blender/config/blender/` and is not detected; use **Install…** in the same Themes panel to load `creative/blender/Primer_Dark.xml` there.
+
+To regenerate the theme after a palette change or a Blender upgrade:
+
+```sh
+blender --background --factory-startup --python scripts/generate-blender-theme.py
+```
+
+The generator runs inside Blender and does not save preferences. It fails when a theme color is left unmapped or a mapped key no longer exists in that Blender version.
+
+To additionally install the LibreOffice theme extension:
+
+```sh
+./install.sh --libreoffice
+```
+
+Then open **Tools → Options → LibreOffice → Appearance**, select **Primer Dark** under **LibreOffice Themes**, keep **Enable application theming** on so the menus, toolbars, and dialogs use the theme too, and clear **Use white document background** for dark pages. That option is on by default and keeps pages white under every theme. Restart LibreOffice when it asks. The recommended icon theme is LibreOffice's bundled Breeze Dark.
+
+The installer packages `office/libreoffice/primer-dark/` as an extension and installs it with `unopkg`, so it appears in **Tools → Extensions** like any other extension and an existing copy is replaced. It never writes the theme selection. To change a color, edit `scripts/generate-libreoffice-theme.py` and rerun it. The Flatpak build keeps its own profile under `~/.var/app/org.libreoffice.LibreOffice/` and is not detected; to use the theme there, zip the contents of `office/libreoffice/primer-dark/` into `primer-dark.oxt` and add it in **Tools → Extensions**.
+
 To additionally install the Claude Code theme:
 
 ```sh
@@ -386,7 +416,7 @@ Google Chrome requires interactive extension loading, so its theme is intentiona
 
 Loading the package activates **Primer Dark** immediately. To update it, replace the files in the checkout and reload the unpacked extension. The theme styles Chrome's normal-browsing frame, tabs, toolbar, omnibox, bookmarks, and new-tab background. Chrome 152 deliberately retains its native incognito theme; internal pages, DevTools, website content, and the central new-tab search control also retain their own appearance. Other Chromium-based browsers can load the same directory from their equivalent extensions page, with rendering that may differ wherever the browser maps theme colors differently.
 
-The installer preserves your existing Konsole, KWrite/Kate, Ghostty, Herdr, Pi, Zed, Cursor, micro, Godot, Claude Code, Codex, Atuin, Fastfetch, bat, btop, Fish, GTK, and Kvantum settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
+The installer preserves your existing Konsole, KWrite/Kate, Ghostty, Herdr, Pi, Zed, Cursor, micro, Godot, Blender, LibreOffice, Claude Code, Codex, Atuin, Fastfetch, bat, btop, Fish, GTK, and Kvantum settings. It writes only theme-owned files, plus the managed Herdr theme section when requested, to the current user's XDG and application directories, normally:
 
 - `~/.local/share/color-schemes/PrimerDark.colors`
 - `~/.local/share/aurorae/themes/PrimerDark/` (optional Aurorae window-decoration assets)
@@ -402,6 +432,8 @@ The installer preserves your existing Konsole, KWrite/Kate, Ghostty, Herdr, Pi, 
 - `~/.local/share/org.kde.syntax-highlighting/themes/primer-dark.theme` when using `--ktexteditor`
 - `~/.config/micro/colorschemes/primer-dark.micro` when using `--micro`
 - `~/.config/godot/text_editor_themes/PrimerDark.tet` when using `--godot`
+- `~/.config/blender/<version>/scripts/presets/interface_theme/Primer_Dark.xml` for each detected Blender version when using `--blender`
+- `~/.config/libreoffice/4/user/uno_packages/`, registered through `unopkg` as `io.github.redasalmi.primer-dark`, when using `--libreoffice`
 - `~/.claude/themes/primer-dark.json` when using `--claude`
 - `~/.codex/themes/primer-dark.tmTheme` when using `--codex`
 - `~/.config/atuin/themes/primer-dark.toml` when using `--atuin`
@@ -417,13 +449,13 @@ The installer preserves your existing Konsole, KWrite/Kate, Ghostty, Herdr, Pi, 
 
 ## Uninstall
 
-First select another Global Theme, color scheme, window decoration, and splash screen and, if used, other Konsole, KWrite/Kate, Ghostty, Pi, Zed, Cursor, micro, Godot, Claude Code, Codex, Atuin, bat, btop, Fish, GTK, and Kvantum themes, Papirus-Dark when only the copy installed by `--icons` provides it, and any font that only the Primer Dark fonts directory provides. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the `Net/ThemeName` in `~/.config/xsettingsd/xsettingsd.conf`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value, and the Kvantum theme must not be selected in Kvantum's configuration, including a `[Applications]` assignment that gives it to specific applications. Then run:
+First select another Global Theme, color scheme, window decoration, and splash screen and, if used, other Konsole, KWrite/Kate, Ghostty, Pi, Zed, Cursor, micro, Godot, LibreOffice, Claude Code, Codex, Atuin, bat, btop, Fish, GTK, and Kvantum themes, Papirus-Dark when only the copy installed by `--icons` provides it, and any font that only the Primer Dark fonts directory provides. The GTK theme must not be the active `gtk-theme-name` in `~/.config/gtk-3.0/settings.ini` or `~/.config/gtk-4.0/settings.ini`, the `Net/ThemeName` in `~/.config/xsettingsd/xsettingsd.conf`, the active `org.gnome.desktop.interface gtk-theme`, or the current `GTK_THEME` value, and the Kvantum theme must not be selected in Kvantum's configuration, including a `[Applications]` assignment that gives it to specific applications. Then run:
 
 ```sh
 ./uninstall.sh
 ```
 
-The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. The Cursor extension is uninstalled through `cursor --uninstall-extension` and its directory removed only after its active-theme guard passes in the default profile and in every named profile. The KWrite/Kate, micro, Godot, Claude Code, Codex, and Atuin theme files are removed only after their guards confirm the theme is not selected in `kwriterc`/`katerc`, micro's `settings.json`, Godot's `editor_settings-*.tres`, Claude Code's settings, Codex's `config.toml`, or Atuin's `config.toml`. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched. The Kvantum theme directory is removed only after its guard reads the same configuration Kvantum reads and confirms the theme is neither the selected theme nor assigned to individual applications, and the shared Kvantum selection file is never rewritten. When that configuration uses a construct the guard cannot decode with certainty, such as an unparseable line or an escape sequence, removal stops instead of risking an active theme. The fonts directory is removed only when no font that it alone provides is selected for a `kdeglobals` font role, including the window title; fonts chosen inside individual applications such as Ghostty, Zed, or Konsole are not checked, so switch those first. The Papirus copy installed by `--icons` is removed only when Papirus-Dark is not selected in `kdeglobals`, the GTK `settings.ini` files, or xsettingsd, or when another copy of Papirus-Dark remains installed; a distribution-installed Papirus is never touched. The download cache is left in place; delete `~/.cache/primer-dark-suite/` to reclaim it.
+The script refuses to remove Primer Dark while any installed file-based theme is active. It removes the managed Herdr section and restores the Herdr theme tables saved during installation. The Fastfetch preset is not active state, so it is removed directly and only affects later `fastfetch --config primer-dark` invocations. The bat and btop files are removed only after their active-theme guards pass; bat's cache is left to the application. Fish's theme file is removed directly, leaving session-local and saved universal colors intact. Every Blender preset copy is removed directly as well, because Blender stores the colors of a selected theme in its own preferences; choose another theme or **Reset** in **Edit → Preferences → Themes** to stop using them. The LibreOffice extension is removed with `unopkg remove` only after its guard confirms that `registrymodifications.xcu` no longer selects Primer Dark. The Cursor extension is uninstalled through `cursor --uninstall-extension` and its directory removed only after its active-theme guard passes in the default profile and in every named profile. The KWrite/Kate, micro, Godot, Claude Code, Codex, and Atuin theme files are removed only after their guards confirm the theme is not selected in `kwriterc`/`katerc`, micro's `settings.json`, Godot's `editor_settings-*.tres`, Claude Code's settings, Codex's `config.toml`, or Atuin's `config.toml`. The GTK theme package is removed only after its active-theme guard passes; the manually merged libadwaita override in `~/.config/gtk-4.0/gtk.css` is never touched. The Kvantum theme directory is removed only after its guard reads the same configuration Kvantum reads and confirms the theme is neither the selected theme nor assigned to individual applications, and the shared Kvantum selection file is never rewritten. When that configuration uses a construct the guard cannot decode with certainty, such as an unparseable line or an escape sequence, removal stops instead of risking an active theme. The fonts directory is removed only when no font that it alone provides is selected for a `kdeglobals` font role, including the window title; fonts chosen inside individual applications such as Ghostty, Zed, or Konsole are not checked, so switch those first. The Papirus copy installed by `--icons` is removed only when Papirus-Dark is not selected in `kdeglobals`, the GTK `settings.ini` files, or xsettingsd, or when another copy of Papirus-Dark remains installed; a distribution-installed Papirus is never touched. The download cache is left in place; delete `~/.cache/primer-dark-suite/` to reclaim it.
 
 The script does not manage Firefox, Chrome, eza, fzf, tmux, LS_COLORS, bottom, mpv, MangoHud, or the Godot editor base and accent colors. Remove a store-installed or signed Firefox theme from **Add-ons and themes → Themes**, or remove a temporary copy from `about:debugging#/runtime/this-firefox` or by restarting Firefox. To remove the Chrome theme, choose **Reset to default theme** in `chrome://settings/appearance`, then delete its extracted directory. The eza, fzf, and tmux files are manual copies: remove or restore them in your eza theme path, shell startup file, or `~/.tmux.conf`.
 
@@ -441,7 +473,7 @@ Validate the palette and every asset that has an official parser with:
 ./scripts/check.sh
 ```
 
-This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, Cursor, Claude Code, KWrite/Kate, and Fastfetch files, the Cursor package version against the installer, the micro, Atuin, and Godot line grammars, the Kvantum theme's color spec against the canonical palette, the POSIX and fish fzf snippets and their shared color set, the GTK 3, GTK 4, and libadwaita stylesheets and the pinned font and Papirus downloads offline: every pin must name a release tag, an HTTPS URL, and a SHA-256 checksum. It requires `jq`, `xmllint`, `fish`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
+This checks the KDE package metadata and SVGs, the bat theme, both browser manifests, the Pi, Zed, Cursor, Claude Code, KWrite/Kate, and Fastfetch files, the Cursor package version against the installer, the micro, Atuin, and Godot line grammars, the Blender theme's XML, element types, and colors, the LibreOffice extension's XML, manifest, and identifier, and that its `themes.xcu` matches the palette, the Kvantum theme's color spec against the canonical palette, the POSIX and fish fzf snippets and their shared color set, the GTK 3, GTK 4, and libadwaita stylesheets and the pinned font and Papirus downloads offline: every pin must name a release tag, an HTTPS URL, and a SHA-256 checksum. It requires `jq`, `xmllint`, `fish`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs, because the GTK stylesheets are validated with GTK's own CSS parser; the GTK 4 check needs GTK 4.20 or newer. [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs `shellcheck` and this script in a Fedora 44 container that matches the validated GTK target on every push to `main` and every pull request.
 
 After changing a font or Papirus pin, download and verify every pinned file with:
 
@@ -455,15 +487,16 @@ It fetches each file into a temporary cache, checks its SHA-256 checksum, confir
 
 This project cuts no GitHub Releases and keeps no suite version. `install.sh` is the distribution channel for every port it can install, so a version number would have nothing to identify.
 
-Versions exist only where the editor or browser format requires them, and only in these manifests:
+Versions exist only where the editor, browser, or office extension format requires them, and only in these manifests:
 
 - `browsers/firefox/primer-dark/manifest.json`
 - `browsers/chrome/primer-dark/manifest.json`
 - `editors/cursor/primer-dark/package.json`
+- `office/libreoffice/primer-dark/description.xml`
 
 The Cursor extension version appears twice and must be kept in sync: in `package.json` and in `CURSOR_EXT_VERSION` in `scripts/lib/common.sh`; `./scripts/check.sh` fails when they differ.
 
-`KPlugin.Version` is deliberately absent from the KDE `metadata.json` files: KDE treats it as optional, and kpackagetool6 installs and updates those packages without it. Bump only the manifest of the editor or browser you are publishing to, and bump the two Cursor version locations together.
+`KPlugin.Version` is deliberately absent from the KDE `metadata.json` files: KDE treats it as optional, and kpackagetool6 installs and updates those packages without it. Bump only the manifest of the editor, browser, or office extension you are publishing to, and bump the two Cursor version locations together. `unopkg add --force` replaces an installed LibreOffice extension even when its version is unchanged, so local installs need no bump.
 
 [`distribution.md`](distribution.md) lists every port's store or upstream channel, its publication status, the artifact to publish, and the requirements each channel imposes.
 

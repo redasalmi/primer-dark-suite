@@ -62,6 +62,7 @@ load_components
 cleanup_install_temps() {
     cleanup_herdr_temps
     cleanup_cursor_temps
+    cleanup_libreoffice_temps
     cleanup_icons_temps
     cleanup_fetch_archive
 }

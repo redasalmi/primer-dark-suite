@@ -1,0 +1,193 @@
+#!/usr/bin/env python3
+"""Generate the committed LibreOffice theme configuration from the palette.
+
+LibreOffice reads extension themes from org.openoffice.Office.UI/ColorScheme
+and stores each item as a decimal RGB Color. This script maps every item of
+LibreOffice 26.2's ColorScheme template to a palette color and writes
+office/libreoffice/primer-dark/themes.xcu with each value's hex beside it.
+With --check it fails when the committed file differs from the output.
+"""
+
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "office" / "libreoffice" / "primer-dark" / "themes.xcu"
+TOKENS = json.loads((ROOT / "palette" / "primer-dark.json").read_text())["tokens"]
+THEME_NAME = "Primer Dark"
+
+
+def p(token: str) -> str:
+    group, name = token.split(".")
+    return TOKENS[group][name].upper()
+
+
+INSET = p("surface.inset")
+DEFAULT = p("surface.default")
+MUTED = p("surface.muted")
+RAISED = p("surface.raised")
+BORDER = p("border.default")
+EMPHASIS = p("border.emphasis")
+FG = p("foreground.default")
+FG_MUTED = p("foreground.muted")
+FG_DISABLED = p("foreground.disabled")
+ON_EMPHASIS = p("foreground.onEmphasis")
+ACCENT = p("accent.foreground")
+FOCUS = p("accent.emphasis")
+KEYWORD = p("syntax.keyword")
+CONSTANT = p("syntax.constant")
+STRING = p("syntax.string")
+COMMENT = p("syntax.comment")
+
+# Every item of the ColorScheme template, in template order. Items that also
+# carry an IsVisible switch keep LibreOffice's own default for it.
+ITEMS = {
+    # Documents
+    "DocColor": DEFAULT,
+    "DocBoundaries": BORDER,
+    "AppBackground": INSET,
+    "TableBoundaries": BORDER,
+    "FontColor": FG,
+    "Links": ACCENT,
+    "LinksVisited": p("status.done"),
+    "Spell": p("status.danger"),
+    "Grammar": ACCENT,
+    "SmartTags": p("status.done"),
+    "Shadow": INSET,
+    # Writer
+    "WriterTextGrid": BORDER,
+    "WriterFieldShadings": RAISED,
+    "WriterIdxShadings": RAISED,
+    "WriterDirectCursor": ACCENT,
+    "WriterSectionBoundaries": BORDER,
+    "WriterHeaderFooterMark": FOCUS,
+    "WriterPageBreaks": FOCUS,
+    "WriterNonPrintChars": EMPHASIS,
+    # HTML source view: tags, comments, attributes, and unknown tags
+    "HTMLSGML": p("syntax.entityTag"),
+    "HTMLComment": COMMENT,
+    "HTMLKeyword": CONSTANT,
+    "HTMLUnknown": FG,
+    # Calc
+    "CalcGrid": BORDER,
+    "CalcCellFocus": FOCUS,
+    "CalcPageBreak": FOCUS,
+    "CalcPageBreakManual": FOCUS,
+    "CalcPageBreakAutomatic": EMPHASIS,
+    "CalcHiddenColRow": FOCUS,
+    "CalcTextOverflow": p("status.danger"),
+    "CalcComments": p("status.attention"),
+    "CalcDetective": ACCENT,
+    "CalcDetectiveError": p("status.danger"),
+    "CalcReference": p("syntax.variable"),
+    "CalcNotesBackground": p("surface.attentionMuted"),
+    # Value highlighting: numbers, formulas, and text
+    "CalcValue": CONSTANT,
+    "CalcFormula": p("status.success"),
+    "CalcText": FG,
+    "CalcProtectedBackground": MUTED,
+    # Draw and Impress
+    "DrawGrid": BORDER,
+    # Track changes: one readable hue per author
+    "Author1": p("terminal.brightYellow"),
+    "Author2": KEYWORD,
+    "Author3": CONSTANT,
+    "Author4": p("syntax.entityTag"),
+    "Author5": p("syntax.entity"),
+    "Author6": p("syntax.variable"),
+    "Author7": p("terminal.brightCyan"),
+    "Author8": p("accent.pink"),
+    "Author9": STRING,
+    # Basic IDE, with the shared syntax mapping
+    "BASICEditor": DEFAULT,
+    "BASICIdentifier": FG,
+    "BASICComment": COMMENT,
+    "BASICNumber": CONSTANT,
+    "BASICString": STRING,
+    "BASICOperator": KEYWORD,
+    "BASICKeyword": KEYWORD,
+    "BASICError": p("status.danger"),
+    # Base SQL view
+    "SQLIdentifier": FG,
+    "SQLNumber": CONSTANT,
+    "SQLString": STRING,
+    "SQLOperator": KEYWORD,
+    "SQLKeyword": KEYWORD,
+    "SQLParameter": p("syntax.variable"),
+    "SQLComment": COMMENT,
+    # Application colors, matching the KDE color scheme roles
+    "WindowColor": INSET,
+    "WindowTextColor": FG,
+    "BaseColor": DEFAULT,
+    "ButtonColor": RAISED,
+    "ButtonTextColor": FG,
+    "AccentColor": FOCUS,
+    "DisabledColor": MUTED,
+    "DisabledTextColor": FG_DISABLED,
+    "ShadowColor": INSET,
+    "SeparatorColor": BORDER,
+    "FaceColor": INSET,
+    "ActiveColor": FOCUS,
+    "ActiveTextColor": ON_EMPHASIS,
+    "ActiveBorderColor": ACCENT,
+    "FieldColor": DEFAULT,
+    "MenuBarColor": INSET,
+    "MenuBarTextColor": FG,
+    "MenuBarHighlightColor": RAISED,
+    "MenuBarHighlightTextColor": FG,
+    "MenuColor": MUTED,
+    "MenuTextColor": FG,
+    "MenuHighlightColor": FOCUS,
+    "MenuHighlightTextColor": ON_EMPHASIS,
+    "MenuBorderColor": BORDER,
+    "InactiveColor": DEFAULT,
+    "InactiveTextColor": FG_MUTED,
+    "InactiveBorderColor": BORDER,
+}
+
+# LibreOffice's automatic scheme hides the hidden-column and hidden-row
+# markers; keep that default instead of the template's.
+VISIBILITY = {"CalcHiddenColRow": "false"}
+
+
+def render() -> str:
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        "<!-- Generated by scripts/generate-libreoffice-theme.py; SPDX-License-Identifier: MIT -->",
+        '<oor:component-data xmlns:oor="http://openoffice.org/2001/registry" '
+        'xmlns:xs="http://www.w3.org/2001/XMLSchema" oor:name="UI" oor:package="org.openoffice.Office">',
+        '  <node oor:name="ColorScheme">',
+        '    <node oor:name="ColorSchemes">',
+        f'      <node oor:name="{THEME_NAME}" oor:op="replace">',
+    ]
+    for item, color in ITEMS.items():
+        lines.append(f'        <node oor:name="{item}">')
+        if item in VISIBILITY:
+            lines.append(f'          <prop oor:name="IsVisible"><value>{VISIBILITY[item]}</value></prop>')
+        lines.append(f'          <prop oor:name="Color"><value>{int(color[1:], 16)}</value></prop><!-- {color} -->')
+        lines.append("        </node>")
+    lines += [
+        "      </node>",
+        "    </node>",
+        "  </node>",
+        "</oor:component-data>",
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def main() -> int:
+    content = render()
+    if sys.argv[1:] == ["--check"]:
+        if not OUT.is_file() or OUT.read_text() != content:
+            print(f"{OUT.relative_to(ROOT)} is out of date; run scripts/generate-libreoffice-theme.py", file=sys.stderr)
+            return 1
+        return 0
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(content)
+    print(f"Wrote {OUT.relative_to(ROOT)} with {len(ITEMS)} colors")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

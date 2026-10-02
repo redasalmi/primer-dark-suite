@@ -12,9 +12,9 @@ AURORAE_ID=PrimerDark
 PLASMA_STYLE_ID=PrimerDark
 COLOR_FILE=PrimerDark.colors
 # ALL_COMPONENTS are safe for the root install and uninstall lifecycle.
-ALL_COMPONENTS="kde konsole ghostty herdr pi zed cursor fastfetch bat btop fish gtk kvantum ktexteditor micro atuin codex claude godot fonts icons"
+ALL_COMPONENTS="kde konsole ghostty herdr pi zed cursor fastfetch bat btop fish gtk kvantum ktexteditor micro atuin codex claude godot blender libreoffice fonts icons"
 # CHECK_COMPONENTS validate their own assets in a check_* hook.
-CHECK_COMPONENTS="kde bat fastfetch pi zed cursor firefox chrome fzf gtk kvantum ktexteditor micro atuin claude godot fonts icons"
+CHECK_COMPONENTS="kde bat fastfetch pi zed cursor firefox chrome fzf gtk kvantum ktexteditor micro atuin claude godot blender libreoffice fonts icons"
 # COMPONENT_MODULES are every module sourced by the install, uninstall, and
 # check entry points.
 COMPONENT_MODULES="$ALL_COMPONENTS firefox chrome fzf"
@@ -25,6 +25,8 @@ CURSOR_EXT_ID=redasalmi.primer-dark
 CURSOR_EXT_VERSION=1.0.0
 KVANTUM_THEME_ID=PrimerDark
 KVANTUM_THEME_SOURCE="$ROOT/kde/kvantum/$KVANTUM_THEME_ID"
+LIBREOFFICE_EXT_SOURCE="$ROOT/office/libreoffice/primer-dark"
+LIBREOFFICE_EXT_ID=io.github.redasalmi.primer-dark
 FONTS_MANIFEST="$ROOT/fonts/sources.tsv"
 # Papirus is downloaded from this pinned release tag and verified against the
 # checksum of GitHub's archive for that tag.
@@ -130,6 +132,11 @@ initialize_user_paths() {
     CLAUDE_THEME_DEST="$CLAUDE_DIR/themes/primer-dark.json"
     GODOT_CONFIG_ROOT="$CONFIG_HOME/godot"
     GODOT_THEME_DEST="$GODOT_CONFIG_ROOT/text_editor_themes/PrimerDark.tet"
+    # Blender reads XDG_CONFIG_HOME and keeps one directory per minor version.
+    BLENDER_CONFIG_ROOT="$CONFIG_HOME/blender"
+    BLENDER_THEME_PATH="scripts/presets/interface_theme/Primer_Dark.xml"
+    # unopkg resolves the same user profile from XDG_CONFIG_HOME.
+    LIBREOFFICE_USER_DIR="$CONFIG_HOME/libreoffice/4/user"
     FONTS_ROOT="$DATA_HOME/fonts"
     FONTS_DEST="$FONTS_ROOT/primer-dark"
     ICONS_ROOT="$DATA_HOME/icons"

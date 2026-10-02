@@ -48,7 +48,7 @@ primer-dark-suite/
 │   └── libadwaita/       # documented: optional libadwaita color override snippet
 │
 ├── creative/             # applications with their own theme formats
-│   ├── blender/          # planned: interface theme XML preset
+│   ├── blender/          # implemented: interface theme preset, generated inside Blender
 │   └── godot/            # implemented: text editor theme; editor colors documented
 │
 ├── media/
@@ -57,8 +57,8 @@ primer-dark-suite/
 ├── gaming/
 │   └── mangohud/         # implemented: MangoHud color snippet
 │
-├── office/               # planned: office suite appearance theme
-│   └── libreoffice/      # planned: appearance theme extension with themes.xcu
+├── office/               # office suite appearance themes
+│   └── libreoffice/      # implemented: theme extension with a generated themes.xcu
 │
 ├── chat/                 # planned: chat client appearance customization
 │   └── slack/            # planned: ready-to-paste custom theme string
@@ -74,6 +74,8 @@ primer-dark-suite/
 ├── scripts/              # implemented: validation and asset generation
 │   ├── check.sh          # implemented: palette and per-component asset validation
 │   ├── check-downloads.sh # implemented: downloads and verifies every pinned font and icon file
+│   ├── generate-blender-theme.py # implemented: writes the Blender theme from the palette inside Blender
+│   ├── generate-libreoffice-theme.py # implemented: writes the LibreOffice themes.xcu from the palette
 │   ├── components/       # shared per-component preflight, install, guard, uninstall, and check hooks
 │   └── lib/              # shared component registry, paths, and shell helpers
 ├── .github/              # implemented: verification and Firefox release workflows

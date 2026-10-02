@@ -25,6 +25,9 @@ Local install mechanics and lifecycle behavior stay in `README.md`; roadmap scop
 | Fish | upstream `fish-shell/fish-shell` bundled themes | Not submitted | user theme today, upstream PR if a built-in is wanted |
 | KWrite/Kate | upstream KDE `syntax-highlighting` `data/themes/` | Not submitted | user theme today, upstream merge request if a bundled theme is wanted |
 | micro | upstream `micro-editor/micro` `runtime/colorschemes/` | Not submitted | user colorscheme today, upstream PR if a built-in is wanted |
+| LibreOffice | LibreOffice Extensions (extensions.libreoffice.org) | Theme implemented, not published | zip of `office/libreoffice/primer-dark/` as `primer-dark.oxt` |
+| Blender | Blender Extensions platform (extensions.blender.org) → Themes | Theme implemented, not published | `creative/blender/Primer_Dark.xml` zipped with a new `blender_manifest.toml` |
+| Discord (Vencord), Spotify (Spicetify), Steam (Millennium) | Client-mod theme channels | Planned, not built | future `integrations/vencord/`, `integrations/spicetify/`, and `integrations/steam/` |
 | fastfetch, bat, eza, fzf, tmux, Pi, Herdr, libadwaita, Claude Code, Codex, Atuin, Godot, bottom, LS_COLORS, mpv, MangoHud | None | Not applicable | files and snippets users copy or merge themselves |
 
 ## Store channels
@@ -80,6 +83,29 @@ Each KDE component is its own store item, and the global theme listing can decla
 - Artifact: a zip of `gtk/primer-dark/` containing `index.theme`, `gtk-3.0/`, and `gtk-4.0/`, uploaded as a GTK3/4 Themes product on gnome-look.org or pling.com.
 - The listing must state the known limits: libadwaita applications ignore user GTK themes and need the documented override for `~/.config/gtk-4.0/gtk.css`, and Flatpak applications need the documented filesystem permission or `GTK_THEME` override. Those are documented in `README.md` and are not part of the theme package.
 
+### LibreOffice — LibreOffice Extensions (not published)
+
+- Artifact: `office/libreoffice/primer-dark/` zipped with its contents at the archive root as `primer-dark.oxt`, the same package `install.sh --libreoffice` builds. Its `description.xml` carries the identifier `io.github.redasalmi.primer-dark`, the version, and a LibreOffice 26.2 minimum, because 26.2 reads a single `Color` per item while 25.2 extension themes used `Light` and `Dark` values.
+- Submission: uploads need an account on the extensions site, and the **Add more themes** button in the Appearance options opens that site. Confirm its current category and review rules before the first upload, and bump `version` in `description.xml` for every upload.
+- The listing must state that application colors need **Enable application theming** and that dark pages need **Use white document background** cleared.
+
+### Blender — Blender Extensions platform (not published)
+
+- Blender 4.2 and later install themes as extensions. A theme extension is a zip holding only a `blender_manifest.toml` with `type = "theme"` and the theme's `.xml` file.
+- Artifact: `creative/blender/Primer_Dark.xml`. Publishing needs a new `blender_manifest.toml` (`id`, `version`, `name`, `tagline`, `maintainer`, `type = "theme"`, `blender_version_min`, and `license`). Set `blender_version_min` to 5.2, the validated key set, rather than to 4.2, the first version that supports theme extensions.
+- Submission: test the zip with **Install from Disk**, then upload it with a Blender ID account. The upload is held for review and published after the moderation team approves it.
+- The `--blender` component installs the same XML as a user preset, so it keeps working without the extension; a user who installs both sees two **Primer Dark** entries.
+
+### Discord, Spotify, and Steam (planned)
+
+These ports are on the roadmap for a later phase (`plan.md`, section 10) and have no assets yet. Each depends on a third-party client mod, so its channel belongs to that mod rather than to the application vendor. Confirm each channel's current submission rules when the port is built:
+
+- Discord through Vencord: themes are standalone CSS files that users place in Vencord's themes directory or load by URL.
+- Spotify through Spicetify: themes are folders with `color.ini` and `user.css`, and the Spicetify Marketplace lists themes from public GitHub repositories.
+- Steam through Millennium: themes are folders with a `skin.json`, and Millennium lists community themes on steambrew.app.
+
+The installer never installs, activates, or updates any of them, so publication in those channels never interferes with the local install.
+
 ## Upstream channels (not stores)
 
 These projects have no theme store. Their built-in themes are shipped from their own repositories, so a bundled Primer Dark theme is an upstream contribution rather than a store listing.
@@ -102,6 +128,5 @@ These projects have no theme store. Their built-in themes are shipped from their
 
 ## Out of scope
 
-- Discord, Spotify, and Steam integrations, which were removed from the roadmap.
 - KDE Plasma Login, which is system-level and needs dedicated packaging and safety work.
 - Panel layout, wallpaper, fonts, and window-button order.

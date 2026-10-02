@@ -60,8 +60,8 @@ primer-dark-suite/
 ├── office/               # office suite appearance themes
 │   └── libreoffice/      # implemented: theme extension with a generated themes.xcu
 │
-├── chat/                 # planned: chat client appearance customization
-│   └── slack/            # planned: ready-to-paste custom theme string
+├── chat/                 # chat client appearance customization
+│   └── slack/            # implemented: ready-to-paste custom theme string
 │
 ├── integrations/         # planned: third-party client-mod and patcher themes, never installed by the root script
 │   ├── vencord/          # planned: Discord CSS theme for Vencord

@@ -28,7 +28,7 @@ Local install mechanics and lifecycle behavior stay in `README.md`; roadmap scop
 | LibreOffice | LibreOffice Extensions (extensions.libreoffice.org) | Theme implemented, not published | zip of `office/libreoffice/primer-dark/` as `primer-dark.oxt` |
 | Blender | Blender Extensions platform (extensions.blender.org) → Themes | Theme implemented, not published | `creative/blender/Primer_Dark.xml` zipped with a new `blender_manifest.toml` |
 | Discord (Vencord), Spotify (Spicetify), Steam (Millennium) | Client-mod theme channels | Planned, not built | future `integrations/vencord/`, `integrations/spicetify/`, and `integrations/steam/` |
-| fastfetch, bat, eza, fzf, tmux, Pi, Herdr, libadwaita, Claude Code, Codex, Atuin, Godot, bottom, LS_COLORS, mpv, MangoHud | None | Not applicable | files and snippets users copy or merge themselves |
+| fastfetch, bat, eza, fzf, tmux, Pi, Herdr, libadwaita, Claude Code, Codex, Atuin, Godot, bottom, LS_COLORS, mpv, MangoHud, Slack | None | Not applicable | files and snippets users copy or merge themselves |
 
 ## Store channels
 
@@ -116,6 +116,7 @@ These projects have no theme store. Their built-in themes are shipped from their
 - fastfetch: the upstream `presets/` directory contains examples only (such as `all.jsonc` and `neofetch.jsonc`); there is no preset contribution channel or preset store. The `primer-dark.jsonc` preset is distributed as a file users copy into their own presets directory.
 - bat and eza: no store and no upstream theme submission channel. The bat `.tmTheme` and the eza `theme.yml` are published for users to install or merge themselves, as described in `README.md`.
 - fzf, tmux, Pi, Herdr, and the libadwaita override: configuration snippets and user-local files only, with no publication channel.
+- Slack: no theme directory or store. The `chat/slack/primer-dark.txt` string is shared as text, or inside Slack with **Share** next to Theme Colors, which posts an **Apply Slack theme** button.
 
 ## Rules for any store submission
 

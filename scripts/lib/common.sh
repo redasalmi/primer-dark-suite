@@ -14,10 +14,10 @@ COLOR_FILE=PrimerDark.colors
 # ALL_COMPONENTS are safe for the root install and uninstall lifecycle.
 ALL_COMPONENTS="kde konsole ghostty herdr pi zed cursor fastfetch bat btop fish gtk kvantum ktexteditor micro atuin codex claude godot blender libreoffice fonts icons"
 # CHECK_COMPONENTS validate their own assets in a check_* hook.
-CHECK_COMPONENTS="kde bat fastfetch pi zed cursor firefox chrome fzf gtk kvantum ktexteditor micro atuin claude godot blender libreoffice fonts icons"
+CHECK_COMPONENTS="kde bat fastfetch pi zed cursor firefox chrome fzf slack gtk kvantum ktexteditor micro atuin claude godot blender libreoffice fonts icons"
 # COMPONENT_MODULES are every module sourced by the install, uninstall, and
 # check entry points.
-COMPONENT_MODULES="$ALL_COMPONENTS firefox chrome fzf"
+COMPONENT_MODULES="$ALL_COMPONENTS firefox chrome fzf slack"
 PLASMA_STYLE_SOURCE="$ROOT/kde/plasma-style/$PLASMA_STYLE_ID"
 GLOBAL_SOURCE="$ROOT/kde/look-and-feel/$PACKAGE_ID"
 CURSOR_EXT_SOURCE="$ROOT/editors/cursor/primer-dark"

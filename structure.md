@@ -63,10 +63,10 @@ primer-dark-suite/
 ├── chat/                 # chat client appearance customization
 │   └── slack/            # implemented: ready-to-paste custom theme string
 │
-├── integrations/         # planned: third-party client-mod and patcher themes, never installed by the root script
-│   ├── vencord/          # planned: Discord CSS theme for Vencord
-│   ├── spicetify/        # planned: Spotify color.ini and user.css theme for Spicetify
-│   └── steam/            # planned: Steam CSS theme for a third-party client loader
+├── integrations/         # implemented: third-party client-mod and patcher themes, never installed by the root script
+│   ├── vencord/          # implemented: generated Discord CSS theme for Vencord
+│   ├── spicetify/        # implemented: generated Spotify color.ini and user.css theme for Spicetify
+│   └── steam/            # implemented: Steam theme for Millennium, recolored from Steam's style sheets
 │
 ├── fonts/                # implemented: sources.tsv pins the downloaded font files by release tag and checksum
 │
@@ -76,6 +76,9 @@ primer-dark-suite/
 │   ├── check-downloads.sh # implemented: downloads and verifies every pinned font and icon file
 │   ├── generate-blender-theme.py # implemented: writes the Blender theme from the palette inside Blender
 │   ├── generate-libreoffice-theme.py # implemented: writes the LibreOffice themes.xcu from the palette
+│   ├── generate-discord-theme.py # implemented: writes the Vencord Discord theme from the palette
+│   ├── generate-spotify-theme.py # implemented: writes the Spicetify Spotify theme from the palette
+│   ├── generate-steam-theme.py # implemented: recolors Steam's style sheets into the Millennium theme
 │   ├── components/       # shared per-component preflight, install, guard, uninstall, and check hooks
 │   └── lib/              # shared component registry, paths, and shell helpers
 ├── .github/              # implemented: verification and Firefox release workflows

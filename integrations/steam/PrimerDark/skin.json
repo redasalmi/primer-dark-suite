@@ -1,0 +1,60 @@
+{
+    "name": "Primer Dark",
+    "author": "Reda Salmi",
+    "description": "GitHub Primer Dark colors for the Steam desktop client.",
+    "tags": [
+        "Dark",
+        "Minimal"
+    ],
+    "github": {
+        "owner": "redasalmi",
+        "repo_name": "primer-dark-suite"
+    },
+    "RootColors": "colors.css",
+    "Patches": [
+        {
+            "MatchRegexString": "^Steam$",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": "^OverlayBrowser_Browser$",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": "^SP Overlay:",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": "Supernav$",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": "^notificationtoasts_",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": "^SteamBrowser_Find$",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": "^OverlayTab\\d+_Find$",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": ".friendsui-container",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": "Menu$",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": ".ModalDialogPopup",
+            "TargetCss": "primer-dark.css"
+        },
+        {
+            "MatchRegexString": ".FullModalOverlay",
+            "TargetCss": "primer-dark.css"
+        }
+    ]
+}

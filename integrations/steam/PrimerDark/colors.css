@@ -1,0 +1,107 @@
+:root {
+    /*
+     * @name Inset
+     * @description Window frame and darkest fills
+     */
+    --primer-inset: 1, 4, 9;
+    /*
+     * @name Background
+     * @description Main page background
+     */
+    --primer-default: 13, 17, 23;
+    /*
+     * @name Muted background
+     * @description Panels, sidebars, and dialogs
+     */
+    --primer-muted: 21, 27, 35;
+    /*
+     * @name Raised background
+     * @description Cards and raised panels
+     */
+    --primer-raised: 33, 40, 48;
+    /*
+     * @name Control
+     * @description Buttons and inputs
+     */
+    --primer-control: 38, 44, 54;
+    /*
+     * @name Border
+     * @description Borders and separators
+     */
+    --primer-border: 61, 68, 77;
+    /*
+     * @name Emphasis border
+     * @description Strong borders and disabled controls
+     */
+    --primer-emphasis: 101, 108, 118;
+    /*
+     * @name Muted text
+     * @description Secondary text and icons
+     */
+    --primer-fg-muted: 145, 152, 161;
+    /*
+     * @name Subtle text
+     * @description Tertiary text
+     */
+    --primer-fg-subtle: 183, 189, 200;
+    /*
+     * @name Text
+     * @description Primary text
+     */
+    --primer-fg: 240, 246, 252;
+    /*
+     * @name Accent
+     * @description Accent fills and focus
+     */
+    --primer-accent-emphasis: 31, 111, 235;
+    /*
+     * @name Accent text
+     * @description Links and accent text
+     */
+    --primer-accent-fg: 68, 147, 248;
+    /*
+     * @name Bright accent text
+     * @description Light accent text
+     */
+    --primer-accent-bright: 121, 192, 255;
+    /*
+     * @name Success
+     * @description Play buttons and success fills
+     */
+    --primer-success-emphasis: 44, 131, 59;
+    /*
+     * @name Success text
+     * @description Online status and success text
+     */
+    --primer-success-fg: 63, 185, 80;
+    /*
+     * @name Bright success text
+     * @description Light success text
+     */
+    --primer-success-bright: 175, 245, 180;
+    /*
+     * @name Attention
+     * @description Warning fills
+     */
+    --primer-attention-emphasis: 210, 153, 34;
+    /*
+     * @name Attention text
+     * @description Warning text
+     */
+    --primer-attention-bright: 242, 204, 96;
+    /*
+     * @name Severe
+     * @description Orange highlights
+     */
+    --primer-severe: 219, 109, 40;
+    /*
+     * @name Danger
+     * @description Destructive fills
+     */
+    --primer-danger-emphasis: 218, 54, 51;
+    /*
+     * @name Danger text
+     * @description Error text
+     */
+    --primer-danger-fg: 248, 81, 73;
+}

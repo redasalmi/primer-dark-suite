@@ -27,7 +27,9 @@ Local install mechanics and lifecycle behavior stay in `README.md`; roadmap scop
 | micro | upstream `micro-editor/micro` `runtime/colorschemes/` | Not submitted | user colorscheme today, upstream PR if a built-in is wanted |
 | LibreOffice | LibreOffice Extensions (extensions.libreoffice.org) | Theme implemented, not published | zip of `office/libreoffice/primer-dark/` as `primer-dark.oxt` |
 | Blender | Blender Extensions platform (extensions.blender.org) → Themes | Theme implemented, not published | `creative/blender/Primer_Dark.xml` zipped with a new `blender_manifest.toml` |
-| Discord (Vencord), Spotify (Spicetify), Steam (Millennium) | Client-mod theme channels | Planned, not built | future `integrations/vencord/`, `integrations/spicetify/`, and `integrations/steam/` |
+| Discord (Vencord) | Vencord online themes (loaded by URL) | Theme implemented, not published | `integrations/vencord/primer-dark.theme.css` |
+| Spotify (Spicetify) | Spicetify Marketplace | Theme implemented, not published | `integrations/spicetify/PrimerDark/` |
+| Steam (Millennium) | Millennium theme listing on steambrew.app | Theme implemented, not published | `integrations/steam/PrimerDark/` |
 | fastfetch, bat, eza, fzf, tmux, Pi, Herdr, libadwaita, Claude Code, Codex, Atuin, Godot, bottom, LS_COLORS, mpv, MangoHud, Slack | None | Not applicable | files and snippets users copy or merge themselves |
 
 ## Store channels
@@ -96,13 +98,13 @@ Each KDE component is its own store item, and the global theme listing can decla
 - Submission: test the zip with **Install from Disk**, then upload it with a Blender ID account. The upload is held for review and published after the moderation team approves it.
 - The `--blender` component installs the same XML as a user preset, so it keeps working without the extension; a user who installs both sees two **Primer Dark** entries.
 
-### Discord, Spotify, and Steam (planned)
+### Discord, Spotify, and Steam
 
-These ports are on the roadmap for a later phase (`plan.md`, section 10) and have no assets yet. Each depends on a third-party client mod, so its channel belongs to that mod rather than to the application vendor. Confirm each channel's current submission rules when the port is built:
+These ports depend on a third-party client mod, so their channels belong to that mod rather than to the application vendor (`plan.md`, section 10). All three are implemented. Confirm each channel's current submission rules before publishing:
 
-- Discord through Vencord: themes are standalone CSS files that users place in Vencord's themes directory or load by URL.
-- Spotify through Spicetify: themes are folders with `color.ini` and `user.css`, and the Spicetify Marketplace lists themes from public GitHub repositories.
-- Steam through Millennium: themes are folders with a `skin.json`, and Millennium lists community themes on steambrew.app.
+- Discord through Vencord: the artifact is the single file `integrations/vencord/primer-dark.theme.css`, which users place in Vencord's themes directory today. Vencord's **Online Themes** tab also loads a theme by URL from hosts its content security policy allows, such as GitHub Pages; serve the file with a `text/css` type and check that it loads there before announcing a link. The theme carries no version, in line with the suite's versioning rules.
+- Spotify through Spicetify: the artifact is the folder `integrations/spicetify/PrimerDark/` with `color.ini` and `user.css`, which users copy into Spicetify's `Themes` directory today. The Spicetify Marketplace lists themes from public GitHub repositories tagged `spicetify-themes` and reads a manifest from the repository root; check its current manifest fields and add a preview image before submitting.
+- Steam through Millennium: the artifact is the folder `integrations/steam/PrimerDark/`, which users copy into Millennium's themes directory today. steambrew.app lists themes from public GitHub repositories and requires a `header_image` and a `splash_image` in `skin.json`, which the theme does not have yet. Its guidelines also expect a theme to notably change Steam's design rather than recolor it, so check whether a recolor qualifies before submitting.
 
 The installer never installs, activates, or updates any of them, so publication in those channels never interferes with the local install.
 

@@ -52,6 +52,7 @@ EOF
             *" ${font_path%%/*} "*) fetch_verified "$font_url" "$font_sha256" ;;
         esac
     done < "$FONTS_MANIFEST"
+    cleanup_fetch_archive
 }
 
 install_fonts() {
@@ -74,7 +75,7 @@ install_fonts() {
     if [ -n "$FONTS_SKIPPED" ]; then
         printf 'Kept the already installed %s.\n' "${FONTS_SKIPPED#, }"
     fi
-    echo 'Select them in System Settings → Text & Fonts: Mona Sans 10 for General, Menu, and Toolbar, Mona Sans 8 for Small, Hubot Sans SemiBold 10 for Window title, and Monaspace Neon 10 for Fixed width.'
+    echo 'Select them in System Settings → Text & Fonts: Inter 10 for General, Menu, and Window title, Inter 9 for Toolbar, Inter 8 for Small, and JetBrains Mono 10 for Fixed width.'
 }
 
 guard_fonts() {
@@ -116,15 +117,16 @@ uninstall_fonts() {
 
 check_fonts() {
     # The manifest is checked offline: every line pins an HTTPS URL on a
-    # release tag rather than a moving branch, a SHA-256 checksum, and a
-    # relative path, and every family directory ships fonts and a license.
+    # release tag rather than a moving branch (a raw repository file, or a
+    # member of a zip release asset), a SHA-256 checksum, and a relative path,
+    # and every family directory ships fonts and a license.
     awk -F '\t' '
         /^#/ || !NF { next }
         {
             where = FILENAME ":" FNR ": "
             if (NF != 4) { print where "expected 4 tab-separated fields" > "/dev/stderr"; bad = 1; next }
             if (length($3) != 64 || $3 ~ /[^0-9a-f]/) { print where "invalid SHA-256 checksum" > "/dev/stderr"; bad = 1 }
-            if ($4 !~ /^https:\/\/raw\.githubusercontent\.com\/[^\/]+\/[^\/]+\/v[0-9][^\/]*\//) { print where "URL must be pinned to a release tag" > "/dev/stderr"; bad = 1 }
+            if ($4 !~ /^https:\/\/raw\.githubusercontent\.com\/[^\/]+\/[^\/]+\/v[0-9][^\/]*\/[^#]+$/ && $4 !~ /^https:\/\/github\.com\/[^\/]+\/[^\/]+\/releases\/download\/v[0-9][^\/]*\/[^\/#]+\.zip#[^#]+$/) { print where "URL must be pinned to a release tag" > "/dev/stderr"; bad = 1 }
             if ($2 !~ /^[a-z0-9-]+\/[^\/]+$/ || $2 ~ /\.\./) { print where "invalid installed path" > "/dev/stderr"; bad = 1 }
             split($2, path, "/")
             if ((path[1] in family) && family[path[1]] != $1) { print where "directory " path[1] " mixes families" > "/dev/stderr"; bad = 1 }

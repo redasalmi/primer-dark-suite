@@ -1,6 +1,6 @@
 # Primer Dark Suite
 
-An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum, Konsole, KWrite/Kate, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Claude Code, Codex, Zed, Cursor, micro, Godot, Fastfetch, bat, btop, bottom, Atuin, eza, fzf, Fish, tmux, LS_COLORS, mpv, MangoHud, and GTK 3/4, with GitHub's own fonts and Papirus-Dark icons to complete the desktop.
+An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum, Konsole, KWrite/Kate, Ghostty, Mozilla Firefox, Google Chrome, Herdr, Pi, Claude Code, Codex, Zed, Cursor, micro, Godot, Fastfetch, bat, btop, bottom, Atuin, eza, fzf, Fish, tmux, LS_COLORS, mpv, MangoHud, and GTK 3/4, with the Inter and JetBrains Mono fonts and Papirus-Dark icons to complete the desktop.
 
 ## Included in v1
 
@@ -35,7 +35,7 @@ An unofficial GitHub Primer Dark-inspired theme suite for KDE Plasma 6, Kvantum,
 - ready-to-source tmux snippet covering the status bar, window states, pane borders, messages, copy mode, menus, and popups;
 - native Manifest V3 Mozilla Firefox static theme covering every effective color exposed by Firefox's current theme API, published as [Primer Dark on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/primer-dark/);
 - native Manifest V3 Chromium theme covering every color exposed by Chromium's current theme API, usable in Chrome and other Chromium-based browsers;
-- optional fonts component that downloads GitHub's Mona Sans, Hubot Sans, and Monaspace Neon families plus Symbols Nerd Font Mono for terminal icon glyphs, pinned to upstream releases and verified by checksum;
+- optional fonts component that downloads the Inter and JetBrains Mono families plus Symbols Nerd Font Mono for terminal icon glyphs, pinned to upstream releases and verified by checksum;
 - optional icons component that downloads a pinned, checksum-verified Papirus-Dark into your user icon directory when it is not already installed;
 - System Settings previews and offline validation scripts.
 
@@ -71,7 +71,7 @@ Primer Dark does **not** replace your icon theme, cursor theme, panel layout, wa
 - Mozilla Firefox 155.0 (the currently validated target) when using the Firefox theme
 - Google Chrome 152.0.7977.75 (the currently validated target) when using the Chrome theme
 - fontconfig (`fc-list` and `fc-cache`) when installing the fonts
-- `curl` or `wget`, `sha256sum` (or `shasum`), and network access on the first install of the fonts or icons; `tar` for the icons
+- `curl` or `wget`, `sha256sum` (or `shasum`), and network access on the first install of the fonts or icons; `unzip` for Inter and `tar` for the icons
 
 The validation helper additionally uses `jq`, `xmllint`, `fish`, and `python3` with PyGObject and the GTK 3 and GTK 4 typelibs.
 
@@ -333,16 +333,16 @@ To additionally install the recommended fonts:
 ./install.sh --fonts
 ```
 
-The installer downloads the font files listed in [`fonts/sources.tsv`](fonts/sources.tsv), each pinned to an upstream release tag and a SHA-256 checksum: Mona Sans 2.0.27, Hubot Sans 1.0.1, and Monaspace Neon 1.400 from GitHub under the SIL Open Font License, and Symbols Nerd Font Mono from Nerd Fonts 3.5.1 under the MIT License. It verifies every checksum before anything is installed, copies the fonts with their licenses into `~/.local/share/fonts/primer-dark/`, and refreshes the font cache. A family that fontconfig already finds elsewhere, such as a distribution package or your own copy in `~/.local/share/fonts/`, is skipped and not downloaded. Nothing is selected for you; set these in **System Settings → Text & Fonts**:
+The installer downloads the font files listed in [`fonts/sources.tsv`](fonts/sources.tsv), each pinned to an upstream release tag and a SHA-256 checksum: Inter 4.1, extracted from its release archive, and JetBrains Mono 2.304 under the SIL Open Font License, and Symbols Nerd Font Mono from Nerd Fonts 3.5.1 under the MIT License. It verifies every checksum before anything is installed, copies the fonts with their licenses into `~/.local/share/fonts/primer-dark/`, and refreshes the font cache. A family that fontconfig already finds elsewhere, such as a distribution package or your own copy in `~/.local/share/fonts/`, is skipped and not downloaded. Nothing is selected for you; set these in **System Settings → Text & Fonts**:
 
 | Setting | Font |
 | --- | --- |
-| General, Menu, and Toolbar | Mona Sans 10 |
-| Small | Mona Sans 8 |
-| Window title | Hubot Sans SemiBold 10 |
-| Fixed width | Monaspace Neon 10 |
+| General, Menu, and Window title | Inter 10 |
+| Toolbar | Inter 9 |
+| Small | Inter 8 |
+| Fixed width | JetBrains Mono 10 |
 
-Applications that keep their own font setting need it set once in their own configuration: `font-family = Monaspace Neon` in Ghostty, `"buffer_font_family": "Monaspace Neon"` and `"ui_font_family": "Mona Sans"` in Zed, `"editor.fontFamily"` and `"terminal.integrated.fontFamily"` set to `Monaspace Neon` in Cursor, and the font of your Konsole profile and of **Settings → Configure → Appearance** in KWrite/Kate. Symbols Nerd Font Mono needs no selection: fontconfig uses it automatically for the icon glyphs that eza, Fastfetch, and prompt tools print.
+Applications that keep their own font setting need it set once in their own configuration: `font-family = JetBrains Mono` in Ghostty (its built-in default is already JetBrains Mono), `"buffer_font_family": "JetBrains Mono"` and `"ui_font_family": "Inter"` in Zed, `"editor.fontFamily"` and `"terminal.integrated.fontFamily"` set to `JetBrains Mono` in Cursor, and the font of your Konsole profile and of **Settings → Configure → Appearance** in KWrite/Kate. Symbols Nerd Font Mono needs no selection: fontconfig uses it automatically for the icon glyphs that eza, Fastfetch, and prompt tools print.
 
 To additionally install the recommended icon theme:
 
@@ -352,7 +352,7 @@ To additionally install the recommended icon theme:
 
 Papirus-Dark is the recommended icon theme: its flat dark set covers KDE, GTK, and Flatpak applications, its default blue folders sit close to the Primer accent, and its monochrome icons follow the active KDE color scheme, so they pick up the Primer Dark colors. When Papirus-Dark is already installed, for example by your distribution's `papirus-icon-theme` package, the installer leaves it alone and downloads nothing; a distribution package also keeps it updated with the system. Otherwise it downloads Papirus release 20260801 from GitHub, verifies its SHA-256 checksum, and installs `Papirus` and `Papirus-Dark` (which links into `Papirus`) into `~/.local/share/icons/` without administrator access. Those two directories carry a `.primer-dark-suite` marker, and the installer refuses to replace a `Papirus` directory there that it did not install. Select **Papirus-Dark** in **System Settings → Colors & Themes → Icons**.
 
-Downloads are kept by checksum in `~/.cache/primer-dark-suite/downloads/`, so reinstalling works offline. To install on a machine without network access, download the files listed in `fonts/sources.tsv` and the Papirus archive (`20260801.tar.gz`) elsewhere, put them in one directory under their URL file names, and run the installer with `PRIMER_DARK_DOWNLOADS=/path/to/that/directory`; their checksums are verified the same way.
+Downloads are kept by checksum in `~/.cache/primer-dark-suite/downloads/`, so reinstalling works offline. To install on a machine without network access, download the files listed in `fonts/sources.tsv` (for a URL of the form `ARCHIVE#MEMBER`, the archive itself, `Inter-4.1.zip`) and the Papirus archive (`20260801.tar.gz`) elsewhere, put them in one directory under their URL file names, and run the installer with `PRIMER_DARK_DOWNLOADS=/path/to/that/directory`; their checksums are verified the same way.
 
 eza, fzf, and tmux have no safe user-local theme discovery path, so they are intentionally not installed by the root script. Use a repository checkout:
 

@@ -10,4 +10,4 @@ The KDE Plasma package structure and theme formats follow KDE's public Plasma 6 
 
 The GTK 3 and GTK 4 stylesheets import GTK's bundled Adwaita and Default themes at runtime through GTK resource URLs. Those stylesheets are part of GTK, are not redistributed here, and remain under the GNU LGPL v2.1 or later.
 
-The --fonts and --icons components download third-party files from their upstream releases at install time; none of them is redistributed in this repository. Each is installed unmodified with its own license: Mona Sans, Hubot Sans, and Monaspace Neon under the SIL Open Font License 1.1, Symbols Nerd Font Mono under the MIT License, and Papirus under the GNU GPL v3.
+The --fonts and --icons components download third-party files from their upstream releases at install time; none of them is redistributed in this repository. Each is installed unmodified with its own license: Inter and JetBrains Mono under the SIL Open Font License 1.1, Symbols Nerd Font Mono under the MIT License, and Papirus under the GNU GPL v3.

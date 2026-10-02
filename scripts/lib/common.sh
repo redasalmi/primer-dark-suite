@@ -152,12 +152,51 @@ sha256_of() {
     fi
 }
 
+# Downloads URL to DEST, or copies it from PRIMER_DARK_DOWNLOADS, a directory
+# of pre-downloaded files named as the last segment of their URL with %20 read
+# as a space, for machines without network access.
+download_to() {
+    download_url=$1
+    download_dest=$2
+    download_name=$(printf '%s\n' "${download_url##*/}" | sed 's/%20/ /g')
+    if [ -n "${PRIMER_DARK_DOWNLOADS:-}" ] && [ -f "$PRIMER_DARK_DOWNLOADS/$download_name" ]; then
+        cp -- "$PRIMER_DARK_DOWNLOADS/$download_name" "$download_dest"
+    elif command -v curl >/dev/null 2>&1; then
+        if ! curl -fsSL --proto '=https' --tlsv1.2 --retry 2 -o "$download_dest" "$download_url"; then
+            rm -f -- "$download_dest"
+            printf 'Could not download %s; nothing was installed.\n' "$download_url" >&2
+            exit 1
+        fi
+    elif command -v wget >/dev/null 2>&1; then
+        if ! wget -q --https-only -O "$download_dest" "$download_url"; then
+            rm -f -- "$download_dest"
+            printf 'Could not download %s; nothing was installed.\n' "$download_url" >&2
+            exit 1
+        fi
+    else
+        printf 'curl or wget is required to download %s.\n' "$download_name" >&2
+        exit 1
+    fi
+}
+
+# The zip archive that fetch_verified last downloaded, kept until
+# cleanup_fetch_archive so its other members are extracted without
+# downloading it again.
+FETCH_ARCHIVE=""
+FETCH_ARCHIVE_URL=""
+
+cleanup_fetch_archive() {
+    [ -z "$FETCH_ARCHIVE" ] || rm -f -- "$FETCH_ARCHIVE"
+    FETCH_ARCHIVE=""
+    FETCH_ARCHIVE_URL=""
+}
+
 # Makes a verified copy of URL available at "$DOWNLOAD_CACHE/SHA256".
 # Downloads are pinned to an upstream release and kept by checksum, so a
-# reinstall works offline. PRIMER_DARK_DOWNLOADS may name a directory of
-# pre-downloaded files, named as the last segment of their URL with %20 read
-# as a space, for machines without network access. A file whose checksum does
-# not match stops the installation before anything is installed.
+# reinstall works offline. A URL of the form ARCHIVE#MEMBER names one file
+# inside a zip release asset: the member is extracted with unzip, and only it
+# is verified and cached. A file whose checksum does not match stops the
+# installation before anything is installed.
 fetch_verified() {
     fetch_url=$1
     fetch_sha256=$2
@@ -172,25 +211,27 @@ fetch_verified() {
 
     mkdir -p -- "$DOWNLOAD_CACHE"
     fetch_tmp="$fetch_dest.part"
-    fetch_name=$(printf '%s\n' "${fetch_url##*/}" | sed 's/%20/ /g')
-    if [ -n "${PRIMER_DARK_DOWNLOADS:-}" ] && [ -f "$PRIMER_DARK_DOWNLOADS/$fetch_name" ]; then
-        cp -- "$PRIMER_DARK_DOWNLOADS/$fetch_name" "$fetch_tmp"
-    elif command -v curl >/dev/null 2>&1; then
-        if ! curl -fsSL --proto '=https' --tlsv1.2 --retry 2 -o "$fetch_tmp" "$fetch_url"; then
-            rm -f -- "$fetch_tmp"
-            printf 'Could not download %s; nothing was installed.\n' "$fetch_url" >&2
-            exit 1
-        fi
-    elif command -v wget >/dev/null 2>&1; then
-        if ! wget -q --https-only -O "$fetch_tmp" "$fetch_url"; then
-            rm -f -- "$fetch_tmp"
-            printf 'Could not download %s; nothing was installed.\n' "$fetch_url" >&2
-            exit 1
-        fi
-    else
-        printf 'curl or wget is required to download %s.\n' "$fetch_name" >&2
-        exit 1
-    fi
+    case "$fetch_url" in
+        *'#'*)
+            fetch_archive_url=${fetch_url%%#*}
+            fetch_member=${fetch_url#*#}
+            if [ "$FETCH_ARCHIVE_URL" != "$fetch_archive_url" ]; then
+                require_command unzip "unzip is required to extract ${fetch_archive_url##*/}."
+                cleanup_fetch_archive
+                FETCH_ARCHIVE="$DOWNLOAD_CACHE/archive.part"
+                download_to "$fetch_archive_url" "$FETCH_ARCHIVE"
+                FETCH_ARCHIVE_URL=$fetch_archive_url
+            fi
+            if ! unzip -p "$FETCH_ARCHIVE" "$fetch_member" > "$fetch_tmp" 2>/dev/null; then
+                rm -f -- "$fetch_tmp"
+                printf '%s has no %s; nothing was installed.\n' "$fetch_archive_url" "$fetch_member" >&2
+                exit 1
+            fi
+            ;;
+        *)
+            download_to "$fetch_url" "$fetch_tmp"
+            ;;
+    esac
 
     if [ "$(sha256_of "$fetch_tmp")" != "$fetch_sha256" ]; then
         rm -f -- "$fetch_tmp"
